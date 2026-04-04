@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"><title>Rooms</title></head>
+<body>
+<h2 data-edit="rooms-title">Rooms</h2>
+<p data-edit="rooms-desc">Our beautiful rooms</p>
+
+<script>
+let edit = false;
+
+// CREATE BUTTON
+const btn = document.createElement("button");
+btn.innerText = "✏️ Edit";
+btn.style.position = "fixed";
+btn.style.bottom = "20px";
+btn.style.right = "20px";
+btn.style.zIndex = "9999";
+document.body.appendChild(btn);
+
+// TOGGLE EDIT MODE
+btn.onclick = ()=>{
+  edit = !edit;
+
+  document.querySelectorAll("[data-edit]").forEach(el=>{
+    el.contentEditable = edit;
+    el.style.outline = edit ? "2px dashed red" : "none";
+  });
+
+  // SAVE WHEN EXIT EDIT
+  if(!edit){
+    const data = {};
+
+    document.querySelectorAll("[data-edit]").forEach(el=>{
+      data[el.dataset.edit] = el.innerHTML;
+    });
+
+    localStorage.setItem("roomsContent", JSON.stringify(data));
+    alert("Saved!");
+  }
+};
+
+// LOAD SAVED CONTENT
+const saved = localStorage.getItem("roomsContent");
+
+if(saved){
+  const data = JSON.parse(saved);
+
+  document.querySelectorAll("[data-edit]").forEach(el=>{
+    if(data[el.dataset.edit]){
+      el.innerHTML = data[el.dataset.edit];
+    }
+  });
+}
+</script>
+
+</body>
+</html>

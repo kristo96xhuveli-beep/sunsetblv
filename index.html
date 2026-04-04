@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sunset Boulevard Beach Hotel</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#ffffff;--text:#0b1f3a;--border:#eee;--section-hover:#f9f9f9;--video-bg:#fff;--header-bg:#ffffff;--sub:#444;--sub2:#555;--card-shadow:rgba(0,0,0,0.08);}
+body.dark{--bg:#0e0e0e;--text:#f0f0f0;--border:#2a2a2a;--section-hover:#1a1a1a;--video-bg:#0e0e0e;--header-bg:#141414;--sub:#aaa;--sub2:#999;--card-shadow:rgba(0,0,0,0.4);}
+html,body{margin:0;padding:0;overflow-x:hidden;font-family:'Playfair Display',serif;background:var(--bg);color:var(--text);transition:background .3s,color .3s;}
+body{max-width:100vw;}
+header{position:fixed;top:0;left:0;width:100%;height:50px;background:var(--header-bg);z-index:999;border-bottom:1px solid var(--border);transition:background .3s,border-color .3s;}
+.menu-btn{position:absolute;left:10px;top:50%;transform:translateY(-50%);font-size:22px;cursor:pointer;color:var(--text);background:none;border:none;padding:4px 8px;}
+.back-btn{position:absolute;left:10px;top:50%;transform:translateY(-50%);font-size:22px;cursor:pointer;color:var(--text);background:none;border:none;padding:4px 8px;display:none;}
+.music-btn{position:absolute;right:10px;top:50%;transform:translateY(-50%);background:#0b1f3a;color:white;padding:6px 8px;border-radius:6px;font-size:11px;white-space:nowrap;border:none;cursor:pointer;}
+.title{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-size:14px;text-align:center;line-height:1.1;width:60%;overflow:hidden;text-overflow:ellipsis;color:var(--text);}
+.page{display:none;padding-top:60px;min-height:100vh;}
+.page.active{display:block;}
+.reel-corner{display:none;}
+@media(min-width:768px){
+  .video-side-cover{display:block;position:absolute;top:0;bottom:0;width:calc((100% - 56.25vh) / 2);z-index:4;background:var(--bg);}
+  .video-side-left{left:0;}
+  .video-side-right{right:0;}
+  .reel-frame{position:absolute;top:0;bottom:0;left:calc((100% - 56.25vh) / 2);width:56.25vh;border-radius:12px;overflow:hidden;z-index:3;}
+  .home-center #yt-player{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:56.25vh;height:100vh;border:none;pointer-events:none;}
+}
+.video-wrapper{padding:0 6px;background:var(--video-bg);transition:background .3s;}
+.video-container{position:relative;width:100%;height:calc(100vh - 60px);overflow:hidden;background:#000;border-radius:10px;}
+.video-overlay{position:absolute;inset:0;z-index:2;}
+.video-container::before,.video-container::after{content:'';position:absolute;top:0;bottom:0;width:18%;z-index:3;pointer-events:none;}
+.video-container::before{left:0;background:linear-gradient(to right,rgba(0,0,0,0.72),transparent);}
+.video-container::after{right:0;background:linear-gradient(to left,rgba(0,0,0,0.72),transparent);}
+@media(max-width:767px){.video-container::before,.video-container::after{display:none;}}
+@media(max-width:767px){#yt-player{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:177.78vh;min-width:100%;height:100vh;min-height:56.25vw;border:none;pointer-events:none;}}
+#yt-player{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:177.78vh;min-width:100%;height:100vh;min-height:56.25vw;border:none;pointer-events:none;}
+/* Hide mobile info on all pages except home */
+.page:not(.active) #info-mobile {
+  display: none;
+}
+
+#page-home.active ~ #info-mobile {
+  display: block;
+}
+
+/* safer override */
+body:not(.home-active) #info-mobile {
+  display: none;
+}
+
+/* Hide mobile-only blocks on desktop */
+@media(min-width:768px){
+  #ourstory-anchor-mobile,
+  #info-mobile {
+    display: none !important;
+  }
+}
+
+/* Prevent scroll ONLY on desktop home */
+@media(min-width:768px){
+  #page-home.active {
+    height: calc(100vh - 60px);
+    overflow: hidden;
+  }
+
+  body {
+    overflow: hidden;
+  }
+}
+
+@media(min-width:768px){
+  .home-right {
+    height: 100%;
+    overflow: hidden;
+  }
+}
+
+/* ===== DESKTOP HOME: ABSOLUTE LOCK - NO SCROLL ===== */
+@media(min-width:768px){
+
+  html, body {
+    height: 100%;
+    overflow: hidden;
+  }
+
+  #page-home.active {
+    position: fixed;
+    top: 0; /* header height */
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: auto;
+    overflow: hidden;
+  }
+
+  .home-desktop {
+    height: 100%;
+    max-height: 100%;
+    overflow: hidden;
+  }
+
+  .home-left,
+  .home-center,
+  .home-right {
+    height: 100%;
+    overflow: hidden;
+  }
+
+  /* 🚫 kill anything that might extend layout */
+  #ourstory-anchor-mobile,
+  #info-mobile {
+    display: none !important;
+  }
+
+}
+
+/* DESKTOP 3-COLUMN HOME LAYOUT */
+.home-desktop{display:block;}
+@media(min-width:768px){
+  .home-desktop{display:grid;grid-template-columns:1fr 2fr 1fr;gap:0;align-items:start;height:calc(100vh - 60px);}
+  .home-left,.home-right{overflow-y:auto;height:100%;background:var(--bg);transition:background .3s;}
+  .home-right{display:flex;}
+  .home-center{height:100%;}
+  .home-center .video-wrapper{padding:0;height:100%;box-sizing:border-box;background:var(--bg);display:flex;align-items:center;justify-content:center;}
+  .home-center .video-container{width:100%;height:100%;border-radius:16px;background:var(--bg);}
+  .home-mobile-sections{display:none;}
+  .home-info-mobile{display:none;}
+  /* Inner pages: no scroll, two-column layout */
+  #page-rooms.active, #page-food.active, #page-activities.active {
+    height: calc(100vh - 60px);
+    overflow: hidden;
+    display: flex !important;
+    flex-direction: row;
+    min-height: unset;
+  }
+  #page-rooms .hero, #page-food .hero, #page-activities .hero {
+    width: 45%;
+    height: 100%;
+    max-height: none;
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+  #page-rooms .content, #page-food .content, #page-activities .content {
+    flex: 1;
+    overflow-y: auto;
+    height: 100%;
+    box-sizing: border-box;
+    padding: 30px;
+  }
+  #page-rooms .card img, #page-food .card img, #page-activities .card img {
+    height: 130px;
+  }
+  #page-rooms .slider img {
+    height: 140px;
+  }
+}
+@media(max-width:767px){
+  .home-left,.home-right{display:none;}
+  .home-center .video-wrapper{padding:0 6px;}
+  .home-center .video-container{height:calc(100vh - 60px);}
+  .home-mobile-sections{display:block;}
+  .home-info-mobile{display:block;}
+}
+
+/* DESKTOP SIDEBAR SECTIONS */
+.side-section{padding:16px;cursor:pointer;display:block;color:var(--text);background:var(--bg);transition:background .3s;text-decoration:none;border-bottom:1px solid var(--border);}
+.side-section:hover{background:var(--section-hover);}
+.side-row{display:flex;flex-direction:row;gap:12px;align-items:center;}
+.side-row.rev{flex-direction:row-reverse;}
+.side-row img{width:45%;border-radius:12px;object-fit:cover;aspect-ratio:1/1;}
+.side-row .text{flex:1;}
+.side-row h3{margin:0 0 4px;font-size:15px;color:var(--text);}
+.side-row p{margin:0;font-size:12px;color:var(--sub2);line-height:1.5;}
+.side-arrow{opacity:0.35;}
+.side-info-block{background:#0b1f3a;color:white;padding:25px;margin-top:auto;}
+body.dark .side-info-block{background:#000;}
+.side-info-block p{margin:6px 0;font-size:12px;}
+.side-info-block h3{margin:0 0 10px;font-size:15px;}
+.section{padding:20px;border:none;cursor:pointer;display:block;color:var(--text);background:var(--bg);transition:background .3s;text-decoration:none;}
+.section:active{background:var(--section-hover);}
+.section-arrow{font-size:18px;opacity:0.35;}
+.sec-row{display:flex;flex-direction:row;gap:12px;align-items:center;}
+.sec-row.reverse{flex-direction:row-reverse;}
+.sec-row img{width:45%;border-radius:12px;object-fit:cover;aspect-ratio:1/1;}
+.sec-row .text{flex:1;}
+.info-footer{background:#0b1f3a;color:white;padding:25px;}
+body.dark .info-footer{background:#000;}
+.info-footer p{margin:8px 0;}
+.hero{width:100%;height:52vw;max-height:320px;object-fit:cover;display:block;}
+.content{padding:20px;}
+.content h2{font-size:22px;margin:0 0 8px;}
+.content>p{line-height:1.7;color:var(--sub);font-size:14px;margin:0 0 20px;}
+.card{border-radius:14px;overflow:hidden;box-shadow:0 2px 12px var(--card-shadow);margin-bottom:20px;background:var(--bg);}
+.card img{width:100%;display:block;height:200px;object-fit:cover;}
+.card .cinfo{padding:14px 16px;}
+.card .cinfo h3{margin:0 0 6px;font-size:17px;color:var(--text);}
+.card .cinfo p{margin:0;font-size:13px;color:var(--sub2);line-height:1.6;}
+.tag{display:inline-block;background:#0b1f3a;color:#fff;font-size:11px;padding:3px 8px;border-radius:20px;margin-bottom:8px;}
+body.dark .tag{background:#1a3a5c;}
+.room-card{border-radius:14px;overflow:hidden;box-shadow:0 2px 12px var(--card-shadow);margin-bottom:24px;background:var(--bg);}
+.slider{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+.slider::-webkit-scrollbar{display:none;}
+.slider img{flex:0 0 100%;width:100%;height:220px;object-fit:cover;scroll-snap-align:start;display:block;}
+.dots{display:flex;justify-content:center;gap:6px;padding:10px 0 4px;}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--border);transition:background .2s;cursor:pointer;}
+.dot.active{background:#0b1f3a;}
+body.dark .dot.active{background:#4a90d9;}
+.room-card .rinfo{padding:14px 16px 18px;}
+.room-card .rinfo h3{margin:0 0 6px;font-size:18px;color:var(--text);}
+.room-card .rinfo p{margin:0 0 14px;font-size:13px;color:var(--sub2);line-height:1.6;}
+.avail-btn{display:inline-block;background:#0b1f3a;color:#fff;font-family:'Playfair Display',serif;font-size:13px;padding:10px 20px;border-radius:8px;text-decoration:none;border:none;cursor:pointer;transition:background .2s;}
+.avail-btn:hover{background:#1a3a6a;}
+body.dark .avail-btn{background:#1a3a5c;}
+body.dark .avail-btn:hover{background:#2a5a8c;}
+.menu-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.45);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);z-index:1000;opacity:0;pointer-events:none;transition:opacity .35s ease;}
+.menu-overlay.open{opacity:1;pointer-events:all;}
+.menu-panel{position:absolute;top:0;left:0;width:72%;max-width:280px;height:100%;background:#0b1f3a;padding:70px 30px 40px;box-sizing:border-box;transform:translateX(-100%);transition:transform .35s ease;display:flex;flex-direction:column;gap:0;overflow-y:auto;}
+.menu-overlay.open .menu-panel{transform:translateX(0);}
+.menu-close{position:absolute;top:18px;right:18px;font-size:24px;color:rgba(255,255,255,0.7);cursor:pointer;background:none;border:none;}
+.panel-label{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,0.35);margin:18px 0 6px;}
+.menu-panel a.nav-link{display:block;color:rgba(255,255,255,0.88);font-family:'Playfair Display',serif;font-size:20px;padding:12px 0;text-decoration:none;border-bottom:1px solid rgba(255,255,255,0.1);}
+.lang-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:6px;}
+.lang-btn{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.8);font-family:'Playfair Display',serif;font-size:13px;padding:8px 0;border-radius:8px;cursor:pointer;text-align:center;transition:background .2s;}
+.lang-btn.active,.lang-btn:hover{background:rgba(255,255,255,0.22);color:#fff;border-color:rgba(255,255,255,0.4);}
+.dark-toggle-row{display:flex;align-items:center;justify-content:space-between;margin-top:18px;padding-top:16px;border-top:1px solid rgba(255,255,255,0.1);}
+.dark-toggle-row span{font-size:13px;color:rgba(255,255,255,0.7);}
+.toggle-switch{position:relative;width:44px;height:24px;}
+.toggle-switch input{opacity:0;width:0;height:0;}
+.toggle-track{position:absolute;inset:0;background:rgba(255,255,255,0.15);border-radius:24px;cursor:pointer;transition:background .3s;}
+.toggle-track:before{content:'';position:absolute;width:18px;height:18px;left:3px;top:3px;background:white;border-radius:50%;transition:transform .3s;}
+.toggle-switch input:checked + .toggle-track{background:#4a90d9;}
+.toggle-switch input:checked + .toggle-track:before{transform:translateX(20px);}
+</style>
+</head>
+<body>
+
+<audio id="bgMusic" src="./yes-boss.mp3" loop></audio>
+<div class="menu-overlay" id="menuOverlay">
+  <div class="menu-panel">
+    <button class="menu-close" id="menuClose">&#10005;</button>
+    <div class="panel-label">Language</div>
+    <div class="lang-grid">
+      <button class="lang-btn active" id="btn-en">&#127468;&#127463; English</button>
+      <button class="lang-btn" id="btn-al">&#127462;&#127473; Albanian</button>
+      <button class="lang-btn" id="btn-es">&#127466;&#127480; Spanish</button>
+      <button class="lang-btn" id="btn-de">&#127465;&#127466; German</button>
+    </div>
+    <div class="dark-toggle-row">
+      <span>&#127769; Dark Mode</span>
+      <label class="toggle-switch">
+        <input type="checkbox" id="darkToggle">
+        <span class="toggle-track"></span>
+      </label>
+    </div>
+    <div class="panel-label" style="margin-top:22px">Menu</div>
+    <a class="nav-link" href="#" data-page="home" data-en="Home" data-al="Kryefaqja" data-es="Inicio" data-de="Start">Home</a>
+    <a class="nav-link" href="#" data-page="rooms" data-en="Rooms" data-al="Dhoma" data-es="Habitaciones" data-de="Zimmer">Rooms</a>
+    <a class="nav-link" href="#" data-page="food" data-en="Food &amp; Drinks" data-al="Ushqim &amp; Pije" data-es="Comida &amp; Bebidas" data-de="Essen &amp; Trinken">Food &amp; Drinks</a>
+    <a class="nav-link" href="#" data-page="activities" data-en="Activities" data-al="Aktivitete" data-es="Actividades" data-de="Aktivit&#228;ten">Activities</a>
+    <a class="nav-link" href="#" data-page="ourstory" data-en="Our Story" data-al="Historia Jon&#235;" data-es="Nuestra Historia" data-de="Unsere Geschichte">Our Story</a>
+    <a class="nav-link" href="#" id="infoLink" data-en="Info" data-al="Info" data-es="Info" data-de="Info">Info</a>
+    <a class="nav-link" href="?edit=true">Admin</a>
+  </div>
+</div>
+
+<header>
+  <button class="menu-btn" id="menuBtn">&#9776;</button>
+  <button class="back-btn" id="backBtn">&#8592;</button>
+  <div class="title" id="pageTitle">Sunset Boulevard<br><small>Beach Hotel</small></div>
+  <button class="music-btn" id="musicBtn">&#9654; Music</button>
+</header>
+
+<!-- HOME -->
+<div class="page active" id="page-home">
+  <div class="home-desktop">
+
+    <!-- LEFT: Rooms, Food, Activities -->
+<div class="home-left">
+
+  <!-- ROOMS -->
+  <a class="side-section" href="#" data-page="rooms">
+    <div class="side-row">
+      <img src="room1.jpg" alt="Rooms">
+      <div class="text">
+        <h3>Rooms</h3>
+        <p id="rooms-desc" data-edit="rooms-desc">Discover our drinks and food</p>
+      </div>
+    </div>
+  </a>
+
+  <!-- FOOD -->
+  <a class="side-section" href="#" data-page="food">
+    <div class="side-row rev">
+      <img src="food1.jpg" alt="Food & Drinks">
+      <div class="text">
+        <h3>Food & Drinks</h3>
+        <p id="food-desc" data-edit="food-desc">Discover our drinks and food</p>
+      </div>
+    </div>
+  </a>
+
+  <!-- ACTIVITIES -->
+  <a class="side-section" href="#" data-page="activities">
+    <div class="side-row">
+      <img src="activities1.jpg" alt="Activities">
+      <div class="text">
+        <h3>Activities</h3>
+        <p id="activities-desc" data-edit="activities-desc">Discover our drinks and food</p>
+      </div>
+    </div>
+  </a>
+
+</div>
+
+    <!-- CENTER: Video -->
+    <div class="home-center">
+      <div class="video-wrapper">
+        <div class="video-container">
+          <div class="video-overlay"></div>
+          <div class="reel-frame">
+            <div id="yt-player"></div>
+          </div>
+          <div class="video-side-cover video-side-left"></div>
+          <div class="video-side-cover video-side-right"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: Our Story on top, Info with blue bg at 1/3 down -->
+    <div class="home-right" style="flex-direction:column;">
+      <div class="side-section" id="ourstory-anchor" style="flex:0 0 auto;text-align:center;cursor:default;">
+        <h3 data-edit="ourstory-title" data-en="Our Story" data-al="Historia Jonë" data-es="Nuestra Historia" data-de="Unsere Geschichte">
+  Our Story
+</h3>
+
+<p data-edit="ourstory-desc"
+   data-en="Learn about Sunset Boulevard Beach Hotel."
+   data-al="Mësoni rreth hotelit tonë."
+   data-es="Conoce el hotel."
+   data-de="Erfahren Sie mehr über das Hotel.">
+  Learn about Sunset Boulevard Beach Hotel.
+</p>
+      </div>
+      <div style="flex:1 1 33%;"></div>
+      <div class="side-info-block" id="info">
+        <h2 data-edit="info-title" style="margin:0 0 10px;font-size:22px;text-align:center;">Info</h2>
+<p data-edit="info-whatsapp">WhatsApp: +355 XX XXX XXXX</p>
+<p data-edit="info-email">Email: info@sunsetblvd3.com</p>
+<p data-edit="info-location">Location: Qeparo, Vlorë, Albania</p>
+        <div style="display:flex;justify-content:center;gap:28px;margin-top:22px;">
+          <a href="https://maps.app.goo.gl/nJMC9Ebtgd8oft4K8" target="_blank" style="color:white;text-decoration:none;display:flex;flex-direction:column;align-items:center;gap:6px;font-size:11px;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="white"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/></svg>
+            Maps
+          </a>
+          <a href="https://www.instagram.com/sunset.boulevard.cocktailbar?igsh=MWh1bXc4NDRjdXVyMA==" target="_blank" style="color:white;text-decoration:none;display:flex;flex-direction:column;align-items:center;gap:6px;font-size:11px;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+            Instagram
+          </a>
+          <a href="https://www.facebook.com/share/1G3LhkB6gP/" target="_blank" style="color:white;text-decoration:none;display:flex;flex-direction:column;align-items:center;gap:6px;font-size:11px;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+            Facebook
+          </a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- MOBILE: sections stack below video -->
+<div class="home-mobile-sections">
+
+  <!-- ROOMS -->
+  <a class="section" href="#" data-page="rooms">
+    <div class="sec-row">
+      <img src="room1.jpg" alt="Rooms">
+      <div class="text">
+        <h2>Rooms <span class="section-arrow">&#8250;</span></h2>
+        <p id="rooms-desc">Explore our beautiful rooms.</p>
+      </div>
+    </div>
+  </a>
+
+  <!-- FOOD -->
+  <a class="section" href="#" data-page="food">
+    <div class="sec-row reverse">
+      <img src="food1.jpg" alt="Food & Drinks">
+      <div class="text">
+        <h2>Food & Drinks <span class="section-arrow">&#8250;</span></h2>
+        <p id="food-desc">Discover cocktails and cuisine.</p>
+      </div>
+    </div>
+  </a>
+
+  <!-- ACTIVITIES -->
+  <a class="section" href="#" data-page="activities">
+    <div class="sec-row">
+      <img src="activities1.jpg" alt="Activities">
+      <div class="text">
+        <h2>Activities <span class="section-arrow">&#8250;</span></h2>
+        <p id="activities-desc">Explore Qeparo.</p>
+      </div>
+    </div>
+  </a>
+
+</div>
+
+    <div class="section" id="ourstory-anchor-mobile" style="text-align:center;cursor:default;">
+      <h2 data-edit="ourstory-title-mobile" data-en="Our Story" data-al="Historia Jonë" data-es="Nuestra Historia" data-de="Unsere Geschichte">
+  Our Story
+</h2>
+
+<p data-edit="ourstory-desc-mobile"
+   data-en="Learn about Sunset Boulevard Beach Hotel."
+   data-al="Mësoni rreth hotelit tonë."
+   data-es="Conoce el hotel."
+   data-de="Erfahren Sie mehr sobre el hotel.">
+  Learn about Sunset Boulevard Beach Hotel.
+</p>
+    </div>
+  </div>
+
+<!-- ROOMS -->
+<div class="page" id="page-rooms">
+  
+  <div class="content">
+    <h2 data-en="Your Home by the Sea" data-al="Shtëpia Juaj Pranë Detit" data-es="Tu Hogar junto al Mar" data-de="Ihr Zuhause am Meer">Your Home by the Sea</h2>
+    
+    <p data-en="Each room is designed to offer comfort, elegance, and breathtaking views of the Albanian Riviera." data-al="Çdo dhomë është projektuar për të ofruar rehati, elegancë dhe pamje mahnitëse." data-es="Cada habitación está diseñada para ofrecer comodidad, elegancia y vistas impresionantes." data-de="Jedes Zimmer bietet Komfort, Eleganz und atemberaubende Ausblicke.">
+      Each room is designed to offer comfort, elegance, and breathtaking views of the Albanian Riviera.
+    </p>
+
+    <!-- ROOM 1 -->
+    <div class="room-card">
+      <div class="slider" id="slider-1">
+        <img src="room1.jpg">
+        <img src="room2.jpg">
+        <img src="room3.jpg">
+      </div>
+      <div class="dots" id="dots-1"></div>
+
+      <div class="rinfo">
+        <span class="tag">Most Popular</span>
+        <h3>Deluxe Double Room</h3>
+        <p>Elegant double room with private balcony, sea views, air conditioning and en-suite bathroom.</p>
+        <a class="avail-btn" href="https://wa.me/35500000000" target="_blank">Check Availability</a>
+      </div>
+    </div>
+
+    <!-- ROOM 2 -->
+    <div class="room-card">
+      <div class="slider" id="slider-2">
+        <img src="room4.jpg">
+        <img src="room5.jpg">
+        <img src="room6.jpg">
+      </div>
+      <div class="dots" id="dots-2"></div>
+
+      <div class="rinfo">
+        <span class="tag">Great for Families</span>
+        <h3>Standard Triple Room</h3>
+        <p>Comfortable triple room for families with air conditioning and private bathroom.</p>
+        <a class="avail-btn" href="https://wa.me/35500000000" target="_blank">Check Availability</a>
+      </div>
+    </div>
+
+    <!-- ROOM 3 -->
+    <div class="room-card">
+      <div class="slider" id="slider-3">
+        <img src="room7.jpg">
+        <img src="room8.jpg">
+        <img src="room9.jpg">
+      </div>
+      <div class="dots" id="dots-3"></div>
+
+      <div class="rinfo">
+        <span class="tag">Best Value</span>
+        <h3>Simple Triple Room</h3>
+        <p>Cozy and affordable triple room with all essentials, steps from the beach.</p>
+        <a class="avail-btn" href="https://wa.me/35500000000" target="_blank">Check Availability</a>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- FOOD -->
+<div class="page" id="page-food">
+  
+  <div class="content">
+    
+    <h2 data-en="Taste the Riviera" data-al="Shijoni Rivierën" data-es="Saborea la Riviera" data-de="Schmecken Sie die Riviera">
+      Taste the Riviera
+    </h2>
+
+    <p data-en="From fresh seafood to handcrafted cocktails, our menu celebrates the flavours of the Albanian coast." 
+       data-al="Nga ushqimet e detit deri te kokteje të bëra me dorë, menuja jonë feston shijen e bregdetit shqiptar." 
+       data-es="Desde mariscos frescos hasta cócteles artesanales, nuestro menú celebra los sabores de la costa albanesa." 
+       data-de="Von frischen Meeresfrüchten bis zu handgemachten Cocktails feiern wir die Aromen der albanischen Küste.">
+      From fresh seafood to handcrafted cocktails, our menu celebrates the flavours of the Albanian coast.
+    </p>
+
+    <!-- STARTERS -->
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800" alt="Starters">
+      <div class="cinfo">
+        <span class="tag">Starters</span>
+        <h3>Fresh Starters</h3>
+        <p>Bruschetta, Greek salad, or crispy calamari with lemon aioli.</p>
+      </div>
+    </div>
+
+    <!-- MAINS -->
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800" alt="Mains">
+      <div class="cinfo">
+        <span class="tag">Main Dishes</span>
+        <h3>Grills & Mains</h3>
+        <p>Grilled sea bass, BBQ platters, or pasta arrabiata — prepared fresh daily.</p>
+      </div>
+    </div>
+
+    <!-- COCKTAILS -->
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=800" alt="Cocktails">
+      <div class="cinfo">
+        <span class="tag">Cocktails</span>
+        <h3>Signature Cocktails</h3>
+        <p>Sunset Boulevard, Qeparo Breeze, or Adriatic Blue — crafted for the Riviera.</p>
+      </div>
+    </div>
+
+    <!-- DRINKS -->
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800" alt="Drinks">
+      <div class="cinfo">
+        <span class="tag">Drinks</span>
+        <h3>Coffees & Soft Drinks</h3>
+        <p>Espresso, cappuccino, fresh lemonade, orange juice or smoothies.</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ACTIVITIES -->
+<div class="page" id="page-activities">
+  
+  <div class="content">
+    
+    <h2 data-en="Explore Qeparo" data-al="Eksploroni Qeparon" data-es="Explora Qeparo" data-de="Entdecken Sie Qeparo">
+      Explore Qeparo
+    </h2>
+
+    <p data-en="Qeparo is one of Albania's hidden gems — a charming village above a pristine beach with crystal-clear water."
+       data-al="Qeparo është një nga perlat e fshehura të Shqipërisë — një fshat i bukur mbi një plazh të pastër."
+       data-es="Qeparo es una de las joyas escondidas de Albania — un pueblo encantador sobre una playa prístina."
+       data-de="Qeparo ist eines der verborgenen Juwelen Albaniens — ein charmantes Dorf über einem unberührten Strand.">
+      Qeparo is one of Albania's hidden gems — a charming village above a pristine beach with crystal-clear water.
+    </p>
+
+    <!-- BEACH -->
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1530866495561-507c9faab2ed?w=800" alt="Swimming">
+      <div class="cinfo">
+        <span class="tag">Beach</span>
+        <h3>Swimming & Snorkelling</h3>
+        <p>The waters off Qeparo are among the clearest on the Riviera. Snorkel gear available.</p>
+      </div>
+    </div>
+
+    <!-- BOAT -->
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800" alt="Boat">
+      <div class="cinfo">
+        <span class="tag">Water</span>
+        <h3>Boat Trips</h3>
+        <p>Guided boat excursions visiting hidden sea caves and remote beaches.</p>
+      </div>
+    </div>
+
+    <!-- HIKING -->
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1551632811-561732d1e306?w=800" alt="Hiking">
+      <div class="cinfo">
+        <span class="tag">Land</span>
+        <h3>Village Hiking</h3>
+        <p>Trek up to the old village of Qeparo with panoramic views over the bay.</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- OUR STORY -->
+<div class="page" id="page-ourstory">
+  
+  <div class="content">
+    <h2 data-en="Our Story" data-al="Historia Jon&#235;" data-es="Nuestra Historia" data-de="Unsere Geschichte">Our Story</h2>
+    <p data-en="Coming soon — the story of Sunset Boulevard Beach Hotel will be shared here." data-al="S&#235; shpejti — historia e Sunset Boulevard Beach Hotel do t&#235; ndahet k&#235;tu." data-es="Pr&#243;ximamente — la historia del hotel se compartir&#225; aqu&#237;." data-de="Demn&#228;chst — die Geschichte des Hotels wird hier geteilt.">Coming soon — the story of Sunset Boulevard Beach Hotel will be shared here.</p>
+  </div>
+</div>
+
+  <!-- MOBILE: Info footer -->
+<div class="info-footer home-info-mobile" id="info-mobile">
+  <p data-edit="info-title-mobile" style="margin:0 0 8px;font-size:16px;font-weight:bold;">
+  Info
+</p>
+
+<p data-edit="info-whatsapp-mobile">
+  WhatsApp: +355 XX XXX XXXX
+</p>
+
+<p data-edit="info-email-mobile">
+  Email: info@sunsetblvd3.com
+</p>
+
+<p data-edit="info-location-mobile">
+  Location: Qeparo, Vlorë, Albania
+</p>
+
+<div style="display:flex;justify-content:center;gap:28px;margin-top:22px;">
+
+  <!-- MAPS -->
+  <a href="https://maps.app.goo.gl/nJMC9Ebtgd8oft4K8" target="_blank"
+     style="color:white;text-decoration:none;display:flex;flex-direction:column;align-items:center;gap:6px;font-size:11px;">
+    <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="white">
+      <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/>
+    </svg>
+    Maps
+  </a>
+
+  <!-- INSTAGRAM -->
+  <a href="https://www.instagram.com/sunset.boulevard.cocktailbar" target="_blank"
+     style="color:white;text-decoration:none;display:flex;flex-direction:column;align-items:center;gap:6px;font-size:11px;">
+    <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8">
+      <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+      <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+    </svg>
+    Instagram
+  </a>
+
+  <!-- FACEBOOK -->
+  <a href="https://www.facebook.com/share/1G3LhkB6gP/" target="_blank"
+     style="color:white;text-decoration:none;display:flex;flex-direction:column;align-items:center;gap:6px;font-size:11px;">
+    <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8">
+      <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+    </svg>
+    Facebook
+  </a>
+
+</div>
+
+<script>
+(function() {
+
+// --- MUSIC ---
+var music = document.getElementById('bgMusic');
+var musicBtn = document.getElementById('musicBtn');
+
+var started = false;
+
+musicBtn.addEventListener('click', function() {
+
+  // FIRST CLICK → START + SOUND
+  if (!started) {
+
+    music.volume = 0.3;
+    music.muted = false;
+
+    music.play().then(() => {
+      started = true;
+      musicBtn.innerHTML = "🔊 Mute";
+    }).catch(() => {
+      // 🔥 try again if browser blocked
+      started = false;
+    });
+
+    return;
+  }
+
+  // AFTER START → ONLY MUTE / UNMUTE
+  if (music.muted) {
+    music.muted = false;
+    musicBtn.innerHTML = "🔊 Mute";
+  } else {
+    music.muted = true;
+    musicBtn.innerHTML = "🔇 Unmute";
+  }
+
+});
+
+  // --- NAVIGATION ---
+  var pageTitles = {
+    home: 'Sunset Boulevard<br><small>Beach Hotel</small>',
+    rooms: 'Rooms', food: 'Food &amp; Drinks',
+    activities: 'Activities', ourstory: 'Our Story'
+  };
+
+  function showPage(pageId) {
+    document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
+    document.getElementById('page-' + pageId).classList.add('active');
+    window.scrollTo(0, 0);
+    document.getElementById('pageTitle').innerHTML = pageTitles[pageId] || pageId;
+    var backBtn = document.getElementById('backBtn');
+    var menuBtn = document.getElementById('menuBtn');
+    if (pageId === 'home') {
+      backBtn.style.display = 'none';
+      menuBtn.style.display = 'block';
+    } else {
+      backBtn.style.display = 'block';
+      menuBtn.style.display = 'none';
+    }
+    if (pageId === 'rooms') initSliders();
+  }
+
+// ✅ ADD HERE
+document.getElementById('backBtn').addEventListener('click', function(){
+  showPage('home');
+});
+
+  document.querySelectorAll('[data-page]').forEach(function(el) {
+  el.addEventListener('click', function(e) {
+
+    // 🔥 STOP navigation when editing
+    if (window.editMode && !window.navigationEnabled) {
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      return;
+    }
+
+    e.preventDefault();
+
+    var page = el.getAttribute('data-page');
+
+    if (page === 'ourstory') {
+      showPage('home');
+      document.getElementById('menuOverlay').classList.remove('open');
+      setTimeout(function() {
+        var anchor = window.innerWidth >= 768
+          ? document.getElementById('ourstory-anchor')
+          : document.getElementById('ourstory-anchor-mobile');
+        if (anchor) anchor.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
+    } else if (page) {
+      showPage(page);
+      document.getElementById('menuOverlay').classList.remove('open');
+    }
+
+  });
+});
+
+  document.getElementById('infoLink').addEventListener('click', function(e) {
+  e.preventDefault();
+  showPage('home');
+  document.getElementById('menuOverlay').classList.remove('open');
+
+  setTimeout(function() {
+    const target = window.innerWidth >= 768 
+      ? document.getElementById('info') 
+      : document.getElementById('info-mobile');
+
+    if (target) {
+      target.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, 100);
+});
+
+  var infoDesktop = document.getElementById('infoLinkDesktop');
+  if (infoDesktop) {
+    infoDesktop.addEventListener('click', function(e) {
+      e.preventDefault();
+      document.getElementById('info').scrollIntoView({ behavior: 'smooth' });
+    });
+  }
+
+  // --- MENU ---
+  var overlay = document.getElementById('menuOverlay');
+  document.getElementById('menuBtn').addEventListener('click', function() { overlay.classList.add('open'); });
+  document.getElementById('menuClose').addEventListener('click', function() { overlay.classList.remove('open'); });
+  overlay.addEventListener('click', function(e) { if (e.target === overlay) overlay.classList.remove('open'); });
+
+  // --- DARK MODE ---
+  var darkToggle = document.getElementById('darkToggle');
+  if (localStorage.getItem('darkMode') === '1') { document.body.classList.add('dark'); darkToggle.checked = true; }
+  darkToggle.addEventListener('change', function() {
+    document.body.classList.toggle('dark', this.checked);
+    localStorage.setItem('darkMode', this.checked ? '1' : '0');
+  });
+
+  // --- LANGUAGE ---
+  var langs = ['en','al','es','de'];
+  var currentLang = localStorage.getItem('lang') || 'en';
+
+  function applyLang(lang) {
+    currentLang = lang;
+    localStorage.setItem('lang', lang);
+    langs.forEach(function(l) {
+      var b = document.getElementById('btn-' + l);
+      if (b) b.classList.toggle('active', l === lang);
+    });
+    document.querySelectorAll('[data-' + lang + ']').forEach(function(el) {
+      if (el.id === 'pageTitle') return;
+      var arrow = el.querySelector('.section-arrow');
+      if (arrow) {
+        el.innerHTML = el.getAttribute('data-' + lang) + ' <span class="section-arrow">&#8250;</span>';
+      } else if (!el.children.length) {
+        el.textContent = el.getAttribute('data-' + lang);
+      }
+    });
+  }
+
+  langs.forEach(function(l) {
+    var btn = document.getElementById('btn-' + l);
+    if (btn) btn.addEventListener('click', function() { applyLang(l); });
+  });
+  applyLang(currentLang);
+
+  // --- SLIDERS ---
+  function initSliders() {
+    [1,2,3].forEach(function(n) {
+      var slider = document.getElementById('slider-' + n);
+      var dotsEl = document.getElementById('dots-' + n);
+      if (!slider || dotsEl.children.length) return;
+      var imgs = slider.querySelectorAll('img');
+      imgs.forEach(function(_, i) {
+        var d = document.createElement('span');
+        d.className = 'dot' + (i === 0 ? ' active' : '');
+        d.addEventListener('click', (function(idx) {
+          return function() { slider.scrollTo({ left: slider.clientWidth * idx, behavior: 'smooth' }); };
+        })(i));
+        dotsEl.appendChild(d);
+      });
+      slider.addEventListener('scroll', function() {
+        var idx = Math.round(slider.scrollLeft / slider.clientWidth);
+        dotsEl.querySelectorAll('.dot').forEach(function(d, i) { d.classList.toggle('active', i === idx); });
+      });
+    });
+  }
+
+  // --- YOUTUBE ---
+  var tag = document.createElement('script');
+  tag.src = 'https://www.youtube.com/iframe_api';
+  document.head.appendChild(tag);
+  window.onYouTubeIframeAPIReady = function() {
+    new YT.Player('yt-player', {
+      videoId: '_3l5noL5Y1s',
+      playerVars: { autoplay:1, mute:1, loop:1, playlist:'_3l5noL5Y1s', controls:0, showinfo:0, rel:0, modestbranding:1, disablekb:1, fs:0, playsinline:1 },
+      events: { onReady: function(e) { e.target.mute(); e.target.playVideo(); } }
+    });
+  };
+
+})();
+</script>
+
+<script>
+// ✅ DEFINE ADMIN MODE
+const isEdit = new URLSearchParams(window.location.search).get("edit") === "true";
+
+// ONLY ENABLE EDIT SYSTEM IF IN ADMIN MODE
+if(isEdit){
+
+  let navigationEnabled = false;
+
+  const panel = document.createElement("div");
+  panel.style.cssText = "position:fixed;bottom:20px;right:20px;z-index:9999;display:flex;gap:8px";
+
+  const editBtn = document.createElement("button");
+  editBtn.innerText = "✏️ Edit";
+
+  const navBtn = document.createElement("button");
+  navBtn.innerText = "🧭 Navigate";
+
+  const saveBtn = document.createElement("button");
+  saveBtn.innerText = "💾 Save";
+
+  const exitBtn = document.createElement("button");
+  exitBtn.innerText = "❌ Exit";
+
+  panel.append(editBtn, navBtn, saveBtn, exitBtn);
+  document.body.appendChild(panel);
+
+  // EDIT MODE
+  editBtn.onclick = ()=>{
+    navigationEnabled = false;
+
+    document.querySelectorAll("[data-edit]").forEach(el=>{
+      el.contentEditable = true;
+      el.style.outline = "2px dashed red";
+    });
+  };
+
+  // NAV MODE
+  navBtn.onclick = ()=>{
+    navigationEnabled = true;
+
+    document.querySelectorAll("[data-edit]").forEach(el=>{
+      el.contentEditable = false;
+      el.style.outline = "none";
+    });
+  };
+
+  // SAVE
+  saveBtn.onclick = ()=>{
+    const updates = {};
+
+    document.querySelectorAll("[data-edit]").forEach(el=>{
+      updates[el.dataset.edit] = el.innerHTML;
+    });
+
+    localStorage.setItem("siteContent", JSON.stringify(updates));
+    alert("Saved locally!");
+  };
+
+  // EXIT
+  exitBtn.onclick = ()=>{
+    window.location.href = "/";
+  };
+
+  // BLOCK NAV WHEN EDITING
+  document.addEventListener("click", function(e){
+    if(!navigationEnabled){
+      const editable = e.target.closest("[data-edit]");
+      if(editable){
+        e.preventDefault();
+        e.stopPropagation();
+      }
+    }
+  }, true);
+}
+
+// LOAD CONTENT
+const saved = localStorage.getItem("siteContent");
+if(saved){
+  const data = JSON.parse(saved);
+
+  document.querySelectorAll("[data-edit]").forEach(el=>{
+    if(data[el.dataset.edit]){
+      el.innerHTML = data[el.dataset.edit];
+    }
+  });
+}
+</script>
+
+</body>
+</html>
