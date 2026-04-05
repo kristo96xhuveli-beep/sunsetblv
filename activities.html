@@ -1,25 +1,55 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="UTF-8">
-  <title>Activities</title>
-</head>
-
+<head><meta charset="UTF-8"><title>Activities</title></head>
 <body>
+<h2 data-edit="activities-title">Activities</h2>
+<p data-edit="activities-desc">Our beautiful activities</p>
 
-<!-- EDIT CONTROLS -->
-<div class="edit-controls">
-  <button id="editBtn">Edit</button>
-  <button id="saveBtn">Save</button>
-  <button id="exitBtn">Exit</button>
-</div>
+<script>
+let edit = false;
 
-<!-- CONTENT -->
-<h2 class="editable" data-key="activities-title">Activities</h2>
-<p class="editable" data-key="activities-desc">Our beautiful activities</p>
+// CREATE BUTTON
+const btn = document.createElement("button");
+btn.innerText = "✏️ Edit";
+btn.style.position = "fixed";
+btn.style.bottom = "20px";
+btn.style.right = "20px";
+document.body.appendChild(btn);
 
-<!-- MAIN SCRIPT -->
-<script src="main.js"></script>
+// CLICK TO TOGGLE EDIT
+btn.onclick = ()=>{
+  edit = !edit;
 
+  document.querySelectorAll("[data-edit]").forEach(el=>{
+    el.contentEditable = edit;
+    el.style.outline = edit ? "2px dashed red" : "none";
+  });
+
+  // SAVE WHEN EXIT EDIT
+  if(!edit){
+    const data = {};
+
+    document.querySelectorAll("[data-edit]").forEach(el=>{
+      data[el.dataset.edit] = el.innerHTML;
+    });
+
+    localStorage.setItem("activitiesContent", JSON.stringify(data));
+    alert("Saved!");
+  }
+};
+
+// LOAD SAVED CONTENT
+const saved = localStorage.getItem("activitiesContent");
+
+if(saved){
+  const data = JSON.parse(saved);
+
+  document.querySelectorAll("[data-edit]").forEach(el=>{
+    if(data[el.dataset.edit]){
+      el.innerHTML = data[el.dataset.edit];
+    }
+  });
+}
+</script>
 </body>
 </html>
