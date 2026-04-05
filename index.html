@@ -148,10 +148,16 @@ body:not(.home-active) #info-mobile {
     padding: 30px;
   }
   #page-rooms .card img, #page-food .card img, #page-activities .card img {
-    height: 130px;
+    width:28%;
+  max-width:180px;
+  aspect-ratio: 1/1;
+  object-fit: cover;
   }
   #page-rooms .slider img {
-    height: 140px;
+    width:40%;
+  max-width:180px;
+  aspect-ratio: 1/1;
+  object-fit: cover;
   }
 }
 @media(max-width:767px){
@@ -190,8 +196,25 @@ body.dark .info-footer{background:#000;}
 .content{padding:20px;}
 .content h2{font-size:22px;margin:0 0 8px;}
 .content>p{line-height:1.7;color:var(--sub);font-size:14px;margin:0 0 20px;}
-.card{border-radius:14px;overflow:hidden;box-shadow:0 2px 12px var(--card-shadow);margin-bottom:20px;background:var(--bg);}
-.card img{width:100%;display:block;height:200px;object-fit:cover;}
+.card{
+  display:flex;
+  flex-direction:row;
+  align-items:center;
+  gap:20px;
+
+  border-radius:14px;
+  overflow:hidden;
+  box-shadow:0 2px 12px var(--card-shadow);
+  margin-bottom:20px;
+  background:var(--bg); }
+.card img{
+  width:40%;
+  aspect-ratio:1/1;
+  object-fit:cover;
+  border-radius:12px; }
+.card .cinfo{
+  flex:1; }
+.card:nth-child(even){  flex-direction:row-reverse; }
 .card .cinfo{padding:14px 16px;}
 .card .cinfo h3{margin:0 0 6px;font-size:17px;color:var(--text);}
 .card .cinfo p{margin:0;font-size:13px;color:var(--sub2);line-height:1.6;}
@@ -305,7 +328,7 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
       <img src="activities1.jpg" alt="Activities">
       <div class="text">
         <h3>Activities</h3>
-        <p id="activities-desc" data-edit="activities-desc">Discover our drinks and food</p>
+        <p data-edit="activities-desc">Explore Qeparo</p>
       </div>
     </div>
   </a>
@@ -423,25 +446,34 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
 <div class="page" id="page-rooms">
   
   <div class="content">
-    <h2 data-en="Your Home by the Sea" data-al="Shtëpia Juaj Pranë Detit" data-es="Tu Hogar junto al Mar" data-de="Ihr Zuhause am Meer">Your Home by the Sea</h2>
+    <h2 data-edit="rooms-title" data-en="Your Home by the Sea" data-al="Shtëpia Juaj Pranë Detit" data-es="Tu Hogar junto al Mar" data-de="Ihr Zuhause am Meer">Your Home by the Sea</h2>
     
-    <p data-en="Each room is designed to offer comfort, elegance, and breathtaking views of the Albanian Riviera." data-al="Çdo dhomë është projektuar për të ofruar rehati, elegancë dhe pamje mahnitëse." data-es="Cada habitación está diseñada para ofrecer comodidad, elegancia y vistas impresionantes." data-de="Jedes Zimmer bietet Komfort, Eleganz und atemberaubende Ausblicke.">
+    <p data-edit="activities-main-desc" data-en="Each room is designed to offer comfort, elegance, and breathtaking views of the Albanian Riviera." data-al="Çdo dhomë është projektuar për të ofruar rehati, elegancë dhe pamje mahnitëse." data-es="Cada habitación está diseñada para ofrecer comodidad, elegancia y vistas impresionantes." data-de="Jedes Zimmer bietet Komfort, Eleganz und atemberaubende Ausblicke.">
       Each room is designed to offer comfort, elegance, and breathtaking views of the Albanian Riviera.
     </p>
 
     <!-- ROOM 1 -->
     <div class="room-card">
       <div class="slider" id="slider-1">
-        <img src="room1.jpg">
-        <img src="room2.jpg">
-        <img src="room3.jpg">
+        <img src="room1a.jpg" data-edit-img="room-1-img-1">
+        <img src="room1b.jpg" data-edit-img="room-1-img-2">
+        <img src="room1c.jpg" data-edit-img="room-1-img-3">
+        <img src="room1d.jpg" data-edit-img="room-1-img-4">
+        <img src="room1e.jpg" data-edit-img="room-1-img-5">
+        <img src="room1f.jpg" data-edit-img="room-1-img-6">
+        <img src="room1g.jpg" data-edit-img="room-1-img-7">
+        <img src="room1h.jpg" data-edit-img="room-1-img-8">
+        <img src="room1i.jpg" data-edit-img="room-1-img-9">
+        <img src="room1j.jpg" data-edit-img="room-1-img-10">
+        <img src="room1k.jpg" data-edit-img="room-1-img-11">
+        <img src="room1l.jpg" data-edit-img="room-1-img-12">
       </div>
       <div class="dots" id="dots-1"></div>
 
       <div class="rinfo">
         <span class="tag">Most Popular</span>
-        <h3>Deluxe Double Room</h3>
-        <p>Elegant double room with private balcony, sea views, air conditioning and en-suite bathroom.</p>
+        <h3 data-edit="rooms-1-title">Deluxe Double Room</h3>
+        <p data-edit="rooms-1-desc">Elegant double room with private balcony, sea views, air conditioning and en-suite bathroom.</p>
         <a class="avail-btn" href="https://wa.me/35500000000" target="_blank">Check Availability</a>
       </div>
     </div>
@@ -449,16 +481,17 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
     <!-- ROOM 2 -->
     <div class="room-card">
       <div class="slider" id="slider-2">
-        <img src="room4.jpg">
-        <img src="room5.jpg">
-        <img src="room6.jpg">
+        <img src="room2a.jpg" data-edit-img="room-2-img-1">
+        <img src="room2b.jpg" data-edit-img="room-2-img-2">
+        <img src="room2c.jpg" data-edit-img="room-2-img-3">
+        <img src="room2d.jpg" data-edit-img="room-2-img-4">
       </div>
       <div class="dots" id="dots-2"></div>
 
       <div class="rinfo">
         <span class="tag">Great for Families</span>
-        <h3>Standard Triple Room</h3>
-        <p>Comfortable triple room for families with air conditioning and private bathroom.</p>
+        <h3 data-edit="rooms-2-title">Standard Triple Room</h3>
+        <p data-edit="rooms-2-desc">Comfortable triple room for families with air conditioning and private bathroom.</p>
         <a class="avail-btn" href="https://wa.me/35500000000" target="_blank">Check Availability</a>
       </div>
     </div>
@@ -466,16 +499,17 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
     <!-- ROOM 3 -->
     <div class="room-card">
       <div class="slider" id="slider-3">
-        <img src="room7.jpg">
-        <img src="room8.jpg">
-        <img src="room9.jpg">
+        <img src="room3a.jpg" data-edit-img="room-3-img-1">
+        <img src="room3b.jpg" data-edit-img="room-3-img-2">
+        <img src="room3c.jpg" data-edit-img="room-3-img-3">
+        <img src="room3d.jpg" data-edit-img="room-3-img-4">
       </div>
       <div class="dots" id="dots-3"></div>
 
       <div class="rinfo">
         <span class="tag">Best Value</span>
-        <h3>Simple Triple Room</h3>
-        <p>Cozy and affordable triple room with all essentials, steps from the beach.</p>
+        <h3 data-edit="rooms-3-title">Simple Triple Room</h3>
+        <p data-edit="rooms-3-desc">Cozy and affordable triple room with all essentials, steps from the beach.</p>
         <a class="avail-btn" href="https://wa.me/35500000000" target="_blank">Check Availability</a>
       </div>
     </div>
@@ -488,11 +522,11 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
   
   <div class="content">
     
-    <h2 data-en="Taste the Riviera" data-al="Shijoni Rivierën" data-es="Saborea la Riviera" data-de="Schmecken Sie die Riviera">
+   <h2 data-edit="food-&-drinks-title" data-en="data-en="Taste the Riviera" data-al="Shijoni Rivierën" data-es="Saborea la Riviera" data-de="Schmecken Sie die Riviera">
       Taste the Riviera
     </h2>
 
-    <p data-en="From fresh seafood to handcrafted cocktails, our menu celebrates the flavours of the Albanian coast." 
+    <p data-edit="food-&-drinks-main-desc" data-en="From fresh seafood to handcrafted cocktails, our menu celebrates the flavours of the Albanian coast." 
        data-al="Nga ushqimet e detit deri te kokteje të bëra me dorë, menuja jonë feston shijen e bregdetit shqiptar." 
        data-es="Desde mariscos frescos hasta cócteles artesanales, nuestro menú celebra los sabores de la costa albanesa." 
        data-de="Von frischen Meeresfrüchten bis zu handgemachten Cocktails feiern wir die Aromen der albanischen Küste.">
@@ -504,8 +538,8 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
       <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800" alt="Starters">
       <div class="cinfo">
         <span class="tag">Starters</span>
-        <h3>Fresh Starters</h3>
-        <p>Bruschetta, Greek salad, or crispy calamari with lemon aioli.</p>
+        <h3 data-edit="food-&-drinks-1-title">Fresh Starters</h3>
+        <p data-edit="food-&-drinks-1-desc">Bruschetta, Greek salad, or crispy calamari with lemon aioli.</p>
       </div>
     </div>
 
@@ -514,8 +548,8 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
       <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800" alt="Mains">
       <div class="cinfo">
         <span class="tag">Main Dishes</span>
-        <h3>Grills & Mains</h3>
-        <p>Grilled sea bass, BBQ platters, or pasta arrabiata — prepared fresh daily.</p>
+        <h3 data-edit="food-&-drinks-2-title">Grills & Mains</h3>
+        <p data-edit="food-&-drinks-2-desc">Grilled sea bass, BBQ platters, or pasta arrabiata — prepared fresh daily.</p>
       </div>
     </div>
 
@@ -524,8 +558,8 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
       <img src="https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=800" alt="Cocktails">
       <div class="cinfo">
         <span class="tag">Cocktails</span>
-        <h3>Signature Cocktails</h3>
-        <p>Sunset Boulevard, Qeparo Breeze, or Adriatic Blue — crafted for the Riviera.</p>
+        <h3 data-edit="food-&-drinks-3-title">Signature Cocktails</h3>
+        <p data-edit="food-&-drinks-3-desc">Sunset Boulevard, Qeparo Breeze, or Adriatic Blue — crafted for the Riviera.</p>
       </div>
     </div>
 
@@ -534,8 +568,8 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
       <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800" alt="Drinks">
       <div class="cinfo">
         <span class="tag">Drinks</span>
-        <h3>Coffees & Soft Drinks</h3>
-        <p>Espresso, cappuccino, fresh lemonade, orange juice or smoothies.</p>
+        <h3 data-edit="food-&-drinks-4-title>Coffees & Soft Drinks</h3>
+        <p data-edit="food-&-drinks-4-desc">Espresso, cappuccino, fresh lemonade, orange juice or smoothies.</p>
       </div>
     </div>
 
@@ -547,11 +581,12 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
   
   <div class="content">
     
-    <h2 data-en="Explore Qeparo" data-al="Eksploroni Qeparon" data-es="Explora Qeparo" data-de="Entdecken Sie Qeparo">
+    <h2 data-edit="activities-title" data-en="Explore Qeparo" data-al="Eksploroni Qeparon" data-es="Explora Qeparo" data-de="Entdecken Sie Qeparo">
       Explore Qeparo
     </h2>
 
-    <p data-en="Qeparo is one of Albania's hidden gems — a charming village above a pristine beach with crystal-clear water."
+    <p data-edit="activities-main-desc"
+data-en="Qeparo is one of Albania's hidden gems — a charming village above a pristine beach with crystal-clear water."
        data-al="Qeparo është një nga perlat e fshehura të Shqipërisë — një fshat i bukur mbi një plazh të pastër."
        data-es="Qeparo es una de las joyas escondidas de Albania — un pueblo encantador sobre una playa prístina."
        data-de="Qeparo ist eines der verborgenen Juwelen Albaniens — ein charmantes Dorf über einem unberührten Strand.">
@@ -563,8 +598,8 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
       <img src="https://images.unsplash.com/photo-1530866495561-507c9faab2ed?w=800" alt="Swimming">
       <div class="cinfo">
         <span class="tag">Beach</span>
-        <h3>Swimming & Snorkelling</h3>
-        <p>The waters off Qeparo are among the clearest on the Riviera. Snorkel gear available.</p>
+        <h3 data-edit="activity-1-title">Swimming & Snorkelling</h3>
+        <p data-edit="activity-1-desc">The waters off Qeparo are among the clearest on the Riviera. Snorkel gear available.</p>
       </div>
     </div>
 
@@ -573,8 +608,8 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
       <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800" alt="Boat">
       <div class="cinfo">
         <span class="tag">Water</span>
-        <h3>Boat Trips</h3>
-        <p>Guided boat excursions visiting hidden sea caves and remote beaches.</p>
+        <h3 data-edit="activity-2-title">Boat Trips</h3>
+        <p data-edit="activity-2-desc">Guided boat excursions visiting hidden sea caves and remote beaches.</p>
       </div>
     </div>
 
@@ -583,8 +618,8 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
       <img src="https://images.unsplash.com/photo-1551632811-561732d1e306?w=800" alt="Hiking">
       <div class="cinfo">
         <span class="tag">Land</span>
-        <h3>Village Hiking</h3>
-        <p>Trek up to the old village of Qeparo with panoramic views over the bay.</p>
+        <h3 data-edit="activity-3-title">Village Hiking</h3>
+        <p data-edit="activity-3-desc">Trek up to the old village of Qeparo with panoramic views over the bay.</p>
       </div>
     </div>
 
@@ -880,6 +915,43 @@ if(isEdit){
   panel.append(editBtn, navBtn, saveBtn, exitBtn);
   document.body.appendChild(panel);
 
+// IMAGE UPLOAD
+document.querySelectorAll("[data-edit-img]").forEach(img=>{
+
+  img.style.cursor = "pointer";
+
+  img.addEventListener("click", function(e){
+
+    if(!navigationEnabled){
+
+      e.preventDefault();
+
+      const input = document.createElement("input");
+      input.type = "file";
+      input.accept = "image/*";
+
+      input.onchange = function(){
+        const file = input.files[0];
+        const reader = new FileReader();
+
+        reader.onload = function(ev){
+          img.src = ev.target.result;
+
+          const data = JSON.parse(localStorage.getItem("siteImages") || "{}");
+          data[img.dataset.editImg] = ev.target.result;
+          localStorage.setItem("siteImages", JSON.stringify(data));
+        };
+
+        if(file) reader.readAsDataURL(file);
+      };
+
+      input.click();
+    }
+
+  });
+
+});
+
   // EDIT MODE
   editBtn.onclick = ()=>{
     navigationEnabled = false;
@@ -929,7 +1001,11 @@ if(isEdit){
   }, true);
 }
 
-// LOAD CONTENT
+</script>
+
+<script>
+
+// LOAD TEXT
 const saved = localStorage.getItem("siteContent");
 if(saved){
   const data = JSON.parse(saved);
@@ -940,6 +1016,16 @@ if(saved){
     }
   });
 }
+
+// ✅ LOAD IMAGES (ADD THIS)
+const savedImages = JSON.parse(localStorage.getItem("siteImages") || "{}");
+
+document.querySelectorAll("[data-edit-img]").forEach(img=>{
+  if(savedImages[img.dataset.editImg]){
+    img.src = savedImages[img.dataset.editImg];
+  }
+});
+
 </script>
 
 </body>
