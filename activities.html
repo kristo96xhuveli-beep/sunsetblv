@@ -6,17 +6,30 @@
 <p data-edit="activities-desc">Our beautiful activities</p>
 
 <script>
+document.addEventListener("DOMContentLoaded", () => {
+
 let edit = false;
 
-// CREATE BUTTON
+// BUTTON
 const btn = document.createElement("button");
 btn.innerText = "✏️ Edit";
 btn.style.position = "fixed";
 btn.style.bottom = "20px";
 btn.style.right = "20px";
+btn.style.zIndex = "9999";
 document.body.appendChild(btn);
 
-// CLICK TO TOGGLE EDIT
+// PREVENT NAVIGATION
+document.addEventListener("click", function(e){
+  if(edit){
+    const link = e.target.closest("a");
+    if(link){
+      e.preventDefault();
+    }
+  }
+});
+
+// TOGGLE EDIT
 btn.onclick = ()=>{
   edit = !edit;
 
@@ -25,31 +38,29 @@ btn.onclick = ()=>{
     el.style.outline = edit ? "2px dashed red" : "none";
   });
 
-  // SAVE WHEN EXIT EDIT
+  // SAVE
   if(!edit){
-    const data = {};
+    const data = JSON.parse(localStorage.getItem("siteContent") || "{}");
 
     document.querySelectorAll("[data-edit]").forEach(el=>{
       data[el.dataset.edit] = el.innerHTML;
     });
 
-    localStorage.setItem("activitiesContent", JSON.stringify(data));
+    localStorage.setItem("siteContent", JSON.stringify(data));
     alert("Saved!");
   }
 };
 
-// LOAD SAVED CONTENT
-const saved = localStorage.getItem("activitiesContent");
+// LOAD
+const saved = JSON.parse(localStorage.getItem("siteContent") || "{}");
 
-if(saved){
-  const data = JSON.parse(saved);
+document.querySelectorAll("[data-edit]").forEach(el=>{
+  if(saved[el.dataset.edit]){
+    el.innerHTML = saved[el.dataset.edit];
+  }
+});
 
-  document.querySelectorAll("[data-edit]").forEach(el=>{
-    if(data[el.dataset.edit]){
-      el.innerHTML = data[el.dataset.edit];
-    }
-  });
-}
+});
 </script>
 </body>
 </html>
