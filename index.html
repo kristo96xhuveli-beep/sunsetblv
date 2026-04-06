@@ -1223,7 +1223,7 @@ function isBooked(date, type) {
 function renderCal() {
   try {
     const y = calDate.getFullYear(), m = calDate.getMonth();
-  const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  const months = ['May','June','July','August','September','October'];
   const firstDay = new Date(y,m,1).getDay();
   const days = new Date(y,m+1,0).getDate();
   const today = new Date(); today.setHours(0,0,0,0);
@@ -1276,6 +1276,7 @@ document.getElementById('cal-body').addEventListener('click', function(e) {
   } else {
     calDate = new Date(calDate.getFullYear(), calDate.getMonth() + 1, 1);
   }
+  document.getElementById('cal-close').addEventListener('click', ()=>{ document.getElementById('cal-modal').style.display='none';
   renderCal();
 });
 
