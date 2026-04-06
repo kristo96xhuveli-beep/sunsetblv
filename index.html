@@ -772,6 +772,14 @@ The cultural monument dates back 3,500 years, when the Greek tribe of the Chaoni
 
 </div>
 
+<div id="cal-modal" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.5);z-index:99999;align-items:center;justify-content:center;">
+  <div style="background:var(--bg);border-radius:16px;padding:28px;width:340px;max-width:90vw;position:relative;">
+    <button id="cal-close" style="position:absolute;top:14px;right:16px;background:none;border:none;font-size:22px;cursor:pointer;color:var(--text);">&#215;</button>
+    <h3 id="cal-title" style="margin:0 0 20px;font-size:18px;color:var(--text);"></h3>
+    <div id="cal-body"></div>
+  </div>
+</div>
+
 <script>
 (function() {
 
@@ -973,14 +981,6 @@ document.getElementById('backBtn').addEventListener('click', function(){
 
 })();
 </script>
-
-<div id="cal-modal" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.5);z-index:99999;align-items:center;justify-content:center;">
-  <div style="background:var(--bg);border-radius:16px;padding:28px;width:340px;max-width:90vw;position:relative;">
-    <button id="cal-close" style="position:absolute;top:14px;right:16px;background:none;border:none;font-size:22px;cursor:pointer;color:var(--text);">&#215;</button>
-    <h3 id="cal-title" style="margin:0 0 20px;font-size:18px;color:var(--text);"></h3>
-    <div id="cal-body"></div>
-  </div>
-</div>
 
 <script>
 // ✅ DEFINE ADMIN MODE
