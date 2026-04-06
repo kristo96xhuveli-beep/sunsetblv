@@ -1244,16 +1244,20 @@ function renderCal() {
 }
 
 async function openCalendar(type) {
+  console.log('openCalendar called', type);
   calType = type;
   calDate = new Date();
   const modal = document.getElementById('cal-modal');
-if(!modal){ console.error('Modal not found!'); return; }
-modal.style.display = 'flex';
+  console.log('modal element:', modal);
+  if(!modal){ console.error('Modal not found!'); return; }
+  modal.style.display = 'flex';
+  console.log('modal display set to flex');
   document.getElementById('cal-title').textContent = ROOM_TYPES[type].label;
   document.getElementById('cal-body').innerHTML = '<p style="text-align:center;padding:20px">Loading...</p>';
   await fetchRes();
   renderCal();
 }
+Click the button and tell me exactly what the console prints — especially whether it reaches "modal display set to flex".Sonnet 4.6Extended
 document.getElementById('cal-close').onclick = ()=>{ document.getElementById('cal-modal').style.display='none'; };
 document.getElementById('cal-modal').onclick = (e)=>{ if(e.target.id==='cal-modal') e.target.style.display='none'; };
   
