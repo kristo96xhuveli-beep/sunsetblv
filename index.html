@@ -1259,7 +1259,6 @@ async function openCalendar(type) {
   console.log('modal element:', modal);
   if(!modal){ console.error('Modal not found!'); return; }
   modal.style.display = 'flex';
-  document.body.appendChild(modal);
   console.log('modal display set to flex');
   document.getElementById('cal-title').textContent = ROOM_TYPES[type].label;
   document.getElementById('cal-body').innerHTML = '<p style="text-align:center;padding:20px">Loading...</p>';
@@ -1276,9 +1275,10 @@ document.getElementById('cal-body').addEventListener('click', function(e) {
   } else {
     calDate = new Date(calDate.getFullYear(), calDate.getMonth() + 1, 1);
   }
-  document.getElementById('cal-close').addEventListener('click', ()=>{ document.getElementById('cal-modal').style.display='none';
   renderCal();
 });
+document.getElementById('cal-close').addEventListener('click', ()=>{ document.getElementById('cal-modal').style.display='none'; });
+document.getElementById('cal-modal').onclick = (e)=>{ if(e.target.id==='cal-modal') e.target.style.display='none'; };
 
 </script>
   
