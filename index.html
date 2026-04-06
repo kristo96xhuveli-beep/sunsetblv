@@ -1218,7 +1218,8 @@ function isBooked(date, type) {
 }
 
 function renderCal() {
-  const y = calDate.getFullYear(), m = calDate.getMonth();
+  try {
+    const y = calDate.getFullYear(), m = calDate.getMonth();
   const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
   const firstDay = new Date(y,m,1).getDay();
   const days = new Date(y,m+1,0).getDate();
@@ -1240,7 +1241,11 @@ function renderCal() {
   <a href="https://wa.me/35500000000" target="_blank" class="avail-btn" style="display:block;text-align:center;margin-top:16px;">Book via WhatsApp</a>`;
   document.getElementById('cal-body').innerHTML = html;
   document.getElementById('cp').onclick = ()=>{ calDate=new Date(y,m-1,1); renderCal(); };
-  document.getElementById('cn').onclick = ()=>{ calDate=new Date(y,m+1,1); renderCal(); };
+  document.getElementById('cn').onclick = ()=>{ calDate=new Date(y,m+1,1); renderCal(); }; 
+ } 
+  catch(e) {
+    console.error('renderCal error:', e);
+  }
 }
 
 async function openCalendar(type) {
@@ -1255,6 +1260,7 @@ async function openCalendar(type) {
   document.getElementById('cal-title').textContent = ROOM_TYPES[type].label;
   document.getElementById('cal-body').innerHTML = '<p style="text-align:center;padding:20px">Loading...</p>';
   await fetchRes();
+  console.log('calling renderCal, calType:', calType, 'calDate:', calDate);
   renderCal();
 }
 document.getElementById('cal-close').onclick = ()=>{ document.getElementById('cal-modal').style.display='none'; };
