@@ -1240,8 +1240,8 @@ function renderCal() {
   html+=`</div><div class="cal-legend"><span class="leg-avail"></span>Available <span class="leg-booked"></span>Booked</div>
   <a href="https://wa.me/35500000000" target="_blank" class="avail-btn" style="display:block;text-align:center;margin-top:16px;">Book via WhatsApp</a>`;
   document.getElementById('cal-body').innerHTML = html;
-  document.getElementById('cp').onclick = ()=>{ calDate=new Date(y,m-1,1); renderCal(); };
-  document.getElementById('cn').onclick = ()=>{ calDate=new Date(y,m+1,1); renderCal(); }; 
+  console.log('cal-body innerHTML set, length:', document.getElementById('cal-body').innerHTML.length);
+  console.log('cal-title:', document.getElementById('cal-title').textContent); 
  } 
   catch(e) {
     console.error('renderCal error:', e);
