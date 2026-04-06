@@ -250,6 +250,7 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
 .toggle-switch input:checked + .toggle-track:before{transform:translateX(20px);}
   @media(min-width:768px){
   .room-card{
+    position:relative;
     display:flex;
     flex-direction:row;
     align-items:center;
@@ -262,10 +263,10 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
     flex-direction:row-reverse;
   }
   .room-card .slider{
-    width:45%;
-    flex-shrink:0;
-    overflow:hidden;
-    height:280px;
+    width:40%;
+  flex-shrink:0;
+  overflow-x:auto;
+  height:280px;;
   }
   .room-card .slider img{
     width:100%;
@@ -274,7 +275,12 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
     flex:0 0 100%;
   }
   .room-card .dots{
-    display:none;
+    display:flex;
+  position:absolute;
+  bottom:8px;
+  left:0;
+  width:45%;
+  justify-content:center;
   }
   .room-card .rinfo{
     flex:1;
