@@ -1176,28 +1176,35 @@ let calDate = new Date();
 
 async function fetchRes() {
   if(cachedRes) return;
-  const res = await fetch(SHEET_URL);
-  const text = await res.text();
-  const rows = text.split('\n').slice(1);
-  cachedRes = [];
-  for(const row of rows) {
-    const cols = row.split(',');
-    if(cols.length < 8) continue;
-    const checkIn = cols[1].trim();
-    const checkOut = cols[2].trim();
-    const room = cols[7].trim().replace(/"/g,'');
-    if(!checkIn.includes('/')) continue;
-    const [iD,iM,iY] = checkIn.split('/');
-    const [oD,oM,oY] = checkOut.split('/');
-    cachedRes.push({
-      ci: new Date(iY, iM-1, iD),
-      co: new Date(oY, oM-1, oD),
-      room
-    });
+  try {
+    const res = await fetch(SHEET_URL);
+    const text = await res.text();
+    const rows = text.split('\n').slice(1);
+    cachedRes = [];
+    for(const row of rows) {
+      const cols = row.split(',');
+      if(cols.length < 8) continue;
+      const checkIn = cols[1].trim();
+      const checkOut = cols[2].trim();
+      const room = cols[7].trim().replace(/"/g,'');
+      if(!checkIn.includes('/')) continue;
+      const [iD,iM,iY] = checkIn.split('/');
+      const [oD,oM,oY] = checkOut.split('/');
+      cachedRes.push({
+        ci: new Date(iY, iM-1, iD),
+        co: new Date(oY, oM-1, oD),
+        room
+      });
+    }
+    console.log('Loaded reservations:', cachedRes.length);
+  } catch(e) {
+    console.error('Fetch failed:', e);
+    cachedRes = [];
   }
 }
 
 function isBooked(date, type) {
+  if(!cachedRes) return false;
   const t = ROOM_TYPES[type];
   const booked = new Set();
   const d = new Date(date); d.setHours(0,0,0,0);
