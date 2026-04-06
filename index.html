@@ -1268,6 +1268,18 @@ async function openCalendar(type) {
 }
 document.getElementById('cal-close').onclick = ()=>{ document.getElementById('cal-modal').style.display='none'; };
 document.getElementById('cal-modal').onclick = (e)=>{ if(e.target.id==='cal-modal') e.target.style.display='none'; };
+
+document.getElementById('cal-body').addEventListener('click', function(e) {
+  const btn = e.target.closest('button');
+  if (!btn || (btn.id !== 'cp' && btn.id !== 'cn')) return;
+  e.stopPropagation();
+  if (btn.id === 'cp') {
+    calDate = new Date(calDate.getFullYear(), calDate.getMonth() - 1, 1);
+  } else {
+    calDate = new Date(calDate.getFullYear(), calDate.getMonth() + 1, 1);
+  }
+  renderCal();
+});
   
 </script>
   
