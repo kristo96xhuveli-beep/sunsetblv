@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -1251,30 +1252,23 @@ function renderCal() {
 }
 
 async function openCalendar(type) {
+  console.log('openCalendar called', type);
   calType = type;
   calDate = new Date();
   const modal = document.getElementById('cal-modal');
+  console.log('modal element:', modal);
   if(!modal){ console.error('Modal not found!'); return; }
   modal.style.display = 'flex';
+  document.body.appendChild(modal);
+  console.log('modal display set to flex');
   document.getElementById('cal-title').textContent = ROOM_TYPES[type].label;
   document.getElementById('cal-body').innerHTML = '<p style="text-align:center;padding:20px">Loading...</p>';
   await fetchRes();
+  console.log('calling renderCal, calType:', calType, 'calDate:', calDate);
   renderCal();
 }
 document.getElementById('cal-close').onclick = ()=>{ document.getElementById('cal-modal').style.display='none'; };
 document.getElementById('cal-modal').onclick = (e)=>{ if(e.target.id==='cal-modal') e.target.style.display='none'; };
-
-document.getElementById('cal-body').addEventListener('click', function(e) {
-  const btn = e.target.closest('button');
-  if (!btn || (btn.id !== 'cp' && btn.id !== 'cn')) return;
-  e.stopPropagation();
-  if (btn.id === 'cp') {
-    calDate = new Date(calDate.getFullYear(), calDate.getMonth() - 1, 1);
-  } else {
-    calDate = new Date(calDate.getFullYear(), calDate.getMonth() + 1, 1);
-  }
-  renderCal();
-});
   
 </script>
   
