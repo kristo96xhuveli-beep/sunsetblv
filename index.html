@@ -295,6 +295,29 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
     line-height:1.7;
     margin-bottom:20px;
   }
+.slider-btn{
+  position:absolute;
+  top:50%;
+  transform:translateY(-50%);
+  width:28px;
+  height:28px;
+  border-radius:50%;
+  background:rgba(255,255,255,0.85);
+  border:none;
+  cursor:pointer;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:13px;
+  color:#0b1f3a;
+  z-index:10;
+  opacity:0;
+  transition:opacity .2s;
+  box-shadow:0 1px 6px rgba(0,0,0,0.2);
+}
+  .room-card:hover .slider-btn{opacity:1;}
+  .slider-btn.prev{left:8px;}
+  .slider-btn.next{right:8px;}
 }
 </style>
 </head>
@@ -1071,6 +1094,52 @@ document.querySelectorAll("[data-edit-img]").forEach(img=>{
   }
 });
 
+document.querySelectorAll('.room-card').forEach(card => {
+  const slider = card.querySelector('.slider');
+  if(!slider) return;
+
+  const prev = document.createElement('button');
+  prev.className = 'slider-btn prev';
+  prev.innerHTML = '&#8249;';
+
+  const next = document.createElement('button');
+  next.className = 'slider-btn next';
+  next.innerHTML = '&#8250;';
+
+  card.appendChild(prev);
+  card.appendChild(next);
+
+  next.addEventListener('click', () => {
+    slider.scrollBy({left: slider.offsetWidth, behavior:'smooth'});
+  });
+  prev.addEventListener('click', () => {
+    slider.scrollBy({left: -slider.offsetWidth, behavior:'smooth'});
+  });
+});
+if(window.innerWidth >= 768){
+  document.querySelectorAll('.room-card').forEach(card => {
+    const slider = card.querySelector('.slider');
+    if(!slider) return;
+
+    const prev = document.createElement('button');
+    prev.className = 'slider-btn prev';
+    prev.innerHTML = '&#8249;';
+
+    const next = document.createElement('button');
+    next.className = 'slider-btn next';
+    next.innerHTML = '&#8250;';
+
+    card.appendChild(prev);
+    card.appendChild(next);
+
+    next.addEventListener('click', () => {
+      slider.scrollBy({left: slider.offsetWidth, behavior:'smooth'});
+    });
+    prev.addEventListener('click', () => {
+      slider.scrollBy({left: -slider.offsetWidth, behavior:'smooth'});
+    });
+  });
+}  
 </script>
 
 </body>
