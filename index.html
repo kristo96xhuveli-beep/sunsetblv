@@ -319,8 +319,24 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
   .slider-btn.prev{left:8px;}
   .slider-btn.next{left:calc(45% - 36px);}
 }
+#cal-modal.open{display:flex!important;}
+.cal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;font-size:15px;color:var(--text);}
+.cal-nav{background:none;border:1px solid var(--border);border-radius:50%;width:28px;height:28px;cursor:pointer;font-size:16px;color:var(--text);display:flex;align-items:center;justify-content:center;}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;}
+.cal-day-label{text-align:center;font-size:11px;color:var(--sub2);padding:4px 0;}
+.cal-cell{text-align:center;padding:7px 2px;border-radius:6px;font-size:13px;}
+.cal-cell.available{background:#e8f5e9;color:#2e7d32;cursor:default;}
+.cal-cell.booked{background:#ffebee;color:#c62828;cursor:default;}
+.cal-cell.past{color:var(--border);cursor:default;}
+.cal-cell.empty{background:none;}
+.cal-legend{display:flex;gap:16px;margin-top:14px;font-size:12px;color:var(--sub2);align-items:center;}
+.leg-avail,.leg-booked{display:inline-block;width:12px;height:12px;border-radius:3px;}
+.leg-avail{background:#e8f5e9;}
+.leg-booked{background:#ffebee;}
+
 </style>
 </head>
+
 <body>
 
 <audio id="bgMusic" src="./yes-boss.mp3" loop></audio>
@@ -540,7 +556,7 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
         <span class="tag">Best Design</span>
         <h3 data-edit="rooms-1-title">Deluxe Double Room</h3>
         <p data-edit="rooms-1-desc">Elegant double room with private balcony, sea views, air conditioning and en-suite bathroom.</p>
-        <a class="avail-btn" href="https://wa.me/35500000000" target="_blank">Check Availability</a>
+        <button class="avail-btn" onclick="openCalendar('deluxe')">Check Availability</button>
       </div>
     </div>
 
@@ -559,7 +575,7 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
         <span class="tag">Most Popular</span>
         <h3 data-edit="rooms-2-title">Simple Triple Room</h3>
         <p data-edit="rooms-2-desc">Comfortable triple room for families with air conditioning and private bathroom.</p>
-        <a class="avail-btn" href="https://wa.me/35500000000" target="_blank">Check Availability</a>
+        <button class="avail-btn" onclick="openCalendar('simple')">Check Availability</button>
       </div>
     </div>
 
@@ -570,7 +586,6 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
         <img src="room3b.jpg" data-edit-img="room-3-img-2">
         <img src="room3c.jpg" data-edit-img="room-3-img-3">
         <img src="room3d.jpg" data-edit-img="room-3-img-4">
-        <img src="room3e.jpg" data-edit-img="room-3-img-5">
       </div>
       <div class="dots" id="dots-3"></div>
 
@@ -578,7 +593,7 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
         <span class="tag">Best Value</span>
         <h3 data-edit="rooms-3-title">Standart Triple Room</h3>
         <p data-edit="rooms-3-desc">Cozy and comfortable triple room with all essentials, only 50 steps from the beach.</p>
-        <a class="avail-btn" href="https://wa.me/35500000000" target="_blank">Check Availability</a>
+        <button class="avail-btn" onclick="openCalendar('standard')">Check Availability</button>
       </div>
     </div>
 
@@ -956,6 +971,14 @@ document.getElementById('backBtn').addEventListener('click', function(){
 })();
 </script>
 
+<div id="cal-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:2000;align-items:center;justify-content:center;">
+  <div style="background:var(--bg);border-radius:16px;padding:28px;width:340px;max-width:90vw;position:relative;">
+    <button id="cal-close" style="position:absolute;top:14px;right:16px;background:none;border:none;font-size:22px;cursor:pointer;color:var(--text);">&#215;</button>
+    <h3 id="cal-title" style="margin:0 0 20px;font-size:18px;color:var(--text);"></h3>
+    <div id="cal-body"></div>
+  </div>
+</div>
+
 <script>
 // ✅ DEFINE ADMIN MODE
 const isEdit = new URLSearchParams(window.location.search).get("edit") === "true";
@@ -1140,7 +1163,93 @@ if(window.innerWidth >= 768){
     });
   });
 }  
-</script>
 
+const SHEET_URL = 'https://docs.google.com/spreadsheets/d/1NkjHRDt8QumpeANtfqiBVOSuF_eNfmbO/pub?output=csv';
+const ROOM_TYPES = {
+  deluxe:   { rooms:['H5','H6','H7','H8'], total:4, label:'Deluxe Double Room' },
+  simple:   { rooms:['H1','H2','H3','H4'], total:4, label:'Simple Triple Room' },
+  standard: { rooms:['Sh14'],              total:1, label:'Standard Triple Room' }
+};
+let cachedRes = null;
+let calType = null;
+let calDate = new Date();
+
+async function fetchRes() {
+  if(cachedRes) return;
+  const res = await fetch(SHEET_URL);
+  const text = await res.text();
+  const rows = text.split('\n').slice(1);
+  cachedRes = [];
+  for(const row of rows) {
+    const cols = row.split(',');
+    if(cols.length < 8) continue;
+    const checkIn = cols[1].trim();
+    const checkOut = cols[2].trim();
+    const room = cols[7].trim().replace(/"/g,'');
+    if(!checkIn.includes('/')) continue;
+    const [iD,iM,iY] = checkIn.split('/');
+    const [oD,oM,oY] = checkOut.split('/');
+    cachedRes.push({
+      ci: new Date(iY, iM-1, iD),
+      co: new Date(oY, oM-1, oD),
+      room
+    });
+  }
+}
+
+function isBooked(date, type) {
+  const t = ROOM_TYPES[type];
+  const booked = new Set();
+  const d = new Date(date); d.setHours(0,0,0,0);
+  for(const r of cachedRes) {
+    if(!t.rooms.includes(r.room)) continue;
+    const ci = new Date(r.ci); ci.setHours(0,0,0,0);
+    const co = new Date(r.co); co.setHours(0,0,0,0);
+    if(d >= ci && d < co) booked.add(r.room);
+  }
+  return booked.size >= t.total;
+}
+
+function renderCal() {
+  const y = calDate.getFullYear(), m = calDate.getMonth();
+  const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  const firstDay = new Date(y,m,1).getDay();
+  const days = new Date(y,m+1,0).getDate();
+  const today = new Date(); today.setHours(0,0,0,0);
+  let html = `<div class="cal-header">
+    <button class="cal-nav" id="cp">&#8249;</button>
+    <span>${months[m]} ${y}</span>
+    <button class="cal-nav" id="cn">&#8250;</button>
+  </div><div class="cal-grid">
+    <div class="cal-day-label">Su</div><div class="cal-day-label">Mo</div><div class="cal-day-label">Tu</div><div class="cal-day-label">We</div><div class="cal-day-label">Th</div><div class="cal-day-label">Fr</div><div class="cal-day-label">Sa</div>`;
+  for(let i=0;i<firstDay;i++) html+=`<div class="cal-cell empty"></div>`;
+  for(let d=1;d<=days;d++){
+    const date=new Date(y,m,d);
+    const past=date<today;
+    const cls=past?'past':isBooked(date,calType)?'booked':'available';
+    html+=`<div class="cal-cell ${cls}">${d}</div>`;
+  }
+  html+=`</div><div class="cal-legend"><span class="leg-avail"></span>Available <span class="leg-booked"></span>Booked</div>
+  <a href="https://wa.me/35500000000" target="_blank" class="avail-btn" style="display:block;text-align:center;margin-top:16px;">Book via WhatsApp</a>`;
+  document.getElementById('cal-body').innerHTML = html;
+  document.getElementById('cp').onclick = ()=>{ calDate=new Date(y,m-1,1); renderCal(); };
+  document.getElementById('cn').onclick = ()=>{ calDate=new Date(y,m+1,1); renderCal(); };
+}
+
+async function openCalendar(type) {
+  calType = type;
+  calDate = new Date();
+  const modal = document.getElementById('cal-modal');
+  modal.classList.add('open');
+  document.getElementById('cal-title').textContent = ROOM_TYPES[type].label;
+  document.getElementById('cal-body').innerHTML = '<p style="text-align:center;padding:20px">Loading...</p>';
+  await fetchRes();
+  renderCal();
+}
+document.getElementById('cal-close').onclick = ()=> document.getElementById('cal-modal').classList.remove('open');
+document.getElementById('cal-modal').onclick = (e)=>{ if(e.target.id==='cal-modal') document.getElementById('cal-modal').classList.remove('open'); };
+  
+</script>
+  
 </body>
 </html>
