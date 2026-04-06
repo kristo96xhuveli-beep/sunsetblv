@@ -1251,19 +1251,14 @@ function renderCal() {
 }
 
 async function openCalendar(type) {
-  console.log('openCalendar called', type);
   calType = type;
   calDate = new Date();
   const modal = document.getElementById('cal-modal');
-  console.log('modal element:', modal);
   if(!modal){ console.error('Modal not found!'); return; }
   modal.style.display = 'flex';
-  document.body.appendChild(modal);
-  console.log('modal display set to flex');
   document.getElementById('cal-title').textContent = ROOM_TYPES[type].label;
   document.getElementById('cal-body').innerHTML = '<p style="text-align:center;padding:20px">Loading...</p>';
   await fetchRes();
-  console.log('calling renderCal, calType:', calType, 'calDate:', calDate);
   renderCal();
 }
 document.getElementById('cal-close').onclick = ()=>{ document.getElementById('cal-modal').style.display='none'; };
