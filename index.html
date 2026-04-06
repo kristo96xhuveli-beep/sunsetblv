@@ -1251,9 +1251,8 @@ async function openCalendar(type) {
   console.log('modal element:', modal);
   if(!modal){ console.error('Modal not found!'); return; }
   modal.style.display = 'flex';
-  console.log('modal display set to flex');
-  document.getElementById('cal-close').addEventListener('click', ()=>{ document.getElementById('cal-modal').style.display='none'; });
-  document.getElementById('cal-modal').onclick = (e)=>{ if(e.target.id==='cal-modal') e.target.style.display='none'; };
+  document.getElementById('cal-close').onclick = ()=>{ modal.style.display='none'; };
+  modal.onclick = (e)=>{ if(e.target.id==='cal-modal') modal.style.display='none'; };
   document.getElementById('cal-title').textContent = ROOM_TYPES[type].label;
   document.getElementById('cal-body').innerHTML = '<p style="text-align:center;padding:20px">Loading...</p>';
   await fetchRes();
