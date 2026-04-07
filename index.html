@@ -156,11 +156,39 @@ body:not(.home-active) #info-mobile {
   
 }
 @media(max-width:767px){
-  .home-left,.home-right{display:none;}
-  .home-center .video-wrapper{padding:0 6px;}
-  .home-center .video-container{height:calc(100vh - 60px);}
-  .home-mobile-sections{display:block;}
-  .home-info-mobile{display:block;}
+
+  .home-desktop{
+    display:block;
+  }
+
+  /* 🔥 hide EVERYTHING except video */
+  .home-left,
+  .home-right{
+    display:none !important;
+  }
+
+  /* make center full width */
+  .home-center{
+    width:100%;
+  }
+
+  .home-center .video-wrapper{
+    padding:0;
+  }
+
+  .home-center .video-container{
+    height:60vh; /* 👈 better proportion (not full screen) */
+    border-radius:0;
+  }
+
+  /* mobile sections visible */
+  .home-mobile-sections{
+    display:block;
+  }
+
+  .home-info-mobile{
+    display:block;
+  }
 }
 
 /* DESKTOP SIDEBAR SECTIONS */
@@ -332,6 +360,19 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
 
 <!-- HOME -->
 <div class="page active" id="page-home">
+
+  <!-- ✅ VIDEO ALWAYS FIRST -->
+  <div class="home-center">
+    <div class="video-wrapper">
+      <div class="video-container">
+        <div class="video-overlay"></div>
+        <div class="reel-frame">
+          <div id="yt-player"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
   <div class="home-desktop">
 
     <!-- LEFT: Rooms, Food, Activities -->
@@ -463,21 +504,6 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
   </a>
 
 </div>
-
-    <div class="section" id="ourstory-anchor-mobile" style="text-align:center;cursor:default;">
-      <h2 data-edit="ourstory-title-mobile" data-en="Our Story" data-al="Historia Jonë" data-es="Nuestra Historia" data-de="Unsere Geschichte">
-  Our Story
-</h2>
-
-<p data-edit="ourstory-desc-mobile"
-   data-en="Learn about Sunset Boulevard Beach Hotel."
-   data-al="Mësoni rreth hotelit tonë."
-   data-es="Conoce el hotel."
-   data-de="Erfahren Sie mehr sobre el hotel.">
-  Learn about Sunset Boulevard Beach Hotel.
-</p>
-    </div>
-  </div>
 
 <!-- ROOMS -->
 <div class="page" id="page-rooms">
