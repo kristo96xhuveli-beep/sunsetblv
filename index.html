@@ -1174,6 +1174,9 @@ const cls = past ? 'past' : isClosed ? 'booked' : isBooked(date, calType) ? 'boo
     html+=`<div class="cal-cell ${cls}">${d}</div>`;
   }
   html+=`</div><div class="cal-legend"><span class="leg-avail"></span>Available <span class="leg-booked"></span>Booked</div>
+  <div style="text-align:center;font-size:11px;margin-top:8px;opacity:0.6;">
+  Select your dates and contact us to confirm availability
+</div>
   <a href="https://wa.me/35500000000" target="_blank" class="avail-btn" style="display:block;text-align:center;margin-top:16px;">Book via WhatsApp</a>`;
   document.getElementById('cal-body').innerHTML = html;
   console.log('cal-body innerHTML set, length:', document.getElementById('cal-body').innerHTML.length);
