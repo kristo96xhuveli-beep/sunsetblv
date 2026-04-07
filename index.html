@@ -253,6 +253,42 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
 .toggle-track:before{content:'';position:absolute;width:18px;height:18px;left:3px;top:3px;background:white;border-radius:50%;transition:transform .3s;}
 .toggle-switch input:checked + .toggle-track{background:#4a90d9;}
 .toggle-switch input:checked + .toggle-track:before{transform:translateX(20px);}
+.cal-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:10px;
+}
+
+.cal-grid{
+  display:grid;
+  grid-template-columns:repeat(7,1fr);
+  gap:4px;
+  font-size:12px;
+}
+
+.cal-cell{
+  padding:8px;
+  text-align:center;
+  border-radius:6px;
+}
+
+.cal-cell.available{background:#d4edda;}
+.cal-cell.booked{background:#f8d7da;}
+.cal-cell.past{opacity:0.3;}
+
+.cal-day-label{
+  font-weight:bold;
+  text-align:center;
+}
+
+.cal-nav{
+  background:none;
+  border:none;
+  font-size:18px;
+  cursor:pointer;
+}
+ 
 </style>
 </head>
 <body>
@@ -474,7 +510,9 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
         <span class="tag">Most Popular</span>
         <h3 data-edit="rooms-1-title">Deluxe Double Room</h3>
         <p data-edit="rooms-1-desc">Elegant double room with private balcony, sea views, air conditioning and en-suite bathroom.</p>
-        <a class="avail-btn" href="https://wa.me/35500000000" target="_blank">Check Availability</a>
+        <button class="avail-btn" onclick="openCalendar('deluxe')">
+  Check Availability
+</button>
       </div>
     </div>
 
@@ -492,7 +530,9 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
         <span class="tag">Great for Families</span>
         <h3 data-edit="rooms-2-title">Standard Triple Room</h3>
         <p data-edit="rooms-2-desc">Comfortable triple room for families with air conditioning and private bathroom.</p>
-        <a class="avail-btn" href="https://wa.me/35500000000" target="_blank">Check Availability</a>
+        <button class="avail-btn" onclick="openCalendar('standard')">
+  Check Availability
+</button>
       </div>
     </div>
 
@@ -510,7 +550,9 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
         <span class="tag">Best Value</span>
         <h3 data-edit="rooms-3-title">Simple Triple Room</h3>
         <p data-edit="rooms-3-desc">Cozy and affordable triple room with all essentials, steps from the beach.</p>
-        <a class="avail-btn" href="https://wa.me/35500000000" target="_blank">Check Availability</a>
+        <button class="avail-btn" onclick="openCalendar('simple')">
+  Check Availability
+</button>
       </div>
     </div>
 
@@ -1024,6 +1066,135 @@ document.querySelectorAll("[data-edit-img]").forEach(img=>{
   if(savedImages[img.dataset.editImg]){
     img.src = savedImages[img.dataset.editImg];
   }
+});
+</script>
+
+<!-- ✅ ADD MODAL HERE -->
+<div id="cal-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:9999;align-items:center;justify-content:center;">
+  <div style="background:white;color:black;width:90%;max-width:400px;border-radius:12px;padding:16px;position:relative;">
+    
+    <button id="cal-close">✕</button>
+    <h3 id="cal-title"></h3>
+    <div id="cal-body"></div>
+
+  </div>
+</div>
+
+<script>
+const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQPRzbnb676hKAt1KvwD1erZQjreHkXxLmzOVb7qG1mIzZ5en7N7FE6c548s-047g/pub?gid=1359682977&single=true&output=csv';
+const ROOM_TYPES = {
+  deluxe:   { rooms:['H5','H6','H7','H8'], total:4, label:'Deluxe Double Room' },
+  simple:   { rooms:['H1','H2','H3','H4'], total:4, label:'Simple Triple Room' },
+  standard: { rooms:['Sh14'],              total:1, label:'Standard Triple Room' }
+};
+let cachedRes = null;
+let calType = null;
+let calDate = new Date();
+
+async function fetchRes() {
+  if(cachedRes) return;
+  try {
+    const res = await fetch(SHEET_URL);
+    const text = await res.text();
+    const rows = text.split('\n').slice(1);
+    cachedRes = [];
+    for(const row of rows) {
+      const cols = row.split(',');
+      if(cols.length < 8) continue;
+      const checkIn = cols[1].trim();
+      const checkOut = cols[2].trim();
+      const room = cols[7].trim().replace(/"/g,'');
+      if(!checkIn.includes('/')) continue;
+      const [iD,iM,iY] = checkIn.split('/');
+      const [oD,oM,oY] = checkOut.split('/');
+      cachedRes.push({
+        ci: new Date(iY, iM-1, iD),
+        co: new Date(oY, oM-1, oD),
+        room
+      });
+    }
+    console.log('Loaded reservations:', cachedRes.length);
+  } catch(e) {
+    console.error('Fetch failed:', e);
+    cachedRes = [];
+  }
+}
+
+function isBooked(date, type) {
+  if(!cachedRes) return false;
+  const t = ROOM_TYPES[type];
+  const booked = new Set();
+  const d = new Date(date); d.setHours(0,0,0,0);
+  for(const r of cachedRes) {
+    if(!t.rooms.includes(r.room)) continue;
+    const ci = new Date(r.ci); ci.setHours(0,0,0,0);
+    const co = new Date(r.co); co.setHours(0,0,0,0);
+    if(d >= ci && d < co) booked.add(r.room);
+  }
+  return booked.size >= t.total;
+}
+
+function renderCal() {
+  try {
+    const y = calDate.getFullYear(), m = calDate.getMonth();
+  const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  const firstDay = new Date(y,m,1).getDay();
+  const days = new Date(y,m+1,0).getDate();
+  const today = new Date(); today.setHours(0,0,0,0);
+  let html = `<div class="cal-header">
+    <button class="cal-nav" id="cp">&#8249;</button>
+    <span>${months[m]} ${y}</span>
+    <button class="cal-nav" id="cn">&#8250;</button>
+  </div><div class="cal-grid">
+    <div class="cal-day-label">Su</div><div class="cal-day-label">Mo</div><div class="cal-day-label">Tu</div><div class="cal-day-label">We</div><div class="cal-day-label">Th</div><div class="cal-day-label">Fr</div><div class="cal-day-label">Sa</div>`;
+  for(let i=0;i<firstDay;i++) html+=`<div class="cal-cell empty"></div>`;
+  for(let d=1;d<=days;d++){
+    const date=new Date(y,m,d);
+    const past=date<today;
+    const closedMonths = [0, 1, 2, 3, 10, 11];
+const isClosed = closedMonths.includes(m);
+const cls = past ? 'past' : isClosed ? 'booked' : isBooked(date, calType) ? 'booked' : 'available';
+    html+=`<div class="cal-cell ${cls}">${d}</div>`;
+  }
+  html+=`</div><div class="cal-legend"><span class="leg-avail"></span>Available <span class="leg-booked"></span>Booked</div>
+  <a href="https://wa.me/35500000000" target="_blank" class="avail-btn" style="display:block;text-align:center;margin-top:16px;">Book via WhatsApp</a>`;
+  document.getElementById('cal-body').innerHTML = html;
+  console.log('cal-body innerHTML set, length:', document.getElementById('cal-body').innerHTML.length);
+  console.log('cal-title:', document.getElementById('cal-title').textContent); 
+ } 
+  catch(e) {
+    console.error('renderCal error:', e);
+  }
+}
+async function openCalendar(type) {
+  console.log('openCalendar called', type);
+  calType = type;
+  calDate = new Date();
+  const modal = document.getElementById('cal-modal');
+  console.log('modal element:', modal);
+  if(!modal){ console.error('Modal not found!'); return; }
+  modal.style.display = 'flex';
+  document.body.appendChild(modal);
+  console.log('modal display set to flex');
+  document.getElementById('cal-title').textContent = ROOM_TYPES[type].label;
+  document.getElementById('cal-body').innerHTML = '<p style="text-align:center;padding:20px">Loading...</p>';
+  await fetchRes();
+  console.log('calling renderCal, calType:', calType, 'calDate:', calDate);
+  renderCal();
+}
+document.getElementById('cal-close').onclick = ()=>{ document.getElementById('cal-modal').style.display='none'; };
+document.getElementById('cal-modal').onclick = (e)=>{ if(e.target.id==='cal-modal') e.target.style.display='none'; };
+
+document.getElementById('cal-body').addEventListener('click', function(e) {
+  const btn = e.target.closest('button');
+  if (!btn || (btn.id !== 'cp' && btn.id !== 'cn')) return;
+  e.stopPropagation();
+  if (btn.id === 'cp') {
+    calDate = new Date(calDate.getFullYear(), calDate.getMonth() - 1, 1);
+  } else {
+    calDate = new Date(calDate.getFullYear(), calDate.getMonth() + 1, 1);
+  }
+  renderCal();
 });
 
 </script>
