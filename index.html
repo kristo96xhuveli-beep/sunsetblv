@@ -852,13 +852,6 @@ document.getElementById('backBtn').addEventListener('click', function(){
   document.querySelectorAll('[data-page]').forEach(function(el) {
   el.addEventListener('click', function(e) {
 
-    // 🔥 STOP navigation when editing
-    if (window.editMode && !window.navigationEnabled) {
-      e.preventDefault();
-      e.stopImmediatePropagation();
-      return;
-    }
-
     e.preventDefault();
 
     var page = el.getAttribute('data-page');
@@ -879,6 +872,40 @@ document.getElementById('backBtn').addEventListener('click', function(){
 
   });
 });
+🧪 AFTER THIS
+
+Test again:
+👉 Click Rooms
+
+🎯 If STILL blank (last possible cause)
+
+Then it is 100% this:
+
+👉 Your pages exist but are hidden
+
+Add this TEMP test:
+
+Put this in console:
+
+document.getElementById('page-rooms').style.display = 'block'
+
+If it suddenly appears → CSS issue
+If not → ID mismatch
+
+💬 Reality check
+
+You had 3 issues:
+
+❌ Broken HTML → FIXED
+❌ CSS lock → FIXED
+❌ JS blocking navigation → THIS ONE
+🚀 Do this now
+
+Delete that block and tell me:
+
+👉 “still blank” or “works now”
+
+We’re one step away 👍
 
   document.getElementById('infoLink').addEventListener('click', function(e) {
   e.preventDefault();
