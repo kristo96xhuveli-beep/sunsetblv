@@ -133,7 +133,7 @@ body:not(.home-active) #info-mobile {
     flex-direction: row;
     min-height: unset;
   }
-  #page-food .hero, #page-activities .hero
+  #page-rooms .hero, #page-food .hero, #page-activities .hero {
     width: 45%;
     height: 100%;
     max-height: none;
@@ -147,48 +147,25 @@ body:not(.home-active) #info-mobile {
     box-sizing: border-box;
     padding: 30px;
   }
-  #page-food .card img, #page-activities .card img {
+  #page-rooms .card img, #page-food .card img, #page-activities .card img {
     width:28%;
   max-width:180px;
   aspect-ratio: 1/1;
   object-fit: cover;
   }
-  
+  #page-rooms .slider img {
+    width:40%;
+  max-width:180px;
+  aspect-ratio: 1/1;
+  object-fit: cover;
+  }
 }
 @media(max-width:767px){
-
-  .home-desktop{
-    display:block;
-  }
-
-  /* 🔥 hide EVERYTHING except video */
-  .home-left,
-  .home-right{
-    display:none !important;
-  }
-
-  /* make center full width */
-  .home-center{
-    width:100%;
-  }
-
-  .home-center .video-wrapper{
-    padding:0;
-  }
-
-  .home-center .video-container{
-    height:60vh; /* 👈 better proportion (not full screen) */
-    border-radius:0;
-  }
-
-  /* mobile sections visible */
-  .home-mobile-sections{
-    display:block;
-  }
-
-  .home-info-mobile{
-    display:block;
-  }
+  .home-left,.home-right{display:none;}
+  .home-center .video-wrapper{padding:0 6px;}
+  .home-center .video-container{height:calc(100vh - 60px);}
+  .home-mobile-sections{display:block;}
+  .home-info-mobile{display:block;}
 }
 
 /* DESKTOP SIDEBAR SECTIONS */
@@ -276,48 +253,6 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
 .toggle-track:before{content:'';position:absolute;width:18px;height:18px;left:3px;top:3px;background:white;border-radius:50%;transition:transform .3s;}
 .toggle-switch input:checked + .toggle-track{background:#4a90d9;}
 .toggle-switch input:checked + .toggle-track:before{transform:translateX(20px);}
-  @media(min-width:768px){
-  .room-card{
-    display:flex;
-    flex-direction:row;
-    align-items:center;
-    border-radius:14px;
-    overflow:hidden;
-    box-shadow:0 2px 12px var(--card-shadow);
-    margin-bottom:28px;
-  }
-  .room-card:nth-child(even){
-    flex-direction:row-reverse;
-  }
-  .room-card .slider{
-    width:45%;
-    flex-shrink:0;
-    overflow:hidden;
-    height:280px;
-  }
-  .room-card .slider img{
-    width:100%;
-    height:280px;
-    object-fit:cover;
-    flex:0 0 100%;
-  }
-  .room-card .dots{
-    display:none;
-  }
-  .room-card .rinfo{
-    flex:1;
-    padding:28px 32px;
-  }
-  .room-card .rinfo h3{
-    font-size:22px;
-    margin-bottom:10px;
-  }
-  .room-card .rinfo p{
-    font-size:14px;
-    line-height:1.7;
-    margin-bottom:20px;
-  }
-}
 </style>
 </head>
 <body>
@@ -360,19 +295,6 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
 
 <!-- HOME -->
 <div class="page active" id="page-home">
-
-  <!-- ✅ VIDEO ALWAYS FIRST -->
-  <div class="home-center">
-    <div class="video-wrapper">
-      <div class="video-container">
-        <div class="video-overlay"></div>
-        <div class="reel-frame">
-          <div id="yt-player"></div>
-        </div>
-      </div>
-    </div>
-  </div>
-  
   <div class="home-desktop">
 
     <!-- LEFT: Rooms, Food, Activities -->
@@ -384,7 +306,7 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
       <img src="room1.jpg" alt="Rooms">
       <div class="text">
         <h3>Rooms</h3>
-        <p id="rooms-desc" data-edit="rooms-desc">Discover Our Rooms</p>
+        <p id="rooms-desc" data-edit="rooms-desc">Discover our drinks and food</p>
       </div>
     </div>
   </a>
@@ -395,7 +317,7 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
       <img src="food1.jpg" alt="Food & Drinks">
       <div class="text">
         <h3>Food & Drinks</h3>
-        <p id="food-desc" data-edit="food-desc">Discover Our Drinks And Food</p>
+        <p id="food-desc" data-edit="food-desc">Discover our drinks and food</p>
       </div>
     </div>
   </a>
@@ -476,7 +398,7 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
       <img src="room1.jpg" alt="Rooms">
       <div class="text">
         <h2>Rooms <span class="section-arrow">&#8250;</span></h2>
-        <p id="rooms-desc">Explore Our Rooms.</p>
+        <p id="rooms-desc">Explore our beautiful rooms.</p>
       </div>
     </div>
   </a>
@@ -487,7 +409,7 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
       <img src="food1.jpg" alt="Food & Drinks">
       <div class="text">
         <h2>Food & Drinks <span class="section-arrow">&#8250;</span></h2>
-        <p id="food-desc">Discover Drinks and Food.</p>
+        <p id="food-desc">Discover cocktails and cuisine.</p>
       </div>
     </div>
   </a>
@@ -504,6 +426,21 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
   </a>
 
 </div>
+
+    <div class="section" id="ourstory-anchor-mobile" style="text-align:center;cursor:default;">
+      <h2 data-edit="ourstory-title-mobile" data-en="Our Story" data-al="Historia Jonë" data-es="Nuestra Historia" data-de="Unsere Geschichte">
+  Our Story
+</h2>
+
+<p data-edit="ourstory-desc-mobile"
+   data-en="Learn about Sunset Boulevard Beach Hotel."
+   data-al="Mësoni rreth hotelit tonë."
+   data-es="Conoce el hotel."
+   data-de="Erfahren Sie mehr sobre el hotel.">
+  Learn about Sunset Boulevard Beach Hotel.
+</p>
+    </div>
+  </div>
 
 <!-- ROOMS -->
 <div class="page" id="page-rooms">
@@ -534,7 +471,7 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
       <div class="dots" id="dots-1"></div>
 
       <div class="rinfo">
-        <span class="tag">Best Design</span>
+        <span class="tag">Most Popular</span>
         <h3 data-edit="rooms-1-title">Deluxe Double Room</h3>
         <p data-edit="rooms-1-desc">Elegant double room with private balcony, sea views, air conditioning and en-suite bathroom.</p>
         <a class="avail-btn" href="https://wa.me/35500000000" target="_blank">Check Availability</a>
@@ -548,13 +485,12 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
         <img src="room2b.jpg" data-edit-img="room-2-img-2">
         <img src="room2c.jpg" data-edit-img="room-2-img-3">
         <img src="room2d.jpg" data-edit-img="room-2-img-4">
-        <img src="room2e.jpg" data-edit-img="room-2-img-5">
       </div>
       <div class="dots" id="dots-2"></div>
 
       <div class="rinfo">
-        <span class="tag">Most Popular</span>
-        <h3 data-edit="rooms-2-title">Simple Triple Room</h3>
+        <span class="tag">Great for Families</span>
+        <h3 data-edit="rooms-2-title">Standard Triple Room</h3>
         <p data-edit="rooms-2-desc">Comfortable triple room for families with air conditioning and private bathroom.</p>
         <a class="avail-btn" href="https://wa.me/35500000000" target="_blank">Check Availability</a>
       </div>
@@ -567,14 +503,13 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
         <img src="room3b.jpg" data-edit-img="room-3-img-2">
         <img src="room3c.jpg" data-edit-img="room-3-img-3">
         <img src="room3d.jpg" data-edit-img="room-3-img-4">
-        <img src="room3e.jpg" data-edit-img="room-3-img-5">
       </div>
       <div class="dots" id="dots-3"></div>
 
       <div class="rinfo">
         <span class="tag">Best Value</span>
-        <h3 data-edit="rooms-3-title">Standart Triple Room</h3>
-        <p data-edit="rooms-3-desc">Cozy and comfortable triple room with all essentials, only 50 steps from the beach.</p>
+        <h3 data-edit="rooms-3-title">Simple Triple Room</h3>
+        <p data-edit="rooms-3-desc">Cozy and affordable triple room with all essentials, steps from the beach.</p>
         <a class="avail-btn" href="https://wa.me/35500000000" target="_blank">Check Availability</a>
       </div>
     </div>
@@ -587,7 +522,7 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
   
   <div class="content">
     
-   <h2 data-edit="food-&-drinks-title" data-en="Taste the Riviera" data-al="Shijoni Rivierën" data-es="Saborea la Riviera" data-de="Schmecken Sie die Riviera">
+   <h2 data-edit="food-&-drinks-title" data-en="data-en="Taste the Riviera" data-al="Shijoni Rivierën" data-es="Saborea la Riviera" data-de="Schmecken Sie die Riviera">
       Taste the Riviera
     </h2>
 
@@ -597,6 +532,26 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
        data-de="Von frischen Meeresfrüchten bis zu handgemachten Cocktails feiern wir die Aromen der albanischen Küste.">
       From fresh seafood to handcrafted cocktails, our menu celebrates the flavours of the Albanian coast.
     </p>
+
+    <!-- STARTERS -->
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800" alt="Starters">
+      <div class="cinfo">
+        <span class="tag">Starters</span>
+        <h3 data-edit="food-&-drinks-1-title">Fresh Starters</h3>
+        <p data-edit="food-&-drinks-1-desc">Bruschetta, Greek salad, or crispy calamari with lemon aioli.</p>
+      </div>
+    </div>
+
+    <!-- MAINS -->
+    <div class="card">
+      <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=800" alt="Mains">
+      <div class="cinfo">
+        <span class="tag">Main Dishes</span>
+        <h3 data-edit="food-&-drinks-2-title">Grills & Mains</h3>
+        <p data-edit="food-&-drinks-2-desc">Grilled sea bass, BBQ platters, or pasta arrabiata — prepared fresh daily.</p>
+      </div>
+    </div>
 
     <!-- COCKTAILS -->
     <div class="card">
@@ -613,8 +568,8 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
       <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800" alt="Drinks">
       <div class="cinfo">
         <span class="tag">Drinks</span>
-        <h3 data-edit="food-&-drinks-4-title">Coffees & Soft Drinks</h3>
-        <p data-edit="food-&-drinks-4-desc">Espresso, Cappuccino, Freddo Espresso/Cappuchino, Homemade Lemonade, Orange Juice etc.</p>
+        <h3 data-edit="food-&-drinks-4-title>Coffees & Soft Drinks</h3>
+        <p data-edit="food-&-drinks-4-desc">Espresso, cappuccino, fresh lemonade, orange juice or smoothies.</p>
       </div>
     </div>
 
@@ -635,7 +590,7 @@ data-en="Qeparo is one of Albania's hidden gems — a charming village above a p
        data-al="Qeparo është një nga perlat e fshehura të Shqipërisë — një fshat i bukur mbi një plazh të pastër."
        data-es="Qeparo es una de las joyas escondidas de Albania — un pueblo encantador sobre una playa prístina."
        data-de="Qeparo ist eines der verborgenen Juwelen Albaniens — ein charmantes Dorf über einem unberührten Strand.">
-      Qeparo is one of Albania's hidden gems, a charming village above a sea with crystal-clear water.
+      Qeparo is one of Albania's hidden gems — a charming village above a pristine beach with crystal-clear water.
     </p>
 
     <!-- BEACH -->
@@ -643,9 +598,8 @@ data-en="Qeparo is one of Albania's hidden gems — a charming village above a p
       <img src="https://images.unsplash.com/photo-1530866495561-507c9faab2ed?w=800" alt="Swimming">
       <div class="cinfo">
         <span class="tag">Beach</span>
-        <h3 data-edit="activity-1-title">Swimming & Canoeing</h3>
-        <p data-edit="activity-1-desc">The waters off Qeparo are among the clearest on the Riviera, a paradise for swimmers looking to escape the crowds and dive into untouched, crystal-blue waters of Ionian Sea.
-          Canoeing or paddling gear available for those who want to explore the shore around.</p>
+        <h3 data-edit="activity-1-title">Swimming & Snorkelling</h3>
+        <p data-edit="activity-1-desc">The waters off Qeparo are among the clearest on the Riviera. Snorkel gear available.</p>
       </div>
     </div>
 
@@ -655,7 +609,7 @@ data-en="Qeparo is one of Albania's hidden gems — a charming village above a p
       <div class="cinfo">
         <span class="tag">Water</span>
         <h3 data-edit="activity-2-title">Boat Trips</h3>
-        <p data-edit="activity-2-desc">Guided boat excursions visiting hidden sea caves and remote beaches alongside the coast of the south.</p>
+        <p data-edit="activity-2-desc">Guided boat excursions visiting hidden sea caves and remote beaches.</p>
       </div>
     </div>
 
@@ -665,26 +619,7 @@ data-en="Qeparo is one of Albania's hidden gems — a charming village above a p
       <div class="cinfo">
         <span class="tag">Land</span>
         <h3 data-edit="activity-3-title">Village Hiking</h3>
-        <p data-edit="activity-3-desc">Trek up to the mountains around the old village of Qeparo with panoramic views over the bay, </p>
-      </div>
-    </div>
-  
-   <!-- HIKING -->
-    <div class="card">
-      <img src="https://images.unsplash.com/photo-1551632811-561732d1e306?w=800" alt="Hiking">
-      <div class="cinfo">
-        <span class="tag">Culture</span>
-        <h3 data-edit="activity-3-title">Visit Around</h3>
-        <p data-edit="activity-3-desc">Old Village of Qeparo
-Perched about 400 metres above the Ionian Sea, the old village core of Upper Qeparo was constructed approximately 1,000 years ago, around 1025 AD, during the late Byzantine period. The village is first mentioned by name in a 1566 letter from the people of Himara seeking refuge from the Ottoman Empire with the Kingdom of Naples. After the fall of communism, most families emigrated, leaving their ancestral homes behind — many of these ancient stone buildings are now in a state of disrepair, giving Qeparo a melancholic sense of faded beauty. Wander-Lush
-St. Dimitri's Church, Qeparo
-The Church of St. Demetrius is a white, renovated church dedicated to Saint Demetrius, located in Lower Qeparo. It is one of several historic Orthodox churches in the area that reflect the region's deep-rooted Christian traditions, built primarily in the post-Byzantine style, showcasing frescoes and stone masonry that have endured for centuries.
-Porto Palermo Castle
-Porto Palermo Castle was built in 1804 by Ali Pasha of Tepelena, with the help of French military engineers. Even after the Ottoman period, the castle continued to be used, it was occupied by the Italians during World War Two, and later served as part of a submarine base during Albania's communist regime. In 1948 it was declared a Cultural Monument and today serves as a museum.
-Ruins of Borsh Castle
-Also known as Sopot Castle, the first habitation at Borsh Castle dates back to the 4th century BC, the time of the Epirote tribe of the Chaonians. Visit Saranda The earliest written documentation dates to the early 13th century, when Archbishop Demetrios Chomatenos wrote about the "archonship of Sopotos". Visit Saranda The castle changed hands many times — from the Venetians to the Ottomans — and was probably abandoned in the early 20th century.
-Village of Old Himara
-The cultural monument dates back 3,500 years, when the Greek tribe of the Chaonians inhabited the area. The settlement became fortified from the 8th century BC and was first mentioned in writing by the Roman author Pliny in the first century. The castle was inhabited until the 16th century, when it started to be abandoned in favour of the area downhill near the Port of Himara. Among the ruins are historic churches, including the Church of Saint Sergios and Bakchos, dating to the 11th century, and Saint Michael, dating to the 13th century.</p>
+        <p data-edit="activity-3-desc">Trek up to the old village of Qeparo with panoramic views over the bay.</p>
       </div>
     </div>
 
