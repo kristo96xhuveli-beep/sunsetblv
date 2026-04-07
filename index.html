@@ -116,8 +116,6 @@ body:not(.home-active) #info-mobile {
   .home-center{height:100%;}
   .home-center .video-wrapper{padding:0;height:100%;box-sizing:border-box;background:var(--bg);display:flex;align-items:center;justify-content:center;}
   .home-center .video-container{width:100%;height:100%;border-radius:16px;background:var(--bg);}
-  .home-mobile-sections{display:none;}
-  .home-info-mobile{display:none;}
   /* Inner pages: no scroll, two-column layout */
   #page-rooms.active, #page-food.active, #page-activities.active {
     height: calc(100vh - 60px);
@@ -150,18 +148,23 @@ body:not(.home-active) #info-mobile {
 }
 @media(max-width:767px){
 
-  /* ❌ Hide ONLY desktop SIDE columns */
+  /* ❌ hide desktop side columns */
   .home-left,
   .home-right {
     display: none !important;
   }
 
-  /* ✅ Keep video visible */
+  /* ✅ keep ONLY video from desktop */
   .home-center {
     display: block !important;
   }
 
-  /* ✅ Show mobile sections */
+  /* 🚨 IMPORTANT: stop desktop layout behavior */
+  .home-desktop {
+    display: block !important;
+  }
+
+  /* ✅ show mobile sections ONCE */
   .home-mobile-sections,
   #ourstory-anchor-mobile,
   #info-mobile {
@@ -1287,7 +1290,37 @@ document.getElementById('cal-body').addEventListener('click', function(e) {
   }
   renderCal();
 });
-  
+
+<script>
+function handleLayout() {
+  const isMobile = window.innerWidth < 768;
+
+  const desktop = document.querySelector('.home-desktop');
+  const mobileSections = document.querySelector('.home-mobile-sections');
+  const mobileStory = document.getElementById('ourstory-anchor-mobile');
+  const mobileInfo = document.getElementById('info-mobile');
+
+  if (isMobile) {
+    if (desktop) desktop.style.display = 'block'; // keep video
+    document.querySelectorAll('.home-left, .home-right').forEach(el => el.style.display = 'none');
+
+    if (mobileSections) mobileSections.style.display = 'block';
+    if (mobileStory) mobileStory.style.display = 'block';
+    if (mobileInfo) mobileInfo.style.display = 'block';
+
+  } else {
+    if (desktop) desktop.style.display = 'grid';
+    document.querySelectorAll('.home-left, .home-right').forEach(el => el.style.display = '');
+
+    if (mobileSections) mobileSections.style.display = 'none';
+    if (mobileStory) mobileStory.style.display = 'none';
+    if (mobileInfo) mobileInfo.style.display = 'none';
+  }
+}
+
+window.addEventListener('load', handleLayout);
+window.addEventListener('resize', handleLayout);
+</script>
 </script>
   
 </body>
