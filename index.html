@@ -35,13 +35,19 @@ header{position:fixed;top:0;left:0;width:100%;height:50px;background:var(--heade
 @media(max-width:767px){#yt-player{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:177.78vh;min-width:100%;height:100vh;min-height:56.25vw;border:none;pointer-events:none;}}
 #yt-player{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:177.78vh;min-width:100%;height:100vh;min-height:56.25vw;border:none;pointer-events:none;}
 /* Hide mobile info on all pages except home */
-#info-mobile {
+.page:not(.active) #info-mobile {
+  display: none;
+}
+
+#page-home.active ~ #info-mobile {
   display: block;
 }
+
 /* safer override */
 body:not(.home-active) #info-mobile {
   display: none;
 }
+
 /* Hide mobile-only blocks on desktop */
 @media(min-width:768px){
   #ourstory-anchor-mobile,
@@ -49,6 +55,7 @@ body:not(.home-active) #info-mobile {
     display: none !important;
   }
 }
+
 /* Prevent scroll ONLY on desktop home */
 @media(min-width:768px){
   #page-home.active {
@@ -116,6 +123,8 @@ body:not(.home-active) #info-mobile {
   .home-center{height:100%;}
   .home-center .video-wrapper{padding:0;height:100%;box-sizing:border-box;background:var(--bg);display:flex;align-items:center;justify-content:center;}
   .home-center .video-container{width:100%;height:100%;border-radius:16px;background:var(--bg);}
+  .home-mobile-sections{display:none;}
+  .home-info-mobile{display:none;}
   /* Inner pages: no scroll, two-column layout */
   #page-rooms.active, #page-food.active, #page-activities.active {
     height: calc(100vh - 60px);
@@ -147,30 +156,11 @@ body:not(.home-active) #info-mobile {
   
 }
 @media(max-width:767px){
-
-  /* ❌ hide desktop side columns */
-  .home-left,
-  .home-right {
-    display: none !important;
-  }
-
-  /* ✅ keep ONLY video from desktop */
-  .home-center {
-    display: block !important;
-  }
-
-  /* 🚨 IMPORTANT: stop desktop layout behavior */
-  .home-desktop {
-    display: block !important;
-  }
-
-  /* ✅ show mobile sections ONCE */
-  .home-mobile-sections,
-  #ourstory-anchor-mobile,
-  #info-mobile {
-    display: block !important;
-  }
-
+  .home-left,.home-right{display:none;}
+  .home-center .video-wrapper{padding:0 6px;}
+  .home-center .video-container{height:calc(100vh - 60px);}
+  .home-mobile-sections{display:block;}
+  .home-info-mobile{display:block;}
 }
 
 /* DESKTOP SIDEBAR SECTIONS */
@@ -260,7 +250,6 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
 .toggle-switch input:checked + .toggle-track:before{transform:translateX(20px);}
   @media(min-width:768px){
   .room-card{
-    position:relative;
     display:flex;
     flex-direction:row;
     align-items:center;
@@ -274,23 +263,18 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
   }
   .room-card .slider{
     width:45%;
-  flex-shrink:0;
-  overflow-x:auto;
-  height:500px;
+    flex-shrink:0;
+    overflow:hidden;
+    height:280px;
   }
   .room-card .slider img{
     width:100%;
-  height:500px;
-  object-fit:contain;
-  flex:0 0 100%;
+    height:280px;
+    object-fit:cover;
+    flex:0 0 100%;
   }
   .room-card .dots{
-    display:flex;
-  position:absolute;
-  bottom:8px;
-  left:0;
-  width:45%;
-  justify-content:center;
+    display:none;
   }
   .room-card .rinfo{
     flex:1;
@@ -305,50 +289,9 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
     line-height:1.7;
     margin-bottom:20px;
   }
-.slider-btn{
-  position:absolute;
-  top:50%;
-  transform:translateY(-50%);
-  width:28px;
-  height:28px;
-  border-radius:50%;
-  background:rgba(255,255,255,0.85);
-  border:none;
-  cursor:pointer;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-size:13px;
-  color:#0b1f3a;
-  z-index:10;
-  opacity:0;
-  transition:opacity .2s;
-  box-shadow:0 1px 6px rgba(0,0,0,0.2);
-}
-  .room-card:hover .slider-btn{opacity:1;}
-  .slider-btn.prev{left:8px;}
-  .slider-btn.next{left:calc(45% - 36px);}
-}
-#cal-modal.open{display:flex!important;}
-.cal-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;font-size:15px;color:var(--text);}
-.cal-nav{background:none;border:1px solid var(--border);border-radius:50%;width:28px;height:28px;cursor:pointer;font-size:16px;color:var(--text);display:flex;align-items:center;justify-content:center;}
-.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;}
-.cal-day-label{text-align:center;font-size:11px;color:var(--sub2);padding:4px 0;}
-.cal-cell{text-align:center;padding:7px 2px;border-radius:6px;font-size:13px;}
-.cal-cell.available{background:#e8f5e9;color:#2e7d32;cursor:default;}
-.cal-cell.booked{background:#ffebee;color:#c62828;cursor:default;}
-.cal-cell.past{color:var(--border);cursor:default;}
-.cal-cell.empty{background:none;}
-.cal-legend{display:flex;gap:16px;margin-top:14px;font-size:12px;color:var(--sub2);align-items:center;}
-.leg-avail,.leg-booked{display:inline-block;width:12px;height:12px;border-radius:3px;}
-.leg-avail{background:#e8f5e9;}
-.leg-booked{background:#ffebee;}
-#cal-modal.open, #cal-modal[style*="flex"]{
-  display:flex !important;
 }
 </style>
 </head>
-
 <body>
 
 <audio id="bgMusic" src="./yes-boss.mp3" loop></audio>
@@ -389,19 +332,6 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
 
 <!-- HOME -->
 <div class="page active" id="page-home">
- <!-- VIDEO (VISIBLE ON ALL DEVICES) -->
-    <div class="home-center">
-      <div class="video-wrapper">
-        <div class="video-container">
-          <div class="video-overlay"></div>
-          <div class="reel-frame">
-            <div id="yt-player"></div>
-          </div>
-          <div class="video-side-cover video-side-left"></div>
-          <div class="video-side-cover video-side-right"></div>
-        </div>
-      </div>
-    </div>
   <div class="home-desktop">
 
     <!-- LEFT: Rooms, Food, Activities -->
@@ -441,6 +371,20 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
   </a>
 
 </div>
+
+    <!-- CENTER: Video -->
+    <div class="home-center">
+      <div class="video-wrapper">
+        <div class="video-container">
+          <div class="video-overlay"></div>
+          <div class="reel-frame">
+            <div id="yt-player"></div>
+          </div>
+          <div class="video-side-cover video-side-left"></div>
+          <div class="video-side-cover video-side-right"></div>
+        </div>
+      </div>
+    </div>
 
     <!-- RIGHT: Our Story on top, Info with blue bg at 1/3 down -->
     <div class="home-right" style="flex-direction:column;">
@@ -520,21 +464,7 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
 
 </div>
 
-  <!-- OUR STORY -->
-  <div class="section" style="text-align:center;">
-    <h2>Our Story</h2>
-    <p>Learn about Sunset Boulevard Beach Hotel.</p>
-  </div>
-
-  <!-- INFO -->
-  <div class="info-footer">
-    <p><strong>Info</strong></p>
-    <p>WhatsApp: +355 XX XXX XXXX</p>
-    <p>Email: info@sunsetblvd3.com</p>
-    <p>Location: Qeparo, Vlorë, Albania</p>
-  </div>
-
-</div><div class="section" id="ourstory-anchor-mobile" style="text-align:center;cursor:default;">
+    <div class="section" id="ourstory-anchor-mobile" style="text-align:center;cursor:default;">
       <h2 data-edit="ourstory-title-mobile" data-en="Our Story" data-al="Historia Jonë" data-es="Nuestra Historia" data-de="Unsere Geschichte">
   Our Story
 </h2>
@@ -581,7 +511,7 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
         <span class="tag">Best Design</span>
         <h3 data-edit="rooms-1-title">Deluxe Double Room</h3>
         <p data-edit="rooms-1-desc">Elegant double room with private balcony, sea views, air conditioning and en-suite bathroom.</p>
-        <button class="avail-btn" onclick="openCalendar('deluxe')">Check Availability</button>
+        <a class="avail-btn" href="https://wa.me/35500000000" target="_blank">Check Availability</a>
       </div>
     </div>
 
@@ -600,7 +530,7 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
         <span class="tag">Most Popular</span>
         <h3 data-edit="rooms-2-title">Simple Triple Room</h3>
         <p data-edit="rooms-2-desc">Comfortable triple room for families with air conditioning and private bathroom.</p>
-        <button class="avail-btn" onclick="openCalendar('simple')">Check Availability</button>
+        <a class="avail-btn" href="https://wa.me/35500000000" target="_blank">Check Availability</a>
       </div>
     </div>
 
@@ -611,6 +541,7 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
         <img src="room3b.jpg" data-edit-img="room-3-img-2">
         <img src="room3c.jpg" data-edit-img="room-3-img-3">
         <img src="room3d.jpg" data-edit-img="room-3-img-4">
+        <img src="room3e.jpg" data-edit-img="room-3-img-5">
       </div>
       <div class="dots" id="dots-3"></div>
 
@@ -618,7 +549,7 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
         <span class="tag">Best Value</span>
         <h3 data-edit="rooms-3-title">Standart Triple Room</h3>
         <p data-edit="rooms-3-desc">Cozy and comfortable triple room with all essentials, only 50 steps from the beach.</p>
-        <button class="avail-btn" onclick="openCalendar('standard')">Check Availability</button>
+        <a class="avail-btn" href="https://wa.me/35500000000" target="_blank">Check Availability</a>
       </div>
     </div>
 
@@ -743,7 +674,55 @@ The cultural monument dates back 3,500 years, when the Greek tribe of the Chaoni
   </div>
 </div>
 
-</div>
+  <!-- MOBILE: Info footer -->
+<div class="info-footer home-info-mobile" id="info-mobile">
+  <p data-edit="info-title-mobile" style="margin:0 0 8px;font-size:16px;font-weight:bold;">
+  Info
+</p>
+
+<p data-edit="info-whatsapp-mobile">
+  WhatsApp: +355 XX XXX XXXX
+</p>
+
+<p data-edit="info-email-mobile">
+  Email: info@sunsetblvd3.com
+</p>
+
+<p data-edit="info-location-mobile">
+  Location: Qeparo, Vlorë, Albania
+</p>
+
+<div style="display:flex;justify-content:center;gap:28px;margin-top:22px;">
+
+  <!-- MAPS -->
+  <a href="https://maps.app.goo.gl/nJMC9Ebtgd8oft4K8" target="_blank"
+     style="color:white;text-decoration:none;display:flex;flex-direction:column;align-items:center;gap:6px;font-size:11px;">
+    <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="white">
+      <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/>
+    </svg>
+    Maps
+  </a>
+
+  <!-- INSTAGRAM -->
+  <a href="https://www.instagram.com/sunset.boulevard.cocktailbar" target="_blank"
+     style="color:white;text-decoration:none;display:flex;flex-direction:column;align-items:center;gap:6px;font-size:11px;">
+    <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8">
+      <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+      <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+    </svg>
+    Instagram
+  </a>
+
+  <!-- FACEBOOK -->
+  <a href="https://www.facebook.com/share/1G3LhkB6gP/" target="_blank"
+     style="color:white;text-decoration:none;display:flex;flex-direction:column;align-items:center;gap:6px;font-size:11px;">
+    <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8">
+      <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+    </svg>
+    Facebook
+  </a>
+
 </div>
 
 <script>
@@ -948,14 +927,6 @@ document.getElementById('backBtn').addEventListener('click', function(){
 })();
 </script>
 
-<div id="cal-modal" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.5);z-index:99999;align-items:center;justify-content:center;">
-  <div style="background:var(--bg);border-radius:16px;padding:28px;width:340px;max-width:90vw;position:relative;">
-    <button id="cal-close" style="position:absolute;top:14px;right:16px;background:none;border:none;font-size:22px;cursor:pointer;color:var(--text);">&#215;</button>
-    <h3 id="cal-title" style="margin:0 0 20px;font-size:18px;color:var(--text);"></h3>
-    <div id="cal-body"></div>
-  </div>
-</div>
-
 <script>
 // ✅ DEFINE ADMIN MODE
 const isEdit = new URLSearchParams(window.location.search).get("edit") === "true";
@@ -1094,200 +1065,7 @@ document.querySelectorAll("[data-edit-img]").forEach(img=>{
   }
 });
 
-document.querySelectorAll('.room-card').forEach(card => {
-  const slider = card.querySelector('.slider');
-  if(!slider) return;
-
-  const prev = document.createElement('button');
-  prev.className = 'slider-btn prev';
-  prev.innerHTML = '&#8249;';
-
-  const next = document.createElement('button');
-  next.className = 'slider-btn next';
-  next.innerHTML = '&#8250;';
-
-  card.appendChild(prev);
-  card.appendChild(next);
-
-  next.addEventListener('click', () => {
-    slider.scrollBy({left: slider.offsetWidth, behavior:'smooth'});
-  });
-  prev.addEventListener('click', () => {
-    slider.scrollBy({left: -slider.offsetWidth, behavior:'smooth'});
-  });
-});
-if(window.innerWidth >= 768){
-  document.querySelectorAll('.room-card').forEach(card => {
-    const slider = card.querySelector('.slider');
-    if(!slider) return;
-
-    const prev = document.createElement('button');
-    prev.className = 'slider-btn prev';
-    prev.innerHTML = '&#8249;';
-
-    const next = document.createElement('button');
-    next.className = 'slider-btn next';
-    next.innerHTML = '&#8250;';
-
-    card.appendChild(prev);
-    card.appendChild(next);
-
-    next.addEventListener('click', () => {
-      slider.scrollBy({left: slider.offsetWidth, behavior:'smooth'});
-    });
-    prev.addEventListener('click', () => {
-      slider.scrollBy({left: -slider.offsetWidth, behavior:'smooth'});
-    });
-  });
-}  
-
-const SHEET_URL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQPRzbnb676hKAt1KvwD1erZQjreHkXxLmzOVb7qG1mIzZ5en7N7FE6c548s-047g/pub?gid=1359682977&single=true&output=csv';
-const ROOM_TYPES = {
-  deluxe:   { rooms:['H5','H6','H7','H8'], total:4, label:'Deluxe Double Room' },
-  simple:   { rooms:['H1','H2','H3','H4'], total:4, label:'Simple Triple Room' },
-  standard: { rooms:['Sh14'],              total:1, label:'Standard Triple Room' }
-};
-let cachedRes = null;
-let calType = null;
-let calDate = new Date();
-
-async function fetchRes() {
-  if(cachedRes) return;
-  try {
-    const res = await fetch(SHEET_URL);
-    const text = await res.text();
-    const rows = text.split('\n').slice(1);
-    cachedRes = [];
-    for(const row of rows) {
-      const cols = row.split(',');
-      if(cols.length < 8) continue;
-      const checkIn = cols[1].trim();
-      const checkOut = cols[2].trim();
-      const room = cols[7].trim().replace(/"/g,'');
-      if(!checkIn.includes('/')) continue;
-      const [iD,iM,iY] = checkIn.split('/');
-      const [oD,oM,oY] = checkOut.split('/');
-      cachedRes.push({
-        ci: new Date(iY, iM-1, iD),
-        co: new Date(oY, oM-1, oD),
-        room
-      });
-    }
-    console.log('Loaded reservations:', cachedRes.length);
-  } catch(e) {
-    console.error('Fetch failed:', e);
-    cachedRes = [];
-  }
-}
-
-function isBooked(date, type) {
-  if(!cachedRes) return false;
-  const t = ROOM_TYPES[type];
-  const booked = new Set();
-  const d = new Date(date); d.setHours(0,0,0,0);
-  for(const r of cachedRes) {
-    if(!t.rooms.includes(r.room)) continue;
-    const ci = new Date(r.ci); ci.setHours(0,0,0,0);
-    const co = new Date(r.co); co.setHours(0,0,0,0);
-    if(d >= ci && d < co) booked.add(r.room);
-  }
-  return booked.size >= t.total;
-}
-
-function renderCal() {
-  try {
-    const y = calDate.getFullYear(), m = calDate.getMonth();
-  const months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-  const firstDay = new Date(y,m,1).getDay();
-  const days = new Date(y,m+1,0).getDate();
-  const today = new Date(); today.setHours(0,0,0,0);
-  let html = `<div class="cal-header">
-    <button class="cal-nav" id="cp">&#8249;</button>
-    <span>${months[m]} ${y}</span>
-    <button class="cal-nav" id="cn">&#8250;</button>
-  </div><div class="cal-grid">
-    <div class="cal-day-label">Su</div><div class="cal-day-label">Mo</div><div class="cal-day-label">Tu</div><div class="cal-day-label">We</div><div class="cal-day-label">Th</div><div class="cal-day-label">Fr</div><div class="cal-day-label">Sa</div>`;
-  for(let i=0;i<firstDay;i++) html+=`<div class="cal-cell empty"></div>`;
-  for(let d=1;d<=days;d++){
-    const date=new Date(y,m,d);
-    const past=date<today;
-    const closedMonths = [0, 1, 2, 3, 10, 11];
-const isClosed = closedMonths.includes(m);
-const cls = past ? 'past' : isClosed ? 'booked' : isBooked(date, calType) ? 'booked' : 'available';
-    html+=`<div class="cal-cell ${cls}">${d}</div>`;
-  }
-  html+=`</div><div class="cal-legend"><span class="leg-avail"></span>Available <span class="leg-booked"></span>Booked</div>
-  <a href="https://wa.me/35500000000" target="_blank" class="avail-btn" style="display:block;text-align:center;margin-top:16px;">Book via WhatsApp</a>`;
-  document.getElementById('cal-body').innerHTML = html;
-  console.log('cal-body innerHTML set, length:', document.getElementById('cal-body').innerHTML.length);
-  console.log('cal-title:', document.getElementById('cal-title').textContent); 
- } 
-  catch(e) {
-    console.error('renderCal error:', e);
-  }
-}
-async function openCalendar(type) {
-  console.log('openCalendar called', type);
-  calType = type;
-  calDate = new Date();
-  const modal = document.getElementById('cal-modal');
-  console.log('modal element:', modal);
-  if(!modal){ console.error('Modal not found!'); return; }
-  modal.style.display = 'flex';
-  document.body.appendChild(modal);
-  console.log('modal display set to flex');
-  document.getElementById('cal-title').textContent = ROOM_TYPES[type].label;
-  document.getElementById('cal-body').innerHTML = '<p style="text-align:center;padding:20px">Loading...</p>';
-  await fetchRes();
-  console.log('calling renderCal, calType:', calType, 'calDate:', calDate);
-  renderCal();
-}
-document.getElementById('cal-close').onclick = ()=>{ document.getElementById('cal-modal').style.display='none'; };
-document.getElementById('cal-modal').onclick = (e)=>{ if(e.target.id==='cal-modal') e.target.style.display='none'; };
-
-document.getElementById('cal-body').addEventListener('click', function(e) {
-  const btn = e.target.closest('button');
-  if (!btn || (btn.id !== 'cp' && btn.id !== 'cn')) return;
-  e.stopPropagation();
-  if (btn.id === 'cp') {
-    calDate = new Date(calDate.getFullYear(), calDate.getMonth() - 1, 1);
-  } else {
-    calDate = new Date(calDate.getFullYear(), calDate.getMonth() + 1, 1);
-  }
-  renderCal();
-});
-
-<script>
-function handleLayout() {
-  const isMobile = window.innerWidth < 768;
-
-  const desktop = document.querySelector('.home-desktop');
-  const mobileSections = document.querySelector('.home-mobile-sections');
-  const mobileStory = document.getElementById('ourstory-anchor-mobile');
-  const mobileInfo = document.getElementById('info-mobile');
-
-  if (isMobile) {
-    if (desktop) desktop.style.display = 'block'; // keep video
-    document.querySelectorAll('.home-left, .home-right').forEach(el => el.style.display = 'none');
-
-    if (mobileSections) mobileSections.style.display = 'block';
-    if (mobileStory) mobileStory.style.display = 'block';
-    if (mobileInfo) mobileInfo.style.display = 'block';
-
-  } else {
-    if (desktop) desktop.style.display = 'grid';
-    document.querySelectorAll('.home-left, .home-right').forEach(el => el.style.display = '');
-
-    if (mobileSections) mobileSections.style.display = 'none';
-    if (mobileStory) mobileStory.style.display = 'none';
-    if (mobileInfo) mobileInfo.style.display = 'none';
-  }
-}
-
-window.addEventListener('load', handleLayout);
-window.addEventListener('resize', handleLayout);
 </script>
-</script>
-  
+
 </body>
 </html>
