@@ -1236,7 +1236,9 @@ function renderCal() {
   for(let d=1;d<=days;d++){
     const date=new Date(y,m,d);
     const past=date<today;
-    const cls=past?'past':isBooked(date,calType)?'booked':'available';
+    const closedMonths = [0, 1, 2, 3, 10, 11];
+const isClosed = closedMonths.includes(m);
+const cls = past ? 'past' : isClosed ? 'booked' : isBooked(date, calType) ? 'booked' : 'available';
     html+=`<div class="cal-cell ${cls}">${d}</div>`;
   }
   html+=`</div><div class="cal-legend"><span class="leg-avail"></span>Available <span class="leg-booked"></span>Booked</div>
@@ -1249,7 +1251,6 @@ function renderCal() {
     console.error('renderCal error:', e);
   }
 }
-
 async function openCalendar(type) {
   console.log('openCalendar called', type);
   calType = type;
