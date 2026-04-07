@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,10 +17,6 @@ header{position:fixed;top:0;left:0;width:100%;height:50px;background:var(--heade
 .title{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-size:14px;text-align:center;line-height:1.1;width:60%;overflow:hidden;text-overflow:ellipsis;color:var(--text);}
 .page{display:none;padding-top:60px;min-height:100vh;}
 .page.active{display:block;}
-@media(max-width:767px){
-  .page { display: none; }
-  .page.active { display: block; }
-}
 .reel-corner{display:none;}
 @media(min-width:768px){
   .video-side-cover{display:block;position:absolute;top:0;bottom:0;width:calc((100% - 56.25vh) / 2);z-index:4;background:var(--bg);}
@@ -84,9 +79,10 @@ body:not(.home-active) #info-mobile {
 @media(min-width:768px){
 
   html, body {
-  height: 100%;
-  overflow-x: hidden;
-}
+    height: 100%;
+    overflow: hidden;
+  }
+
   #page-home.active {
     position: fixed;
     top: 0; /* header height */
@@ -337,9 +333,7 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
 .leg-avail,.leg-booked{display:inline-block;width:12px;height:12px;border-radius:3px;}
 .leg-avail{background:#e8f5e9;}
 .leg-booked{background:#ffebee;}
-#cal-modal.open, #cal-modal[style*="flex"]{
-  display:flex !important;
-}
+
 </style>
 </head>
 
@@ -513,7 +507,9 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
     </div>
   </a>
 
-   <div class="section" id="ourstory-anchor-mobile" style="text-align:center;cursor:default;">
+</div>
+
+    <div class="section" id="ourstory-anchor-mobile" style="text-align:center;cursor:default;">
       <h2 data-edit="ourstory-title-mobile" data-en="Our Story" data-al="Historia Jonë" data-es="Nuestra Historia" data-de="Unsere Geschichte">
   Our Story
 </h2>
@@ -525,61 +521,8 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
    data-de="Erfahren Sie mehr sobre el hotel.">
   Learn about Sunset Boulevard Beach Hotel.
 </p>
+    </div>
   </div>
-   
-
-  <!-- MOBILE: Info footer -->
-<div class="info-footer home-info-mobile" id="info-mobile">
-  <p data-edit="info-title-mobile" style="margin:0 0 8px;font-size:16px;font-weight:bold;">
-  Info
-</p>
-
-<p data-edit="info-whatsapp-mobile">
-  WhatsApp: +355 XX XXX XXXX
-</p>
-
-<p data-edit="info-email-mobile">
-  Email: info@sunsetblvd3.com
-</p>
-
-<p data-edit="info-location-mobile">
-  Location: Qeparo, Vlorë, Albania
-</p>
-
-<div style="display:flex;justify-content:center;gap:28px;margin-top:22px;">
-
-  <!-- MAPS -->
-  <a href="https://maps.app.goo.gl/nJMC9Ebtgd8oft4K8" target="_blank"
-     style="color:white;text-decoration:none;display:flex;flex-direction:column;align-items:center;gap:6px;font-size:11px;">
-    <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="white">
-      <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/>
-    </svg>
-    Maps
-  </a>
-
-  <!-- INSTAGRAM -->
-  <a href="https://www.instagram.com/sunset.boulevard.cocktailbar" target="_blank"
-     style="color:white;text-decoration:none;display:flex;flex-direction:column;align-items:center;gap:6px;font-size:11px;">
-    <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8">
-      <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
-      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
-      <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
-    </svg>
-    Instagram
-  </a>
-
-  <!-- FACEBOOK -->
-  <a href="https://www.facebook.com/share/1G3LhkB6gP/" target="_blank"
-     style="color:white;text-decoration:none;display:flex;flex-direction:column;align-items:center;gap:6px;font-size:11px;">
-    <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8">
-      <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
-    </svg>
-    Facebook
-  </a>
-  </div>
- </div>
-  
-</div>
 
 <!-- ROOMS -->
 <div class="page" id="page-rooms">
@@ -687,7 +630,7 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
     <div class="card">
       <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800" alt="Drinks">
       <div class="cinfo">
-        <span class ="tag">Drinks</span>
+        <span class="tag">Drinks</span>
         <h3 data-edit="food-&-drinks-4-title">Coffees & Soft Drinks</h3>
         <p data-edit="food-&-drinks-4-desc">Espresso, Cappuccino, Freddo Espresso/Cappuchino, Homemade Lemonade, Orange Juice etc.</p>
       </div>
@@ -766,6 +709,66 @@ The cultural monument dates back 3,500 years, when the Greek tribe of the Chaoni
   </div>
 </div>
 
+<!-- OUR STORY -->
+<div class="page" id="page-ourstory">
+  
+  <div class="content">
+    <h2 data-en="Our Story" data-al="Historia Jon&#235;" data-es="Nuestra Historia" data-de="Unsere Geschichte">Our Story</h2>
+    <p data-en="Coming soon — the story of Sunset Boulevard Beach Hotel will be shared here." data-al="S&#235; shpejti — historia e Sunset Boulevard Beach Hotel do t&#235; ndahet k&#235;tu." data-es="Pr&#243;ximamente — la historia del hotel se compartir&#225; aqu&#237;." data-de="Demn&#228;chst — die Geschichte des Hotels wird hier geteilt.">Coming soon — the story of Sunset Boulevard Beach Hotel will be shared here.</p>
+  </div>
+</div>
+
+  <!-- MOBILE: Info footer -->
+<div class="info-footer home-info-mobile" id="info-mobile">
+  <p data-edit="info-title-mobile" style="margin:0 0 8px;font-size:16px;font-weight:bold;">
+  Info
+</p>
+
+<p data-edit="info-whatsapp-mobile">
+  WhatsApp: +355 XX XXX XXXX
+</p>
+
+<p data-edit="info-email-mobile">
+  Email: info@sunsetblvd3.com
+</p>
+
+<p data-edit="info-location-mobile">
+  Location: Qeparo, Vlorë, Albania
+</p>
+
+<div style="display:flex;justify-content:center;gap:28px;margin-top:22px;">
+
+  <!-- MAPS -->
+  <a href="https://maps.app.goo.gl/nJMC9Ebtgd8oft4K8" target="_blank"
+     style="color:white;text-decoration:none;display:flex;flex-direction:column;align-items:center;gap:6px;font-size:11px;">
+    <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="white">
+      <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/>
+    </svg>
+    Maps
+  </a>
+
+  <!-- INSTAGRAM -->
+  <a href="https://www.instagram.com/sunset.boulevard.cocktailbar" target="_blank"
+     style="color:white;text-decoration:none;display:flex;flex-direction:column;align-items:center;gap:6px;font-size:11px;">
+    <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8">
+      <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+      <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+    </svg>
+    Instagram
+  </a>
+
+  <!-- FACEBOOK -->
+  <a href="https://www.facebook.com/share/1G3LhkB6gP/" target="_blank"
+     style="color:white;text-decoration:none;display:flex;flex-direction:column;align-items:center;gap:6px;font-size:11px;">
+    <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.8">
+      <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+    </svg>
+    Facebook
+  </a>
+
+</div>
+
 <script>
 (function() {
 
@@ -813,36 +816,21 @@ musicBtn.addEventListener('click', function() {
   };
 
   function showPage(pageId) {
-  document.querySelectorAll('.page').forEach(function(p) {
-    p.classList.remove('active');
-  });
-
-  var page = document.getElementById('page-' + pageId);
-
-  if (!page) {
-    console.error('Page not found:', pageId);
-    return;
+    document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
+    document.getElementById('page-' + pageId).classList.add('active');
+    window.scrollTo(0, 0);
+    document.getElementById('pageTitle').innerHTML = pageTitles[pageId] || pageId;
+    var backBtn = document.getElementById('backBtn');
+    var menuBtn = document.getElementById('menuBtn');
+    if (pageId === 'home') {
+      backBtn.style.display = 'none';
+      menuBtn.style.display = 'block';
+    } else {
+      backBtn.style.display = 'block';
+      menuBtn.style.display = 'none';
+    }
+    if (pageId === 'rooms') initSliders();
   }
-
-  page.classList.add('active');
-  window.scrollTo(0, 0);
-
-  document.getElementById('pageTitle').innerHTML =
-    pageTitles[pageId] || pageId;
-
-  var backBtn = document.getElementById('backBtn');
-  var menuBtn = document.getElementById('menuBtn');
-
-  if (pageId === 'home') {
-    backBtn.style.display = 'none';
-    menuBtn.style.display = 'block';
-  } else {
-    backBtn.style.display = 'block';
-    menuBtn.style.display = 'none';
-  }
-
-  if (pageId === 'rooms') initSliders();
-}
 
 // ✅ ADD HERE
 document.getElementById('backBtn').addEventListener('click', function(){
@@ -851,6 +839,13 @@ document.getElementById('backBtn').addEventListener('click', function(){
 
   document.querySelectorAll('[data-page]').forEach(function(el) {
   el.addEventListener('click', function(e) {
+
+    // 🔥 STOP navigation when editing
+    if (window.editMode && !window.navigationEnabled) {
+      e.preventDefault();
+      e.stopImmediatePropagation();
+      return;
+    }
 
     e.preventDefault();
 
@@ -872,40 +867,6 @@ document.getElementById('backBtn').addEventListener('click', function(){
 
   });
 });
-🧪 AFTER THIS
-
-Test again:
-👉 Click Rooms
-
-🎯 If STILL blank (last possible cause)
-
-Then it is 100% this:
-
-👉 Your pages exist but are hidden
-
-Add this TEMP test:
-
-Put this in console:
-
-document.getElementById('page-rooms').style.display = 'block'
-
-If it suddenly appears → CSS issue
-If not → ID mismatch
-
-💬 Reality check
-
-You had 3 issues:
-
-❌ Broken HTML → FIXED
-❌ CSS lock → FIXED
-❌ JS blocking navigation → THIS ONE
-🚀 Do this now
-
-Delete that block and tell me:
-
-👉 “still blank” or “works now”
-
-We’re one step away 👍
 
   document.getElementById('infoLink').addEventListener('click', function(e) {
   e.preventDefault();
@@ -1009,6 +970,14 @@ We’re one step away 👍
 
 })();
 </script>
+
+<div id="cal-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:99999;align-items:center;justify-content:center;">
+  <div style="background:var(--bg);border-radius:16px;padding:28px;width:340px;max-width:90vw;position:relative;">
+    <button id="cal-close" style="position:absolute;top:14px;right:16px;background:none;border:none;font-size:22px;cursor:pointer;color:var(--text);">&#215;</button>
+    <h3 id="cal-title" style="margin:0 0 20px;font-size:18px;color:var(--text);"></h3>
+    <div id="cal-body"></div>
+  </div>
+</div>
 
 <script>
 // ✅ DEFINE ADMIN MODE
@@ -1124,14 +1093,6 @@ document.querySelectorAll("[data-edit-img]").forEach(img=>{
 }
 
 </script>
-
-<div id="cal-modal" style="display:none;position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.5);z-index:999999!important;align-items:center;justify-content:center;">
-  <div style="background:var(--bg);border-radius:16px;padding:28px;width:340px;max-width:90vw;position:relative;z-index:1000000!important;">
-    <button id="cal-close" style="position:absolute;top:14px;right:16px;background:none;border:none;font-size:22px;cursor:pointer;color:var(--text);">&#215;</button>
-    <h3 id="cal-title" style="margin:0 0 20px;font-size:18px;color:var(--text);"></h3>
-    <div id="cal-body"></div>
-  </div>
-</div>
 
 <script>
 
@@ -1273,16 +1234,14 @@ function renderCal() {
   for(let d=1;d<=days;d++){
     const date=new Date(y,m,d);
     const past=date<today;
-    const closedMonths = [0, 1, 2, 3, 10, 11];
-const isClosed = closedMonths.includes(m);
-const cls = past ? 'past' : isClosed ? 'booked' : isBooked(date, calType) ? 'booked' : 'available';
+    const cls=past?'past':isBooked(date,calType)?'booked':'available';
     html+=`<div class="cal-cell ${cls}">${d}</div>`;
   }
   html+=`</div><div class="cal-legend"><span class="leg-avail"></span>Available <span class="leg-booked"></span>Booked</div>
   <a href="https://wa.me/35500000000" target="_blank" class="avail-btn" style="display:block;text-align:center;margin-top:16px;">Book via WhatsApp</a>`;
   document.getElementById('cal-body').innerHTML = html;
-  console.log('cal-body innerHTML set, length:', document.getElementById('cal-body').innerHTML.length);
-  console.log('cal-title:', document.getElementById('cal-title').textContent); 
+  document.getElementById('cp').onclick = ()=>{ calDate=new Date(y,m-1,1); renderCal(); };
+  document.getElementById('cn').onclick = ()=>{ calDate=new Date(y,m+1,1); renderCal(); }; 
  } 
   catch(e) {
     console.error('renderCal error:', e);
@@ -1290,35 +1249,24 @@ const cls = past ? 'past' : isClosed ? 'booked' : isBooked(date, calType) ? 'boo
 }
 
 async function openCalendar(type) {
+  console.log('openCalendar called', type);
   calType = type;
   calDate = new Date();
   const modal = document.getElementById('cal-modal');
-  if(!modal) return;
-  document.body.appendChild(modal);
+  console.log('modal element:', modal);
+  if(!modal){ console.error('Modal not found!'); return; }
   modal.style.display = 'flex';
-  document.getElementById('cal-close').onclick = ()=>{ modal.style.display='none'; };
-  modal.onclick = (e)=>{ if(e.target.id==='cal-modal') modal.style.display='none'; };
-  if(!modal.dataset.listenerAdded) {
-    modal.dataset.listenerAdded = '1';
-    document.getElementById('cal-body').addEventListener('click', function(e) {
-      const btn = e.target.closest('button');
-      if (!btn || (btn.id !== 'cp' && btn.id !== 'cn')) return;
-      e.stopPropagation();
-      if (btn.id === 'cp') {
-        calDate = new Date(calDate.getFullYear(), calDate.getMonth() - 1, 1);
-      } else {
-        calDate = new Date(calDate.getFullYear(), calDate.getMonth() + 1, 1);
-      }
-      renderCal();
-    });
-  }
+  console.log('modal display set to flex');
   document.getElementById('cal-title').textContent = ROOM_TYPES[type].label;
   document.getElementById('cal-body').innerHTML = '<p style="text-align:center;padding:20px">Loading...</p>';
   await fetchRes();
+  console.log('calling renderCal, calType:', calType, 'calDate:', calDate);
   renderCal();
 }
+document.getElementById('cal-close').onclick = ()=>{ document.getElementById('cal-modal').style.display='none'; };
+document.getElementById('cal-modal').onclick = (e)=>{ if(e.target.id==='cal-modal') e.target.style.display='none'; };
   
 </script>
-
+  
 </body>
 </html>
