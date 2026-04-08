@@ -310,6 +310,48 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
 
 .cal-cell.available { background:#e6f4ea; }
 .cal-cell.booked { background:#fdecea; }
+  /* ===== FORCE ROOMS DESKTOP GRID ===== */
+@media(min-width:768px){
+
+  /* kill old layout completely */
+  #page-rooms.active{
+    display:block !important;
+    height:calc(100vh - 60px);
+    overflow:hidden;
+  }
+
+  /* remove any hero behavior */
+  #page-rooms .hero{
+    display:none !important;
+  }
+
+  /* force grid */
+  #page-rooms .content{
+    display:grid !important;
+    grid-template-columns:repeat(3, 1fr) !important;
+    gap:24px;
+    padding:30px;
+    width:100%;
+    height:100%;
+    box-sizing:border-box;
+    overflow:hidden !important;
+  }
+
+  /* cards vertical like mobile */
+  #page-rooms .room-card{
+    display:flex;
+    flex-direction:column;
+    height:100%;
+  }
+
+  /* fix images */
+  #page-rooms .slider img{
+    width:100% !important;
+    height:200px !important;
+    object-fit:cover;
+  }
+
+}
   
 </style>
 </head>
