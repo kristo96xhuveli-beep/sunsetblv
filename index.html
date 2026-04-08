@@ -311,22 +311,19 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
 .cal-cell.available { background:#e6f4ea; }
 .cal-cell.booked { background:#fdecea; }
 
-  /* ===== FORCE ROOMS DESKTOP GRID ===== */
+ /* ===== ROOMS DESKTOP GRID ===== */
 @media(min-width:768px){
 
-  /* kill old layout completely */
   #page-rooms.active{
     display:block !important;
     height:calc(100vh - 60px);
     overflow:hidden;
   }
 
-  /* remove hero */
   #page-rooms .hero{
     display:none !important;
   }
 
-  /* content stays normal (NOT grid anymore) */
   #page-rooms .content{
     display:block !important;
     padding:30px;
@@ -335,7 +332,6 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
     box-sizing:border-box;
   }
 
-  /* 🔥 GRID ONLY FOR CARDS */
   #page-rooms .rooms-grid{
     display:grid;
     grid-template-columns:repeat(3, 1fr);
@@ -343,14 +339,12 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
     margin-top:20px;
   }
 
-  /* cards vertical like mobile */
   #page-rooms .room-card{
     display:flex;
     flex-direction:column;
     height:100%;
   }
 
-  /* fix images */
   #page-rooms .slider img{
     width:100% !important;
     height:200px !important;
@@ -358,8 +352,35 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
   }
 
 }
-  
-</style>
+
+/* ===== RESTORE FOOD & ACTIVITIES ===== */
+@media(min-width:768px){
+
+  #page-food.active, 
+  #page-activities.active{
+    display:flex !important;
+    flex-direction:row !important;
+    height:calc(100vh - 60px);
+    overflow:hidden;
+  }
+
+  #page-food .hero, 
+  #page-activities .hero{
+    display:block !important;
+    width:45%;
+    height:100%;
+    object-fit:cover;
+  }
+
+  #page-food .content, 
+  #page-activities .content{
+    flex:1;
+    overflow-y:auto;
+    height:100%;
+    padding:30px;
+  }
+
+}
 </head>
 <body>
 
