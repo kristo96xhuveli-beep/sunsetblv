@@ -1141,7 +1141,11 @@ function isBooked(date, type) {
 
   for(const r of cachedRes) {
 
-    const room = r.room.replace(/"/g,'').trim().toUpperCase();
+    const room = String(r.room)
+  .replace(/"/g,'')
+  .trim()
+  .toUpperCase();
+    console.log('CHECK:', room, 'IN:', t.rooms);
     console.log('ROOM RAW:', r.room, '| CLEAN:', room);
     if(!t.rooms.includes(room)) continue;
 
