@@ -1141,7 +1141,8 @@ function isBooked(date, type) {
 
   for(const r of cachedRes) {
 
-    const room = r.room.trim().toUpperCase();
+    const room = r.room.replace(/"/g,'').trim().toUpperCase();
+    console.log('ROOM RAW:', r.room, '| CLEAN:', room);
     if(!t.rooms.includes(room)) continue;
 
     const ci = new Date(r.ci); ci.setHours(0,0,0,0);
@@ -1150,8 +1151,7 @@ function isBooked(date, type) {
     if(d >= ci && d < co) booked.add(room);
   }
 
-  // ✅ clean debug log
-  console.log(d, type, [...booked], booked.size);
+  console.log('DATE:', d, 'TYPE:', type, 'BOOKED:', [...booked]);
 
   return booked.size >= t.rooms.length;
 }
