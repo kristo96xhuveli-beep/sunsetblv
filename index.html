@@ -1132,18 +1132,28 @@ async function fetchRes() {
 
 function isBooked(date, type) {
   if(!cachedRes) return false;
+
   const t = ROOM_TYPES[type];
   const booked = new Set();
-  const d = new Date(date); d.setHours(0,0,0,0);
+
+  const d = new Date(date);
+  d.setHours(0,0,0,0);
+
   for(const r of cachedRes) {
-    if(!t.rooms.includes(r.room)) continue;
+
+    const room = r.room.trim().toUpperCase();
+    if(!t.rooms.includes(room)) continue;
+
     const ci = new Date(r.ci); ci.setHours(0,0,0,0);
     const co = new Date(r.co); co.setHours(0,0,0,0);
-    if(d >= ci && d < co) booked.add(r.room
+
+    if(d >= ci && d < co) booked.add(room);
   }
-  cconsole.log(date, type, [...booked], booked.size);
+
+  // ✅ clean debug log
+  console.log(d, type, [...booked], booked.size);
+
   return booked.size >= t.rooms.length;
-  
 }
 
 function renderCal() {
