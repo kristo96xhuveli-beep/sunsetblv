@@ -137,9 +137,8 @@ body:not(.home-active) #info-mobile {
 #page-food.active, 
 #page-activities.active {
   height: calc(100vh - 60px);
-  overflow: hidden;
-  display: flex !important;
-  flex-direction: row;
+  overflow: auto; /* allow scrolling */
+  display: block;
 }
   #page-rooms .content {
   display: grid;
