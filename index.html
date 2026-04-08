@@ -1141,7 +1141,7 @@ function isBooked(date, type) {
     const co = new Date(r.co); co.setHours(0,0,0,0);
     if(d >= ci && d < co) booked.add(r.room
   }
-  console.log(date, type, [...booked], booked.size);
+  cconsole.log(date, type, [...booked], booked.size);
   return booked.size >= t.rooms.length;
   
 }
@@ -1163,7 +1163,7 @@ function renderCal() {
   for(let d=1;d<=days;d++){
     const date=new Date(y,m,d);
     const past=date<today;
-    const closedMonths = [0, 1, 2, 10, 11];
+    const closedMonths = [0, 1, 2, 3, 10, 11];
 const isClosed = closedMonths.includes(m);
 const cls = past ? 'past' : isClosed ? 'booked' : isBooked(date, calType) ? 'booked' : 'available';
     html+=`<div class="cal-cell ${cls}">${d}</div>`;
