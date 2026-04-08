@@ -1109,11 +1109,11 @@ async function fetchRes() {
     const rows = text.split('\n').slice(1);
     cachedRes = [];
     for(const row of rows) {
-      const cols = row.split(',');
+      const cols = row.match(/(".*?"|[^",]+)(?=\s*,|\s*$)/g);
       if(cols.length < 8) continue;
       const checkIn = cols[1].trim();
       const checkOut = cols[2].trim();
-      const room = cols[7].trim().replace(/"/g,'');
+      const room = cols[7]?.replace(/"/g,'').trim().toUpperCase();
       if(!checkIn.includes('/')) continue;
       const [iD,iM,iY] = checkIn.split('/');
       const [oD,oM,oY] = checkOut.split('/');
