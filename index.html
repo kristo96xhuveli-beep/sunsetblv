@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -127,20 +126,39 @@ body:not(.home-active) #info-mobile {
   .home-mobile-sections{display:none;}
   .home-info-mobile{display:none;}
   /* Inner pages: no scroll, two-column layout */
-  #page-rooms.active, #page-food.active, #page-activities.active {
-    height: calc(100vh - 60px);
-    overflow: hidden;
-    display: flex !important;
-    flex-direction: row;
-    min-height: unset;
+  /* ROOMS → custom layout */
+#page-rooms.active {
+  display: block !important;
+  height: calc(100vh - 60px);
+  overflow: hidden;
+}
+
+/* FOOD + ACTIVITIES → keep original */
+#page-food.active, 
+#page-activities.active {
+  height: calc(100vh - 60px);
+  overflow: hidden;
+  display: flex !important;
+  flex-direction: row;
+}
+  #page-rooms .content {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  padding: 30px;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+}
+  #page-rooms .room-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
   }
   #page-rooms .hero, #page-food .hero, #page-activities .hero {
-    width: 45%;
-    height: 100%;
-    max-height: none;
-    object-fit: cover;
-    flex-shrink: 0;
-  }
+    display: none;
+}
   #page-rooms .content, #page-food .content, #page-activities .content {
     flex: 1;
     overflow-y: auto;
@@ -149,17 +167,15 @@ body:not(.home-active) #info-mobile {
     padding: 30px;
   }
   #page-rooms .card img, #page-food .card img, #page-activities .card img {
-    width:28%;
+    width:90%;
   max-width:180px;
   aspect-ratio: 1/1;
   object-fit: cover;
   }
   #page-rooms .slider img {
-    width:40%;
-  max-width:180px;
-  aspect-ratio: 1/1;
+  height: 200px;
   object-fit: cover;
-  }
+}
 }
 @media(max-width:767px){
   .home-left,.home-right{display:none;}
@@ -1110,11 +1126,11 @@ async function fetchRes() {
     const rows = text.split('\n').slice(1);
     cachedRes = [];
     for(const row of rows) {
-      const cols = row.split(',');
+      const cols = row.match(/(".*?"|[^",]+)(?=\s*,|\s*$)/g);
       if(cols.length < 8) continue;
       const checkIn = cols[1].trim();
       const checkOut = cols[2].trim();
-      const room = cols[7].trim().replace(/"/g,'');
+      const room = cols[7]?.replace(/"/g,'').trim().toUpperCase();
       if(!checkIn.includes('/')) continue;
       const [iD,iM,iY] = checkIn.split('/');
       const [oD,oM,oY] = checkOut.split('/');
