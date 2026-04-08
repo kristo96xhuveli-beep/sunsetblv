@@ -532,7 +532,7 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
         <span class="tag">Great for Families</span>
         <h3 data-edit="rooms-2-title">Simple Triple Room</h3>
         <p data-edit="rooms-2-desc">Comfortable triple room for families with air conditioning and private bathroom.</p>
-        <button class="avail-btn" onclick="openCalendar('standard')">
+        <button class="avail-btn" onclick="openCalendar('simple')">
   Check Availability
 </button>
       </div>
@@ -552,7 +552,7 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
         <span class="tag">Best Value</span>
         <h3 data-edit="rooms-3-title">Standard Triple Room</h3>
         <p data-edit="rooms-3-desc">Cozy and affordable triple room with all essentials, steps from the beach.</p>
-        <button class="avail-btn" onclick="openCalendar('simple')">
+        <button class="avail-btn" onclick="openCalendar('standard')">
   Check Availability
 </button>
       </div>
@@ -1158,7 +1158,7 @@ function renderCal() {
   for(let d=1;d<=days;d++){
     const date=new Date(y,m,d);
     const past=date<today;
-    const closedMonths = [0, 1, 2, 3, 10, 11];
+    const closedMonths = [0, 1, 2, 10, 11];
 const isClosed = closedMonths.includes(m);
 const cls = past ? 'past' : isClosed ? 'booked' : isBooked(date, calType) ? 'booked' : 'available';
     html+=`<div class="cal-cell ${cls}">${d}</div>`;
