@@ -1190,6 +1190,7 @@ async function openCalendar(type) {
   document.getElementById('cal-body').innerHTML = '<p style="text-align:center;padding:20px">Loading...</p>';
   await fetchRes();
   console.log('calling renderCal, calType:', calType, 'calDate:', calDate);
+  console.log('TYPE:', type);
   renderCal();
 }
 document.getElementById('cal-close').onclick = ()=>{ document.getElementById('cal-modal').style.display='none'; };
