@@ -356,27 +356,29 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
 /* ===== RESTORE FOOD & ACTIVITIES ===== */
 @media(min-width:768px){
 
+  /* restore layout */
   #page-food.active, 
   #page-activities.active{
-    display:flex !important;
-    flex-direction:row !important;
+    display:flex;
     height:calc(100vh - 60px);
     overflow:hidden;
   }
 
+  /* image side */
   #page-food .hero, 
   #page-activities .hero{
-    display:block !important;
     width:45%;
     height:100%;
     object-fit:cover;
+    flex-shrink:0;
   }
 
+  /* content side */
   #page-food .content, 
   #page-activities .content{
-    flex:1;
-    overflow-y:auto;
+    width:55%;
     height:100%;
+    overflow-y:auto;
     padding:30px;
   }
 
