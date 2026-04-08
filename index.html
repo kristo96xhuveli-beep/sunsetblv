@@ -126,12 +126,34 @@ body:not(.home-active) #info-mobile {
   .home-mobile-sections{display:none;}
   .home-info-mobile{display:none;}
   /* Inner pages: no scroll, two-column layout */
-  #page-rooms.active, #page-food.active, #page-activities.active {
-    height: calc(100vh - 60px);
-    overflow: hidden;
-    display: flex !important;
-    flex-direction: row;
-    min-height: unset;
+  /* ROOMS → custom layout */
+#page-rooms.active {
+  height: calc(100vh - 60px);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* FOOD + ACTIVITIES → keep original */
+#page-food.active, 
+#page-activities.active {
+  height: calc(100vh - 60px);
+  overflow: hidden;
+  display: flex !important;
+  flex-direction: row;
+}
+  #page-rooms .content {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+  height: 100%;
+  overflow: hidden;
+}
+  #page-rooms .room-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
   }
   #page-rooms .hero, #page-food .hero, #page-activities .hero {
     width: 45%;
@@ -148,7 +170,7 @@ body:not(.home-active) #info-mobile {
     padding: 30px;
   }
   #page-rooms .card img, #page-food .card img, #page-activities .card img {
-    width:28%;
+    width:100%;
   max-width:180px;
   aspect-ratio: 1/1;
   object-fit: cover;
