@@ -1139,9 +1139,11 @@ function isBooked(date, type) {
     if(!t.rooms.includes(r.room)) continue;
     const ci = new Date(r.ci); ci.setHours(0,0,0,0);
     const co = new Date(r.co); co.setHours(0,0,0,0);
-    if(d >= ci && d < co) booked.add(r.room);
+    if(d >= ci && d < co) booked.add(r.room
   }
-  return booked.size >= t.total;
+  console.log(date, type, [...booked], booked.size);
+  return booked.size >= t.rooms.length;
+  
 }
 
 function renderCal() {
