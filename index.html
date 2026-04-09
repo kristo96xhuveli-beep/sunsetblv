@@ -1358,26 +1358,29 @@ document.getElementById('cal-body').addEventListener('click', function(e) {
   renderCal();
 });
 
-document.querySelectorAll('.read-toggle').forEach(btn => {
-  btn.addEventListener('click', function(e){
-    e.preventDefault();
+document.addEventListener('click', function(e){
 
-    const parent = this.parentElement;
-    const shortText = parent.querySelector('.short-text');
-    const fullText = parent.querySelector('.full-text');
+  const btn = e.target.closest('.read-toggle');
+  if(!btn) return;
 
-    const isOpen = fullText.style.display === 'inline';
+  e.preventDefault();
 
-    if(isOpen){
-      fullText.style.display = 'none';
-      shortText.style.display = 'inline';
-      this.textContent = 'Read more';
-    } else {
-      fullText.style.display = 'inline';
-      shortText.style.display = 'none';
-      this.textContent = 'Read less';
-    }
-  });
+  const parent = btn.parentElement;
+  const shortText = parent.querySelector('.short-text');
+  const fullText = parent.querySelector('.full-text');
+
+  const isOpen = fullText.style.display === 'inline';
+
+  if(isOpen){
+    fullText.style.display = 'none';
+    shortText.style.display = 'inline';
+    btn.textContent = 'Read more';
+  } else {
+    fullText.style.display = 'inline';
+    shortText.style.display = 'none';
+    btn.textContent = 'Read less';
+  }
+
 });
 
 </script>
