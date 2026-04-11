@@ -965,11 +965,19 @@ document.getElementById('backBtn').addEventListener('click', function(){
       var arrow = el.querySelector('.section-arrow');
       if (arrow) {
         el.innerHTML = el.getAttribute('data-' + lang) + ' <span class="section-arrow">&#8250;</span>';
-      } else if (!el.children.length) {
-        el.textContent = el.getAttribute('data-' + lang);
+      } else {
+        const text = el.getAttribute('data-' + lang);
+        const shortText = el.querySelector('.short-text');
+        const fullText = el.querySelector('.full-text');
+
+       if(shortText && fullText){
+       fullText.textContent = text;
+       } else {
+       el.textContent = text;
+       }
       }
     });
-  }
+ }
 
   langs.forEach(function(l) {
     var btn = document.getElementById('btn-' + l);
