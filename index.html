@@ -32,7 +32,18 @@ header{position:fixed;top:0;left:0;width:100%;height:50px;background:var(--heade
 .video-container::before{left:0;background:linear-gradient(to right,rgba(0,0,0,0.72),transparent);}
 .video-container::after{right:0;background:linear-gradient(to left,rgba(0,0,0,0.72),transparent);}
 @media(max-width:767px){.video-container::before,.video-container::after{display:none;}}
-@media(max-width:767px){#yt-player{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:177.78vh;min-width:100%;height:100vh;min-height:56.25vw;border:none;pointer-events:none;}}
+@media(max-width:767px){#yt-player{
+    position:absolute;
+    top:50%;
+    left:50%;
+    transform:translate(-50%,-50%);
+    width:100%;
+    max-width:100vw;
+    height:100%;
+    border:none;
+    pointer-events:none;
+  }
+}
 #yt-player{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:177.78vh;min-width:100%;height:100vh;min-height:56.25vw;border:none;pointer-events:none;}
 /* Hide mobile info on all pages except home */
 .page:not(.active) #info-mobile {
@@ -63,7 +74,7 @@ body:not(.home-active) #info-mobile {
 @media(min-width:768px){
   .home-right {
     height: 100%;
-    overflow: hidden;
+    overflow-y: auto;
   }
 }
 
