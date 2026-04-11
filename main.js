@@ -86,6 +86,9 @@ document.addEventListener("DOMContentLoaded", () => {
       const desktop = document.getElementById('ourstory-container');
       const mobile = document.getElementById('ourstory-container-mobile');
 
+      console.log('desktop:', desktop);
+      console.log('mobile:', mobile);
+      
       if(desktop) desktop.innerHTML = html;
       if(mobile) mobile.innerHTML = html;
 
