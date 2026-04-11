@@ -76,17 +76,22 @@ if (exitBtn) {
 }
 
 // LOAD ON START
-document.addEventListener("DOMContentLoaded", loadContent);
-loadContent();
-fetch('ourstory.html')
-  .then(res => res.text())
-  .then(html => {
-    document.getElementById('ourstory-container').innerHTML = html;
+document.addEventListener("DOMContentLoaded", () => {
 
-    // IMPORTANT: re-run language after loading
-    applyLang(currentLang);
-  
-    // re-enable edit mode if needed
+  loadContent(); // run once
+
+  fetch('ourstory.html')
+    .then(res => res.text())
+    .then(html => {
+      const container = document.getElementById('ourstory-container');
+      if(container){
+        container.innerHTML = html;
+      }
+
+      // re-run language AFTER content loads
+      applyLang(currentLang);
+
+      // re-enable edit mode if needed
       if (editMode) disableEdit();
     });
 
