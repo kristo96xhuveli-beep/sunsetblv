@@ -77,3 +77,17 @@ if (exitBtn) {
 
 // LOAD ON START
 document.addEventListener("DOMContentLoaded", loadContent);
+loadContent();
+fetch('ourstory.html')
+  .then(res => res.text())
+  .then(html => {
+    document.getElementById('ourstory-container').innerHTML = html;
+
+    // IMPORTANT: re-run language after loading
+    applyLang(currentLang);
+  
+    // re-enable edit mode if needed
+      if (editMode) disableEdit();
+    });
+
+});
