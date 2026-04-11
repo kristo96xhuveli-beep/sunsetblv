@@ -75,24 +75,22 @@ if (exitBtn) {
   };
 }
 
-// LOAD ON START
 document.addEventListener("DOMContentLoaded", () => {
 
-  loadContent(); // run once
+  loadContent();
 
-  fetch('ourstory.html')
+  fetch('./ourstory.html')
     .then(res => res.text())
     .then(html => {
-      const container = document.getElementById('ourstory-container');
-      if(container){
-        container.innerHTML = html;
-      }
 
-      // re-run language AFTER content loads
+      const desktop = document.getElementById('ourstory-container');
+      const mobile = document.getElementById('ourstory-container-mobile');
+
+      if(desktop) desktop.innerHTML = html;
+      if(mobile) mobile.innerHTML = html;
+
       applyLang(currentLang);
 
-      // re-enable edit mode if needed
-      if (editMode) disableEdit();
     });
 
 });
