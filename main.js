@@ -92,7 +92,9 @@ document.addEventListener("DOMContentLoaded", () => {
       if(desktop) desktop.innerHTML = html;
       if(mobile) mobile.innerHTML = html;
 
-      applyLang(currentLang);
+      if (typeof applyLang === "function" && typeof currentLang !== "undefined") {
+  applyLang(currentLang);
+}
 
     });
 
