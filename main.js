@@ -89,8 +89,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const desktopContent = temp.querySelector('#ourstory-anchor');
     const mobileContent = temp.querySelector('#ourstory-anchor-mobile');
 
-    const desktop = document.getElementById('ourstory-container');
-    const mobile = document.getElementById('ourstory-container-mobile');
 
     if(desktop && desktopContent){
       desktop.innerHTML = desktopContent.outerHTML;
