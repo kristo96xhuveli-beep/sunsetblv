@@ -104,3 +104,20 @@ document.addEventListener("DOMContentLoaded", () => {
   e.preventDefault();
   showPage(link.getAttribute('data-page'));
 });
+
+  document.addEventListener('click', function(e){
+
+  const link = e.target.closest('[data-page]');
+  if(!link) return;
+
+  e.preventDefault();
+
+  const page = link.getAttribute('data-page');
+
+  console.log("GO TO:", page); // debug
+
+  if(typeof showPage === "function"){
+    showPage(page);
+  }
+
+});
