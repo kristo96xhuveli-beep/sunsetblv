@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -32,18 +33,7 @@ header{position:fixed;top:0;left:0;width:100%;height:50px;background:var(--heade
 .video-container::before{left:0;background:linear-gradient(to right,rgba(0,0,0,0.72),transparent);}
 .video-container::after{right:0;background:linear-gradient(to left,rgba(0,0,0,0.72),transparent);}
 @media(max-width:767px){.video-container::before,.video-container::after{display:none;}}
-@media(max-width:767px){#yt-player{
-    position:absolute;
-    top:50%;
-    left:50%;
-    transform:translate(-50%,-50%);
-    width:100%;
-    max-width:100vw;
-    height:100%;
-    border:none;
-    pointer-events:none;
-  }
-}
+@media(max-width:767px){#yt-player{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:177.78vh;min-width:100%;height:100vh;min-height:56.25vw;border:none;pointer-events:none;}}
 #yt-player{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:177.78vh;min-width:100%;height:100vh;min-height:56.25vw;border:none;pointer-events:none;}
 /* Hide mobile info on all pages except home */
 .page:not(.active) #info-mobile {
@@ -57,6 +47,14 @@ header{position:fixed;top:0;left:0;width:100%;height:50px;background:var(--heade
 /* safer override */
 body:not(.home-active) #info-mobile {
   display: none;
+}
+
+/* Hide mobile-only blocks on desktop */
+@media(min-width:768px){
+  #ourstory-anchor-mobile,
+  #info-mobile {
+    display: none !important;
+  }
 }
 
 /* Prevent scroll ONLY on desktop home */
@@ -74,7 +72,7 @@ body:not(.home-active) #info-mobile {
 @media(min-width:768px){
   .home-right {
     height: 100%;
-    overflow-y: auto;
+    overflow: hidden;
   }
 }
 
@@ -108,49 +106,15 @@ body:not(.home-active) #info-mobile {
     height: 100%;
     overflow: hidden;
   }
+
+  /* 🚫 kill anything that might extend layout */
+  #ourstory-anchor-mobile,
+  #info-mobile {
+    display: none !important;
+  }
+
 }
 
- /* DESKTOP: hide mobile Our Story */
-@media(min-width:768px){
-  .ourstory-mobile-wrapper {
-    display: none;
-  }
-}
-  
-@media(max-width:767px){
-
-  .home-left {
-    display: none;
-  }
-
-  /* keep right visible */
-  .home-right {
-    display: block;
-  }
-
-  /* video sizing */
-  .home-center .video-wrapper {
-    padding: 0 6px;
-  }
-
-  .home-center .video-container {
-    height: calc(100vh - 60px);
-  }
-
-  /* mobile sections */
-  .home-mobile-sections {
-    display: block;
-  }
-
-  .home-info-mobile {
-    display: block;
-  }
-
-  /* hide desktop Our Story */
-  #ourstory-container {
-    display: none;
-  }
-}
 /* DESKTOP 3-COLUMN HOME LAYOUT */
 .home-desktop{display:block;}
 @media(min-width:768px){
@@ -162,7 +126,7 @@ body:not(.home-active) #info-mobile {
   .home-center .video-container{width:100%;height:100%;border-radius:16px;background:var(--bg);}
   .home-mobile-sections{display:none;}
   .home-info-mobile{display:none;}
-  
+  /* Inner pages: no scroll, two-column layout */
   /* ROOMS → custom layout */
 #page-rooms.active {
   display: block !important;
@@ -214,6 +178,13 @@ body:not(.home-active) #info-mobile {
   object-fit: cover;
   display: block;
 }
+}
+@media(max-width:767px){
+  .home-left,.home-right{display:none;}
+  .home-center .video-wrapper{padding:0 6px;}
+  .home-center .video-container{height:calc(100vh - 60px);}
+  .home-mobile-sections{display:block;}
+  .home-info-mobile{display:block;}
 }
 
 /* DESKTOP SIDEBAR SECTIONS */
@@ -394,20 +365,8 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
     <div class="side-row">
       <img src="room1.jpg" alt="Rooms">
       <div class="text">
-        <h3 
-        data-en="Rooms"
-        data-al="Dhomat"
-        data-es="Habitaciones"
-        data-de="Zimmer">
-        Rooms
-      </h3>
-        <p id="rooms-desc" data-edit="rooms-desc"
-        data-en="Discover our comfortable rooms by the sea"
-        data-al="Zbuloni dhomat tona komode pranë detit"
-        data-es="Descubre nuestras cómodas habitaciones junto al mar"
-        data-de="Entdecken Sie unsere komfortablen Zimmer am Meer">
-        Discover our comfortable rooms by the sea
-      </p>
+        <h3>Rooms</h3>
+        <p id="rooms-desc" data-edit="rooms-desc">Discover our drinks and food</p>
       </div>
     </div>
   </a>
@@ -417,21 +376,8 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
     <div class="side-row rev">
       <img src="food1.jpg" alt="Food & Drinks">
       <div class="text">
-        <h3 
-        data-en="Food & Drinks"
-        data-al="Ushqim & Pije"
-        data-es="Comida y Bebidas"
-        data-de="Essen & Getränke">
-        Food & Drinks
-      </h3>
-
-      <p id="food-desc" data-edit="food-desc"
-        data-en="Enjoy fresh flavors, local dishes and refreshing drinks"
-        data-al="Shijoni shije të freskëta, gatime lokale dhe pije freskuese"
-        data-es="Disfruta sabores frescos, platos locales y bebidas refrescantes"
-        data-de="Genießen Sie frische Aromen, lokale Gerichte und erfrischende Getränke">
-        Enjoy fresh flavors, local dishes and refreshing drinks
-      </p>
+        <h3>Food & Drinks</h3>
+        <p id="food-desc" data-edit="food-desc">Discover our drinks and food</p>
       </div>
     </div>
   </a>
@@ -441,21 +387,8 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
     <div class="side-row">
       <img src="activities1.jpg" alt="Activities">
       <div class="text">
-        <h3 
-        data-en="Activities"
-        data-al="Aktivitete"
-        data-es="Actividades"
-        data-de="Aktivitäten">
-        Activities
-      </h3>
-
-      <p data-edit="activities-desc"
-        data-en="Explore Qeparo and enjoy the Riviera experience"
-        data-al="Eksploroni Qeparon dhe shijoni përvojën e Rivierës"
-        data-es="Explora Qeparo y disfruta de la experiencia de la Riviera"
-        data-de="Erkunden Sie Qeparo und genießen Sie die Riviera-Erfahrung">
-        Explore Qeparo and enjoy the Riviera experience
-      </p>
+        <h3>Activities</h3>
+        <p data-edit="activities-desc">Explore Qeparo</p>
       </div>
     </div>
   </a>
@@ -476,15 +409,70 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
       </div>
     </div>
 
-    <div class="ourstory-mobile-wrapper">
-  <div id="ourstory-container-mobile"></div>
-</div>
-
     <!-- RIGHT: Our Story on top, Info with blue bg at 1/3 down -->
-   <div class="home-right" style="flex-direction:column;">
-     <div id="ourstory-anchor"></div>
-     <div id="ourstory-container"></div>
-    
+    <div class="home-right" style="flex-direction:column;">
+      <div class="side-section" id="ourstory-anchor" style="flex:0 0 auto;text-align:center;cursor:default;">
+        <h3 data-edit="ourstory-title" data-en="Our Story" data-al="Historia Jonë" data-es="Nuestra Historia" data-de="Unsere Geschichte">
+  Our Story
+</h3>
+
+<p data-edit="ourstory-desc"
+   data-en="Learn about Sunset Boulevard Beach Hotel."
+   data-al="Mësoni rreth hotelit tonë."
+   data-es="Conoce el hotel."
+   data-de="Erfahren Sie mehr über das Hotel.">
+  data-en="Some stories begin with a grand plan. Ours began with an open door.
+Back in the early 1990s, our family did what felt natural, they shared what they had. A spare room in the family home became a place of welcome, offered to travelers and guests who needed a place to rest. There was no big vision back then, only warmth, good intentions, and the simple belief that taking care of people was worth doing well.
+That spirit quietly grew.
+By the year 2000, what had started as a single room had become something more. The family built two new rooms, purpose-made for guests, and with them came a deeper commitment, this was no longer just sharing space, it was a calling. Every guest who walked through the door taught them something new about hospitality, about comfort, about the small details that make someone feel truly at home.
+Then came 2004, and a new generation stepped forward. The children of the family, now young adults full of energy and ideas, opened the bar. It was a bold move, a fresh chapter, for them and the small villageu, it breathed new life into everything. Laughter, music, and the clink of glasses filled what had once been quiet evenings. The bar became a gathering place, a heart beating at the center of it all.
+From there, the growth never really stopped. More rooms were added over the years, one by one, each one a small milestone, a quiet testament to how far a family could come simply by showing up and caring. The property evolved, the faces of guests changed, the world outside changed, but the soul of the place stayed the same.
+And now, a new exciting step: a kitchen is joining the bar. Because a meal shared is a memory made, and we have always believed that the best way to welcome someone is to feed them well.
+From a single room to a full experience, accommodation, drinks, and now food now, this journey has been our greatest teacher. Every guest has shaped us. Every challenge has refined us.
+We are still learning, we are still growing, and we wouldn't have it in any other way.
+Welcome to our home."
+   data-al="Disa histori fillojnë me një plan të madh. E jona filloi me një derë të hapur.
+Në fillim të viteve '90, familja jonë bëri atë që ndihej e natyrshme, ndau atë që kishte. Një prej dhomave të familjes në shtëpi u bë një vend mirëseardhjeje, per tju ofruar udhëtarëve dhe mysafirëve që kishin nevojë për një vend ku të pushonin. Atëherë nuk kishte asnjë vizion të madh, vetëm ngrohtësi, qëllime të mira dhe besimi i thjeshtë se kujdesi për njerëzit ia vlente të bëhej mirë.
+Ai shpirt u rrit në heshtje.
+Deri në vitin 2000, ajo që kishte filluar si një dhomë e vetme kishte bërë diçka më shumë. Familja ndërtoi dy dhoma të reja, të krijuara posaçërisht për mysafirët, dhe me to erdhi një angazhim më i thellë, kjo nuk ishte më vetëm ndarje e hapësirës, ishte një thirrje. Çdo mysafir që kalonte pragun e derës u mësonte diçka të re për mikpritjen, për rehatin, për detajet e vogla që e bëjnë dikë të ndihet vërtet si në shtëpi.
+Pastaj erdhi viti 2004, dhe brez i ri doli përpara. Fëmijët e familjes, tani të rritur, plot energji dhe ide, hapën barin. Ishte një hap i guximshëm, një kapitull i ri, për ta dhe për fshatin e vogël, frymëzoi gjithçka me jetë të re. Të qeshurat, muzika dhe tingëllima e gotave mbushën ato që dikur ishin mbrëmje të qeta. Bari u bë një vend takimi, një zemër që rrihte në qendër të gjithçkaje.
+Nga aty, rritja nuk u ndal kurrë me të vërtetë. Dhoma të reja u shtuan me kalimin e viteve, njëra pas tjetrës, secila një moment i vogël historik, një dëshmi e qetë e sa larg mund të shkojë një familje vetëm duke u paraqitur dhe duke u kujdesur. Prona u zhvillua, fytyrat e mysafirëve ndryshuan, bota jashtë ndryshoi, por shpirti i vendit mbeti i njëjtë.
+Dhe tani, një hap i ri dhe i emocionshëm: një kuzhinë po i bashkohet barit. Sepse një vakt i ndarë është një kujtim i krijuar, dhe ne kemi besuar gjithmonë se mënyra më e mirë për të mirëpritur dikë është ta ushqesh mirë.
+Nga një dhomë e vetme deri në një përvojë të plotë, akomodim, pije dhe tani ushqim, ky udhëtim ka qenë mësuesi ynë më i madh. Çdo mysafir na ka formësuar. Çdo sfidë na ka rafinuar.
+Ne jemi ende duke mësuar, jemi ende duke u rritur, dhe nuk mund të ishte ndryshe.
+Mirë se vini në shtëpinë tonë."
+   data-es="Algunas historias comienzan con un gran plan. La nuestra comenzó con una puerta abierta.
+A principios de los años 90, nuestra familia hizo lo que le resultaba natural: compartir lo que tenía. Una de las habitaciones de la casa familiar se convirtió en un lugar de bienvenida, ofrecida a viajeros y huéspedes que necesitaban un lugar donde descansar. No había ninguna gran visión entonces, solo calidez, buenas intenciones y la simple creencia de que cuidar a las personas valía la pena hacerlo bien.
+Ese espíritu creció en silencio.
+Para el año 2000, lo que había comenzado como una sola habitación se había convertido en algo más. La familia construyó dos nuevas habitaciones, diseñadas especialmente para los huéspedes, y con ellas llegó un compromiso más profundo: esto ya no era solo compartir un espacio, era una vocación. Cada huésped que cruzaba la puerta les enseñaba algo nuevo sobre la hospitalidad, sobre el confort, sobre los pequeños detalles que hacen que alguien se sienta verdaderamente en casa.
+Luego llegó el 2004, y una nueva generación dio un paso al frente. Los hijos de la familia, ya adultos llenos de energía e ideas, abrieron el bar. Fue un movimiento audaz, un nuevo capítulo, para ellos y para el pequeño pueblo, que insufló nueva vida en todo. Las risas, la música y el tintineo de las copas llenaron lo que antes eran tardes tranquilas. El bar se convirtió en un lugar de encuentro, un corazón que latía en el centro de todo.
+Desde entonces, el crecimiento nunca se detuvo del todo. Se fueron añadiendo habitaciones a lo largo de los años, una a una, cada una un pequeño hito, un testimonio silencioso de hasta dónde puede llegar una familia simplemente presentándose y cuidando. La propiedad evolucionó, los rostros de los huéspedes cambiaron, el mundo exterior cambió, pero el alma del lugar siguió siendo la misma.
+Y ahora, un nuevo y emocionante paso: una cocina se une al bar. Porque una comida compartida es un recuerdo creado, y siempre hemos creído que la mejor manera de recibir a alguien es alimentarlo bien.
+Desde una sola habitación hasta una experiencia completa, alojamiento, bebidas y ahora comida, este viaje ha sido nuestro mayor maestro. Cada huésped nos ha dado forma. Cada desafío nos ha refinado.
+Seguimos aprendiendo, seguimos creciendo, y no podría ser de otra manera.
+Bienvenidos a nuestra casa."
+   data-de="Manche Geschichten beginnen mit einem großen Plan. Unsere begann mit einer offenen Tür.
+Zu Beginn der 90er Jahre tat unsere Familie das, was sich für sie natürlich anfühlte: Sie teilte, was sie hatte. Eines der Zimmer im Familienhaus wurde zu einem Ort des Willkommens, angeboten für Reisende und Gäste, die einen Platz zum Ausruhen brauchten. Es gab damals keine große Vision, nur Wärme, gute Absichten und den einfachen Glauben, dass es sich lohnt, gut für Menschen zu sorgen.
+Dieser Geist wuchs still und leise.
+Bis zum Jahr 2000 war aus dem, was als ein einziges Zimmer begonnen hatte, etwas mehr geworden. Die Familie baute zwei neue Zimmer, eigens für die Gäste geschaffen, und mit ihnen kam eine tiefere Verpflichtung: Es ging nicht mehr nur darum, Raum zu teilen, es war eine Berufung. Jeder Gast, der die Schwelle übertrat, lehrte sie etwas Neues über Gastfreundschaft, über Komfort, über die kleinen Details, die jemanden wirklich das Gefühl geben, zu Hause zu sein.
+Dann kam das Jahr 2004, und eine neue Generation trat in den Vordergrund. Die Kinder der Familie, inzwischen Erwachsene voller Energie und Ideen, eröffneten die Bar. Es war ein mutiger Schritt, ein neues Kapitel, für sie und für das kleine Dorf, das allem neues Leben einhauchte. Lachen, Musik und das Klirren der Gläser füllten das, was einst stille Abende gewesen waren. Die Bar wurde zu einem Treffpunkt, einem Herzen, das im Mittelpunkt von allem schlug.
+Von da an hörte das Wachstum nie wirklich auf. Im Laufe der Jahre wurden Zimmer für Zimmer hinzugefügt, jedes ein kleiner Meilenstein, ein stilles Zeugnis dafür, wie weit eine Familie kommen kann, wenn sie einfach da ist und sich kümmert. Das Anwesen entwickelte sich, die Gesichter der Gäste änderten sich, die Welt draußen änderte sich, aber die Seele des Ortes blieb dieselbe.
+Und jetzt, ein neuer und aufregender Schritt: Eine Küche kommt zur Bar hinzu. Denn eine geteilte Mahlzeit ist eine geschaffene Erinnerung, und wir haben immer geglaubt, dass der beste Weg, jemanden zu empfangen, der ist, ihn gut zu bewirten.
+Von einem einzigen Zimmer bis hin zu einem vollständigen Erlebnis, Unterkunft, Getränke und jetzt Essen, diese Reise war unser größter Lehrmeister. Jeder Gast hat uns geprägt. Jede Herausforderung hat uns verfeinert.
+Wir lernen noch immer, wir wachsen noch immer, und es könnte nicht anders sein.
+Willkommen in unserem Zuhause.">
+  Some stories begin with a grand plan. Ours began with an open door.
+Back in the early 1990s, our family did what felt natural, they shared what they had. A spare room in the family home became a place of welcome, offered to travelers and guests who needed a place to rest. There was no big vision back then, only warmth, good intentions, and the simple belief that taking care of people was worth doing well.
+That spirit quietly grew.
+By the year 2000, what had started as a single room had become something more. The family built two new rooms, purpose-made for guests, and with them came a deeper commitment, this was no longer just sharing space, it was a calling. Every guest who walked through the door taught them something new about hospitality, about comfort, about the small details that make someone feel truly at home.
+Then came 2004, and a new generation stepped forward. The children of the family, now young adults full of energy and ideas, opened the bar. It was a bold move, a fresh chapter, for them and the small villageu, it breathed new life into everything. Laughter, music, and the clink of glasses filled what had once been quiet evenings. The bar became a gathering place, a heart beating at the center of it all.
+From there, the growth never really stopped. More rooms were added over the years, one by one, each one a small milestone, a quiet testament to how far a family could come simply by showing up and caring. The property evolved, the faces of guests changed, the world outside changed, but the soul of the place stayed the same.
+And now, a new exciting step: a kitchen is joining the bar. Because a meal shared is a memory made, and we have always believed that the best way to welcome someone is to feed them well.
+From a single room to a full experience, accommodation, drinks, and now food now, this journey has been our greatest teacher. Every guest has shaped us. Every challenge has refined us.
+We are still learning, we are still growing, and we wouldn't have it in any other way.
+Welcome to our home.
+</p>
+      </div>
       <div style="flex:1 1 33%;"></div>
       <div class="side-info-block" id="info">
         <h2 data-edit="info-title" style="margin:0 0 10px;font-size:22px;text-align:center;">Info</h2>
@@ -518,11 +506,8 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
     <div class="sec-row">
       <img src="room1.jpg" alt="Rooms">
       <div class="text">
-        <h2 data-en="Rooms"
-        data-al="Dhomat"
-        data-es="Habitaciones"
-        data-de="Zimmer">>Rooms <span class="section-arrow">&#8250;</span></h2>
-        <p id="rooms-desc">Explore our rooms.</p>
+        <h2>Rooms <span class="section-arrow">&#8250;</span></h2>
+        <p id="rooms-desc">Explore our beautiful rooms.</p>
       </div>
     </div>
   </a>
@@ -532,10 +517,7 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
     <div class="sec-row reverse">
       <img src="food1.jpg" alt="Food & Drinks">
       <div class="text">
-        <h2 data-en="Food & Drinks"
-        data-al="Ushqim & Pije"
-        data-es="Comida y Bebidas"
-        data-de="Essen & Getränke">>Food & Drinks <span class="section-arrow">&#8250;</span></h2>
+        <h2>Food & Drinks <span class="section-arrow">&#8250;</span></h2>
         <p id="food-desc">Discover cocktails and cuisine.</p>
       </div>
     </div>
@@ -546,21 +528,82 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
     <div class="sec-row">
       <img src="activities1.jpg" alt="Activities">
       <div class="text">
-        <h2 ata-en="Activities"
-        data-al="Aktivitete"
-        data-es="Actividades"
-        data-de="Aktivitäten">Activities <span class="section-arrow">&#8250;</span></h2>
-        <p id="activities-desc"
-        data-en="Explore Qeparo"
-        data-al="Eksploroni Qeparon"
-        data-es="Explora Qeparo"
-        data-de="Erkunden Sie Qeparo">Explore Qeparo.</p>
+        <h2>Activities <span class="section-arrow">&#8250;</span></h2>
+        <p id="activities-desc">Explore Qeparo.</p>
       </div>
     </div>
   </a>
 
 </div>
 
+    <div class="section" id="ourstory-anchor-mobile" style="text-align:center;cursor:default;">
+      <h2 data-edit="ourstory-title-mobile" data-en="Our Story" data-al="Historia Jonë" data-es="Nuestra Historia" data-de="Unsere Geschichte">
+  Our Story
+</h2>
+
+<p <p data-edit="ourstory-desc-mobile">
+
+  <span class="short-text">
+    Learn about Sunset Boulevard Beach Hotel...
+  </span>
+
+  <span class="full-text" style="display:none;">
+   data-en="Some stories begin with a grand plan. Ours began with an open door.
+Back in the early 1990s, our family did what felt natural, they shared what they had. A spare room in the family home became a place of welcome, offered to travelers and guests who needed a place to rest. There was no big vision back then, only warmth, good intentions, and the simple belief that taking care of people was worth doing well.
+That spirit quietly grew.
+By the year 2000, what had started as a single room had become something more. The family built two new rooms, purpose-made for guests, and with them came a deeper commitment, this was no longer just sharing space, it was a calling. Every guest who walked through the door taught them something new about hospitality, about comfort, about the small details that make someone feel truly at home.
+Then came 2004, and a new generation stepped forward. The children of the family, now young adults full of energy and ideas, opened the bar. It was a bold move, a fresh chapter, for them and the small villageu, it breathed new life into everything. Laughter, music, and the clink of glasses filled what had once been quiet evenings. The bar became a gathering place, a heart beating at the center of it all.
+From there, the growth never really stopped. More rooms were added over the years, one by one, each one a small milestone, a quiet testament to how far a family could come simply by showing up and caring. The property evolved, the faces of guests changed, the world outside changed, but the soul of the place stayed the same.
+And now, a new exciting step: a kitchen is joining the bar. Because a meal shared is a memory made, and we have always believed that the best way to welcome someone is to feed them well.
+From a single room to a full experience, accommodation, drinks, and now food now, this journey has been our greatest teacher. Every guest has shaped us. Every challenge has refined us.
+We are still learning, we are still growing, and we wouldn't have it in any other way.
+Welcome to our home."
+   data-al="Disa histori fillojnë me një plan të madh. E jona filloi me një derë të hapur.
+Në fillim të viteve '90, familja jonë bëri atë që ndihej e natyrshme, ndau atë që kishte. Një prej dhomave të familjes në shtëpi u bë një vend mirëseardhjeje, per tju ofruar udhëtarëve dhe mysafirëve që kishin nevojë për një vend ku të pushonin. Atëherë nuk kishte asnjë vizion të madh, vetëm ngrohtësi, qëllime të mira dhe besimi i thjeshtë se kujdesi për njerëzit ia vlente të bëhej mirë.
+Ai shpirt u rrit në heshtje.
+Deri në vitin 2000, ajo që kishte filluar si një dhomë e vetme kishte bërë diçka më shumë. Familja ndërtoi dy dhoma të reja, të krijuara posaçërisht për mysafirët, dhe me to erdhi një angazhim më i thellë, kjo nuk ishte më vetëm ndarje e hapësirës, ishte një thirrje. Çdo mysafir që kalonte pragun e derës u mësonte diçka të re për mikpritjen, për rehatin, për detajet e vogla që e bëjnë dikë të ndihet vërtet si në shtëpi.
+Pastaj erdhi viti 2004, dhe brez i ri doli përpara. Fëmijët e familjes, tani të rritur, plot energji dhe ide, hapën barin. Ishte një hap i guximshëm, një kapitull i ri, për ta dhe për fshatin e vogël, frymëzoi gjithçka me jetë të re. Të qeshurat, muzika dhe tingëllima e gotave mbushën ato që dikur ishin mbrëmje të qeta. Bari u bë një vend takimi, një zemër që rrihte në qendër të gjithçkaje.
+Nga aty, rritja nuk u ndal kurrë me të vërtetë. Dhoma të reja u shtuan me kalimin e viteve, njëra pas tjetrës, secila një moment i vogël historik, një dëshmi e qetë e sa larg mund të shkojë një familje vetëm duke u paraqitur dhe duke u kujdesur. Prona u zhvillua, fytyrat e mysafirëve ndryshuan, bota jashtë ndryshoi, por shpirti i vendit mbeti i njëjtë.
+Dhe tani, një hap i ri dhe i emocionshëm: një kuzhinë po i bashkohet barit. Sepse një vakt i ndarë është një kujtim i krijuar, dhe ne kemi besuar gjithmonë se mënyra më e mirë për të mirëpritur dikë është ta ushqesh mirë.
+Nga një dhomë e vetme deri në një përvojë të plotë, akomodim, pije dhe tani ushqim, ky udhëtim ka qenë mësuesi ynë më i madh. Çdo mysafir na ka formësuar. Çdo sfidë na ka rafinuar.
+Ne jemi ende duke mësuar, jemi ende duke u rritur, dhe nuk mund të ishte ndryshe.
+Mirë se vini në shtëpinë tonë."
+   data-es="Algunas historias comienzan con un gran plan. La nuestra comenzó con una puerta abierta.
+A principios de los años 90, nuestra familia hizo lo que le resultaba natural: compartir lo que tenía. Una de las habitaciones de la casa familiar se convirtió en un lugar de bienvenida, ofrecida a viajeros y huéspedes que necesitaban un lugar donde descansar. No había ninguna gran visión entonces, solo calidez, buenas intenciones y la simple creencia de que cuidar a las personas valía la pena hacerlo bien.
+Ese espíritu creció en silencio.
+Para el año 2000, lo que había comenzado como una sola habitación se había convertido en algo más. La familia construyó dos nuevas habitaciones, diseñadas especialmente para los huéspedes, y con ellas llegó un compromiso más profundo: esto ya no era solo compartir un espacio, era una vocación. Cada huésped que cruzaba la puerta les enseñaba algo nuevo sobre la hospitalidad, sobre el confort, sobre los pequeños detalles que hacen que alguien se sienta verdaderamente en casa.
+Luego llegó el 2004, y una nueva generación dio un paso al frente. Los hijos de la familia, ya adultos llenos de energía e ideas, abrieron el bar. Fue un movimiento audaz, un nuevo capítulo, para ellos y para el pequeño pueblo, que insufló nueva vida en todo. Las risas, la música y el tintineo de las copas llenaron lo que antes eran tardes tranquilas. El bar se convirtió en un lugar de encuentro, un corazón que latía en el centro de todo.
+Desde entonces, el crecimiento nunca se detuvo del todo. Se fueron añadiendo habitaciones a lo largo de los años, una a una, cada una un pequeño hito, un testimonio silencioso de hasta dónde puede llegar una familia simplemente presentándose y cuidando. La propiedad evolucionó, los rostros de los huéspedes cambiaron, el mundo exterior cambió, pero el alma del lugar siguió siendo la misma.
+Y ahora, un nuevo y emocionante paso: una cocina se une al bar. Porque una comida compartida es un recuerdo creado, y siempre hemos creído que la mejor manera de recibir a alguien es alimentarlo bien.
+Desde una sola habitación hasta una experiencia completa, alojamiento, bebidas y ahora comida, este viaje ha sido nuestro mayor maestro. Cada huésped nos ha dado forma. Cada desafío nos ha refinado.
+Seguimos aprendiendo, seguimos creciendo, y no podría ser de otra manera.
+Bienvenidos a nuestra casa."
+   data-de="Manche Geschichten beginnen mit einem großen Plan. Unsere begann mit einer offenen Tür.
+Zu Beginn der 90er Jahre tat unsere Familie das, was sich für sie natürlich anfühlte: Sie teilte, was sie hatte. Eines der Zimmer im Familienhaus wurde zu einem Ort des Willkommens, angeboten für Reisende und Gäste, die einen Platz zum Ausruhen brauchten. Es gab damals keine große Vision, nur Wärme, gute Absichten und den einfachen Glauben, dass es sich lohnt, gut für Menschen zu sorgen.
+Dieser Geist wuchs still und leise.
+Bis zum Jahr 2000 war aus dem, was als ein einziges Zimmer begonnen hatte, etwas mehr geworden. Die Familie baute zwei neue Zimmer, eigens für die Gäste geschaffen, und mit ihnen kam eine tiefere Verpflichtung: Es ging nicht mehr nur darum, Raum zu teilen, es war eine Berufung. Jeder Gast, der die Schwelle übertrat, lehrte sie etwas Neues über Gastfreundschaft, über Komfort, über die kleinen Details, die jemanden wirklich das Gefühl geben, zu Hause zu sein.
+Dann kam das Jahr 2004, und eine neue Generation trat in den Vordergrund. Die Kinder der Familie, inzwischen Erwachsene voller Energie und Ideen, eröffneten die Bar. Es war ein mutiger Schritt, ein neues Kapitel, für sie und für das kleine Dorf, das allem neues Leben einhauchte. Lachen, Musik und das Klirren der Gläser füllten das, was einst stille Abende gewesen waren. Die Bar wurde zu einem Treffpunkt, einem Herzen, das im Mittelpunkt von allem schlug.
+Von da an hörte das Wachstum nie wirklich auf. Im Laufe der Jahre wurden Zimmer für Zimmer hinzugefügt, jedes ein kleiner Meilenstein, ein stilles Zeugnis dafür, wie weit eine Familie kommen kann, wenn sie einfach da ist und sich kümmert. Das Anwesen entwickelte sich, die Gesichter der Gäste änderten sich, die Welt draußen änderte sich, aber die Seele des Ortes blieb dieselbe.
+Und jetzt, ein neuer und aufregender Schritt: Eine Küche kommt zur Bar hinzu. Denn eine geteilte Mahlzeit ist eine geschaffene Erinnerung, und wir haben immer geglaubt, dass der beste Weg, jemanden zu empfangen, der ist, ihn gut zu bewirten.
+Von einem einzigen Zimmer bis hin zu einem vollständigen Erlebnis, Unterkunft, Getränke und jetzt Essen, diese Reise war unser größter Lehrmeister. Jeder Gast hat uns geprägt. Jede Herausforderung hat uns verfeinert.
+Wir lernen noch immer, wir wachsen noch immer, und es könnte nicht anders sein.
+Willkommen in unserem Zuhause.">
+  Some stories begin with a grand plan. Ours began with an open door.
+Back in the early 1990s, our family did what felt natural, they shared what they had. A spare room in the family home became a place of welcome, offered to travelers and guests who needed a place to rest. There was no big vision back then, only warmth, good intentions, and the simple belief that taking care of people was worth doing well.
+That spirit quietly grew.
+By the year 2000, what had started as a single room had become something more. The family built two new rooms, purpose-made for guests, and with them came a deeper commitment, this was no longer just sharing space, it was a calling. Every guest who walked through the door taught them something new about hospitality, about comfort, about the small details that make someone feel truly at home.
+Then came 2004, and a new generation stepped forward. The children of the family, now young adults full of energy and ideas, opened the bar. It was a bold move, a fresh chapter, for them and the small villageu, it breathed new life into everything. Laughter, music, and the clink of glasses filled what had once been quiet evenings. The bar became a gathering place, a heart beating at the center of it all.
+From there, the growth never really stopped. More rooms were added over the years, one by one, each one a small milestone, a quiet testament to how far a family could come simply by showing up and caring. The property evolved, the faces of guests changed, the world outside changed, but the soul of the place stayed the same.
+And now, a new exciting step: a kitchen is joining the bar. Because a meal shared is a memory made, and we have always believed that the best way to welcome someone is to feed them well.
+From a single room to a full experience, accommodation, drinks, and now food now, this journey has been our greatest teacher. Every guest has shaped us. Every challenge has refined us.
+We are still learning, we are still growing, and we wouldn't have it in any other way.
+Welcome to our home.
+  </span>
+  <br>
+  <a href="#" class="read-toggle">Read more</a>
+</p>
+    </div>
+  </div>
 
 <!-- ROOMS -->
 <div class="page" id="page-rooms">
@@ -801,7 +844,7 @@ data-en="Qeparo is one of Albania's hidden gems — a charming village above a p
   </a>
 
 </div>
-  
+
 <script>
 (function() {
 
@@ -955,19 +998,11 @@ document.getElementById('backBtn').addEventListener('click', function(){
       var arrow = el.querySelector('.section-arrow');
       if (arrow) {
         el.innerHTML = el.getAttribute('data-' + lang) + ' <span class="section-arrow">&#8250;</span>';
-      } else {
-        const text = el.getAttribute('data-' + lang);
-        const shortText = el.querySelector('.short-text');
-        const fullText = el.querySelector('.full-text');
-
-       if(shortText && fullText){
-       fullText.textContent = text;
-       } else {
-       el.textContent = text;
-       }
+      } else if (!el.children.length) {
+        el.textContent = el.getAttribute('data-' + lang);
       }
     });
- }
+  }
 
   langs.forEach(function(l) {
     var btn = document.getElementById('btn-' + l);
@@ -1350,8 +1385,6 @@ document.addEventListener('click', function(e){
 });
 
 </script>
-
-<script src="main.js"></script>  
 
 </body>
 </html>
