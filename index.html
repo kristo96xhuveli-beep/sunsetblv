@@ -838,25 +838,6 @@ musicBtn.addEventListener('click', function() {
 
 }
 
- document.addEventListener('click', function(e){
-
-  const link = e.target.closest('[data-page]');
-  if(!link) return;
-
-  e.preventDefault();
-
-  const page = link.getAttribute('data-page');
-
-  console.log("CLICK:", page);
-
-  showPage(page);
-
-});
-  
-document.getElementById('backBtn').addEventListener('click', function(){
-  showPage('home');
-});
-
   document.querySelectorAll('[data-page]').forEach(function(el) {
   el.addEventListener('click', function(e) {
 
