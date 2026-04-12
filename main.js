@@ -86,16 +86,17 @@ document.addEventListener("DOMContentLoaded", () => {
     const temp = document.createElement('div');
     temp.innerHTML = html;
 
-    const desktopContent = temp.querySelector('#ourstory-anchor');
-    const mobileContent = temp.querySelector('#ourstory-anchor-mobile');
+    const sections = temp.querySelectorAll('div');
 
+    const desktop = document.getElementById('ourstory-container');
+    const mobile = document.getElementById('ourstory-container-mobile');
 
-    if(desktop && desktopContent){
-      desktop.innerHTML = desktopContent.outerHTML;
+    if (desktop && sections[0]) {
+      desktop.innerHTML = sections[0].outerHTML;
     }
 
-    if(mobile && mobileContent){
-      mobile.innerHTML = mobileContent.outerHTML;
+    if (mobile && sections[1]) {
+      mobile.innerHTML = sections[1].outerHTML;
     }
 
     if (typeof applyLang === "function" && typeof currentLang !== "undefined") {
