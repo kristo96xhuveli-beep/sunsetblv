@@ -1,3 +1,4 @@
+console.log("MAIN JS LOADED");
 // GLOBAL EDIT MODE SYSTEM
 
 let editMode = false;
