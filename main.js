@@ -80,19 +80,28 @@ document.addEventListener("DOMContentLoaded", () => {
   loadContent();
 
   fetch('./ourstory.html')
-    .then(res => res.text())
-    .then(html => {
+  .then(res => res.text())
+  .then(html => {
 
-      const desktop = document.getElementById('ourstory-container');
-      const mobile = document.getElementById('ourstory-container-mobile');
+    const temp = document.createElement('div');
+    temp.innerHTML = html;
 
-      if(desktop) desktop.innerHTML = html;
-      if(mobile) mobile.innerHTML = html;
+    const desktopContent = temp.querySelector('#ourstory-anchor');
+    const mobileContent = temp.querySelector('#ourstory-anchor-mobile');
 
-      if (typeof applyLang === "function" && typeof currentLang !== "undefined") {
-        applyLang(currentLang);
-      }
+    const desktop = document.getElementById('ourstory-container');
+    const mobile = document.getElementById('ourstory-container-mobile');
 
-    });
+    if(desktop && desktopContent){
+      desktop.innerHTML = desktopContent.outerHTML;
+    }
 
-});
+    if(mobile && mobileContent){
+      mobile.innerHTML = mobileContent.outerHTML;
+    }
+
+    if (typeof applyLang === "function" && typeof currentLang !== "undefined") {
+      applyLang(currentLang);
+    }
+
+  });
