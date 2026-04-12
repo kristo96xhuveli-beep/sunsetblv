@@ -83,23 +83,11 @@ document.addEventListener("DOMContentLoaded", () => {
   .then(res => res.text())
   .then(html => {
 
-    const temp = document.createElement('div');
-    temp.innerHTML = html;
-
-    // ✅ SELECT ONLY THE REAL BLOCKS
-    const desktopContent = temp.querySelector('.side-section');
-    const mobileContent = temp.querySelector('.section');
-
     const desktop = document.getElementById('ourstory-container');
     const mobile = document.getElementById('ourstory-container-mobile');
 
-    if (desktop && desktopContent) {
-      desktop.innerHTML = desktopContent.outerHTML;
-    }
-
-    if (mobile && mobileContent) {
-      mobile.innerHTML = mobileContent.outerHTML;
-    }
+    if (desktop) desktop.innerHTML = html;
+    if (mobile) mobile.innerHTML = html;
 
     if (typeof applyLang === "function" && typeof currentLang !== "undefined") {
       applyLang(currentLang);
