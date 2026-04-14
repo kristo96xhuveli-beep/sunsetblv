@@ -864,7 +864,6 @@ data-en="Qeparo is one of Albania's hidden gems — a charming village above a p
 
 </div>
 
-
 <script>
 (function() {
 
@@ -1253,57 +1252,28 @@ let calDate = new Date();
 
 async function fetchRes() {
   if(cachedRes) return;
-
   try {
     const res = await fetch(SHEET_URL);
     const text = await res.text();
     const rows = text.split('\n').slice(1);
-
     cachedRes = [];
-
     for(const row of rows) {
-      try {
-
-        if (!row || !row.trim()) continue;
-
-        const cols = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-
-        if (!cols || cols.length < 8) continue;
-        if (!cols[1] || !cols[2]) continue;
-
-        const checkIn = cols[1].trim();
-        const checkOut = cols[2].trim();
-
-        if(!checkIn.includes('/')) continue;
-
-        const validRooms = new Set([
-          'H1','H2','H3','H4',
-          'H5','H6','H7','H8',
-          'SH14'
-        ]);
-
-        const room = cols
-          .map(c => (c || '').replace(/"/g,'').trim().toUpperCase())
-          .find(c => validRooms.has(c));
-
-        if (!room) continue;
-
-        const [iD,iM,iY] = checkIn.split('/');
-        const [oD,oM,oY] = checkOut.split('/');
-
-        cachedRes.push({
-          ci: new Date(Number(iY), Number(iM)-1, Number(iD)),
-          co: new Date(Number(oY), Number(oM)-1, Number(oD)),
-          room
-        });
-
-      } catch (e) {
-        console.log("ROW ERROR:", row);
-        continue;
-      }
+      const cols = row.match(/(".*?"|[^",]+)(?=\s*,|\s*$)/g);
+      if(cols.length < 8) continue;
+      const checkIn = cols[1].trim();
+      const checkOut = cols[2].trim();
+      const room = cols[7]?.replace(/"/g,'').trim().toUpperCase();
+      if(!checkIn.includes('/')) continue;
+      const [iD,iM,iY] = checkIn.split('/');
+      const [oD,oM,oY] = checkOut.split('/');
+      cachedRes.push({
+        ci: new Date(iY, iM-1, iD),
+        co: new Date(oY, oM-1, oD),
+        room
+      });
     }
-
-  } catch (e) {
+    console.log('Loaded reservations:', cachedRes.length);
+  } catch(e) {
     console.error('Fetch failed:', e);
     cachedRes = [];
   }
@@ -1331,9 +1301,7 @@ function isBooked(date, type) {
     const ci = new Date(r.ci); ci.setHours(0,0,0,0);
     const co = new Date(r.co); co.setHours(0,0,0,0);
 
-    if(d >= ci && d < co) {
-  console.log("MATCH:", room, "CI:", ci, "CO:", co);
-  booked.add(room);
+    if(d >= ci && d < co) booked.add(room);
   }
 
   console.log('DATE:', d, 'TYPE:', type, 'BOOKED:', [...booked]);
@@ -1386,28 +1354,22 @@ const cls = past ? 'past' : isClosed ? 'booked' : isBooked(date, calType) ? 'boo
     console.error('renderCal error:', e);
   }
 }
-function parseDate(d) {
-  const [day, month, year] = d.split('/');
-  return new Date(year, month - 1, day);
-}
 async function openCalendar(type) {
-  console.log("CLICK WORKING", type);
-
+  console.log('openCalendar called', type);
+  calType = type;
+  calDate = new Date();
   const modal = document.getElementById('cal-modal');
-  console.log("MODAL:", modal);
-
-  if (!modal) {
-    console.error("Modal not found");
-    return;
-  }
-
+  console.log('modal element:', modal);
+  if(!modal){ console.error('Modal not found!'); return; }
   modal.style.display = 'flex';
   document.body.appendChild(modal);
-
-  document.getElementById('cal-title').textContent = "TEST";
-  document.getElementById('cal-body').innerHTML = "IT OPENS";
-
-  return;
+  console.log('modal display set to flex');
+  document.getElementById('cal-title').textContent = ROOM_TYPES[type].label;
+  document.getElementById('cal-body').innerHTML = '<p style="text-align:center;padding:20px">Loading...</p>';
+  await fetchRes();
+  console.log('calling renderCal, calType:', calType, 'calDate:', calDate);
+  console.log('TYPE:', type);
+  renderCal();
 }
 document.getElementById('cal-close').onclick = ()=>{ document.getElementById('cal-modal').style.display='none'; };
 document.getElementById('cal-modal').onclick = (e)=>{ if(e.target.id==='cal-modal') e.target.style.display='none'; };
