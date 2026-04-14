@@ -1383,23 +1383,22 @@ function parseDate(d) {
 }
 async function openCalendar(type) {
   console.log("CLICK WORKING", type);
-  console.log('openCalendar called', type);
-  calType = type;
-  calDate = new Date();
+
   const modal = document.getElementById('cal-modal');
-  console.log('modal element:', modal);
-  if(!modal){ console.error('Modal not found!'); return; }
+  console.log("MODAL:", modal);
+
+  if (!modal) {
+    console.error("Modal not found");
+    return;
+  }
+
   modal.style.display = 'flex';
   document.body.appendChild(modal);
-  console.log('modal display set to flex');
-  document.getElementById('cal-title').textContent = ROOM_TYPES[type].label;
-  document.getElementById('cal-body').innerHTML = '<p style="text-align:center;padding:20px">Loading...</p>';
-  console.log("BEFORE FETCH");
-  await fetchRes();
-  console.log("AFTER FETCH");
-  console.log('calling renderCal, calType:', calType, 'calDate:', calDate);
-  console.log('TYPE:', type);
-  renderCal();
+
+  document.getElementById('cal-title').textContent = "TEST";
+  document.getElementById('cal-body').innerHTML = "IT OPENS";
+
+  return;
 }
 document.getElementById('cal-close').onclick = ()=>{ document.getElementById('cal-modal').style.display='none'; };
 document.getElementById('cal-modal').onclick = (e)=>{ if(e.target.id==='cal-modal') e.target.style.display='none'; };
