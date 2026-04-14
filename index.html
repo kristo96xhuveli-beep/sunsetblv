@@ -1268,14 +1268,18 @@ async function fetchRes() {
   'SH14'
 ]);
 
-const room = cols
+const roomRaw = cols
   .map(c => c.replace(/"/g,'').trim().toUpperCase())
   .find(c => validRooms.has(c));
 
-if (!room) continue;
-  if(!checkIn.includes('/')) continue;
-  const [iD,iM,iY] = checkIn.split('/');
-  const [oD,oM,oY] = checkOut.split('/');
+if (!roomRaw) continue;
+
+const room = roomRaw; // clean and safe
+
+if(!checkIn.includes('/')) continue;
+
+const [iD,iM,iY] = checkIn.split('/');
+const [oD,oM,oY] = checkOut.split('/');
 
 cachedRes.push({
   ci: new Date(Number(iY), Number(iM)-1, Number(iD)),
