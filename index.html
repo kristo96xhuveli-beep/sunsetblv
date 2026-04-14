@@ -1258,40 +1258,45 @@ async function fetchRes() {
     const rows = text.split('\n').slice(1);
     cachedRes = [];
     for(const row of rows) {
-      if (!row || !row.trim()) continue;
-      const cols = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-      if(cols.length < 8) continue;
-      const checkIn = cols[1].trim();
-      const checkOut = cols[2].trim();
-      const validRooms = new Set([
-  'H1','H2','H3','H4',
-  'H5','H6','H7','H8',
-  'SH14'
-]);
 
-const roomRaw = cols
-  .map(c => c.replace(/"/g,'').trim().toUpperCase())
-  .find(c => validRooms.has(c));
+  try {
 
-if (!roomRaw) continue;
+    if (!row || !row.trim()) continue;
 
-const room = roomRaw; // clean and safe
+    const cols = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
 
-if(!checkIn.includes('/')) continue;
+    if (!cols || cols.length < 8) continue;
+    if (!cols[1] || !cols[2]) continue;
 
-const [iD,iM,iY] = checkIn.split('/');
-const [oD,oM,oY] = checkOut.split('/');
+    const checkIn = cols[1].trim();
+    const checkOut = cols[2].trim();
 
-cachedRes.push({
-  ci: new Date(Number(iY), Number(iM)-1, Number(iD)),
-  co: new Date(Number(oY), Number(oM)-1, Number(oD)),
-  room
-});
-    }
-    console.log('Loaded reservations:', cachedRes.length);
+    if(!checkIn.includes('/')) continue;
+
+    const validRooms = new Set([
+      'H1','H2','H3','H4',
+      'H5','H6','H7','H8',
+      'SH14'
+    ]);
+
+    const room = cols
+      .map(c => (c || '').replace(/"/g,'').trim().toUpperCase())
+      .find(c => validRooms.has(c));
+
+    if (!room) continue;
+
+    const [iD,iM,iY] = checkIn.split('/');
+    const [oD,oM,oY] = checkOut.split('/');
+
+    cachedRes.push({
+      ci: new Date(Number(iY), Number(iM)-1, Number(iD)),
+      co: new Date(Number(oY), Number(oM)-1, Number(oD)),
+      room
+    });
+
   } catch(e) {
-    console.error('Fetch failed:', e);
-    cachedRes = [];
+    console.log("ROW ERROR:", row);
+    continue;
   }
 }
 
@@ -1377,6 +1382,7 @@ function parseDate(d) {
   return new Date(year, month - 1, day);
 }
 async function openCalendar(type) {
+  console.log("CLICK WORKING", type);
   console.log('openCalendar called', type);
   calType = type;
   calDate = new Date();
@@ -1388,7 +1394,9 @@ async function openCalendar(type) {
   console.log('modal display set to flex');
   document.getElementById('cal-title').textContent = ROOM_TYPES[type].label;
   document.getElementById('cal-body').innerHTML = '<p style="text-align:center;padding:20px">Loading...</p>';
+  console.log("BEFORE FETCH");
   await fetchRes();
+  console.log("AFTER FETCH");
   console.log('calling renderCal, calType:', calType, 'calDate:', calDate);
   console.log('TYPE:', type);
   renderCal();
