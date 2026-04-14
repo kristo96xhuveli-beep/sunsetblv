@@ -1273,14 +1273,15 @@ const room = cols
   .find(c => validRooms.has(c));
 
 if (!room) continue;
-      if(!checkIn.includes('/')) continue;
-      const [iD,iM,iY] = checkIn.split('/');
-      const [oD,oM,oY] = checkOut.split('/');
-      cachedRes.push({
-        ci: new Date(iY, iM-1, iD),
-        co: new Date(oY, oM-1, oD),
-        room
-      });
+  if(!checkIn.includes('/')) continue;
+  const [iD,iM,iY] = checkIn.split('/');
+  const [oD,oM,oY] = checkOut.split('/');
+
+cachedRes.push({
+  ci: new Date(Number(iY), Number(iM)-1, Number(iD)),
+  co: new Date(Number(oY), Number(oM)-1, Number(oD)),
+  room
+});
     }
     console.log('Loaded reservations:', cachedRes.length);
   } catch(e) {
@@ -1363,6 +1364,10 @@ const cls = past ? 'past' : isClosed ? 'booked' : isBooked(date, calType) ? 'boo
   catch(e) {
     console.error('renderCal error:', e);
   }
+}
+function parseDate(d) {
+  const [day, month, year] = d.split('/');
+  return new Date(year, month - 1, day);
 }
 async function openCalendar(type) {
   console.log('openCalendar called', type);
