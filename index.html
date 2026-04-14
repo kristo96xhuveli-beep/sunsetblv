@@ -1253,59 +1253,60 @@ let calDate = new Date();
 
 async function fetchRes() {
   if(cachedRes) return;
+
   try {
     const res = await fetch(SHEET_URL);
     const text = await res.text();
     const rows = text.split('\n').slice(1);
+
     cachedRes = [];
+
     for(const row of rows) {
+      try {
 
-  try {
+        if (!row || !row.trim()) continue;
 
-    if (!row || !row.trim()) continue;
+        const cols = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
 
-    const cols = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+        if (!cols || cols.length < 8) continue;
+        if (!cols[1] || !cols[2]) continue;
 
-    if (!cols || cols.length < 8) continue;
-    if (!cols[1] || !cols[2]) continue;
+        const checkIn = cols[1].trim();
+        const checkOut = cols[2].trim();
 
-    const checkIn = cols[1].trim();
-    const checkOut = cols[2].trim();
+        if(!checkIn.includes('/')) continue;
 
-    if(!checkIn.includes('/')) continue;
+        const validRooms = new Set([
+          'H1','H2','H3','H4',
+          'H5','H6','H7','H8',
+          'SH14'
+        ]);
 
-    const validRooms = new Set([
-      'H1','H2','H3','H4',
-      'H5','H6','H7','H8',
-      'SH14'
-    ]);
+        const room = cols
+          .map(c => (c || '').replace(/"/g,'').trim().toUpperCase())
+          .find(c => validRooms.has(c));
 
-    const room = cols
-      .map(c => (c || '').replace(/"/g,'').trim().toUpperCase())
-      .find(c => validRooms.has(c));
+        if (!room) continue;
 
-    if (!room) continue;
+        const [iD,iM,iY] = checkIn.split('/');
+        const [oD,oM,oY] = checkOut.split('/');
 
-    const [iD,iM,iY] = checkIn.split('/');
-    const [oD,oM,oY] = checkOut.split('/');
+        cachedRes.push({
+          ci: new Date(Number(iY), Number(iM)-1, Number(iD)),
+          co: new Date(Number(oY), Number(oM)-1, Number(oD)),
+          room
+        });
 
-    cachedRes.push({
-      ci: new Date(Number(iY), Number(iM)-1, Number(iD)),
-      co: new Date(Number(oY), Number(oM)-1, Number(oD)),
-      room
-    });
+      } catch (e) {
+        console.log("ROW ERROR:", row);
+        continue;
+      }
+    }
 
-  } catch (e) {
-    console.log("ROW ERROR:", row);
-    continue;
-  }
-}
-  
   } catch (e) {
     console.error('Fetch failed:', e);
     cachedRes = [];
   }
-
 }
 
 function isBooked(date, type) {
