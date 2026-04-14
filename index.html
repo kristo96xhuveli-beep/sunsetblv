@@ -1300,6 +1300,13 @@ async function fetchRes() {
     continue;
   }
 }
+  
+  } catch (e) {
+    console.error('Fetch failed:', e);
+    cachedRes = [];
+  }
+
+}
 
 function isBooked(date, type) {
   if(!cachedRes) return false;
