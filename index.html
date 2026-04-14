@@ -1264,7 +1264,7 @@ async function fetchRes() {
       const checkOut = cols[2].trim();
       const room = cols
   .map(c => c.replace(/"/g,'').trim().toUpperCase())
-  .find(c => /^H\d+$/.test(c));
+  .find(c => /^H\d+$|^SH\d+$/.test(c));
       if(!checkIn.includes('/')) continue;
       const [iD,iM,iY] = checkIn.split('/');
       const [oD,oM,oY] = checkOut.split('/');
