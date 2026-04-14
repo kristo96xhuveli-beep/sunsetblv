@@ -1258,7 +1258,7 @@ async function fetchRes() {
     const rows = text.split('\n').slice(1);
     cachedRes = [];
     for(const row of rows) {
-      const cols = row.match(/(".*?"|[^",]+)(?=\s*,|\s*$)/g);
+      const cols = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
       if(cols.length < 8) continue;
       const checkIn = cols[1].trim();
       const checkOut = cols[2].trim();
