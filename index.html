@@ -1316,7 +1316,9 @@ function isBooked(date, type) {
     const ci = new Date(r.ci); ci.setHours(0,0,0,0);
     const co = new Date(r.co); co.setHours(0,0,0,0);
 
-    if(d >= ci && d < co) booked.add(room);
+    if(d >= ci && d < co) {
+  console.log("MATCH:", room, "CI:", ci, "CO:", co);
+  booked.add(room);
   }
 
   console.log('DATE:', d, 'TYPE:', type, 'BOOKED:', [...booked]);
