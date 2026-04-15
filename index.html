@@ -166,7 +166,7 @@ body:not(.home-active) #info-mobile {
     box-sizing: border-box;
     padding: 30px;
   }
-  #page-rooms .card img, #page-food .card img, #page-activities .card img {
+  #page-rooms .card img, {
     width:90%;
   max-width:180px;
   aspect-ratio: 1/1;
@@ -178,6 +178,37 @@ body:not(.home-active) #info-mobile {
   object-fit: cover;
   display: block;
 }
+}
+@media(min-width:768px){
+
+  /* Make Food & Activities cards look like room cards */
+  #page-food .card,
+  #page-activities .card {
+    display: block;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 2px 12px var(--card-shadow);
+    margin-bottom: 24px;
+    background: var(--bg);
+  }
+
+  #page-food .card img,
+  #page-activities .card img {
+    width: 100%;
+    height: 260px;
+    object-fit: cover;
+    border-radius: 0;
+  }
+
+  #page-food .card .cinfo,
+  #page-activities .card .cinfo {
+    padding: 16px 18px;
+  }
+
+  #page-food .card:nth-child(even),
+  #page-activities .card:nth-child(even) {
+    flex-direction: unset; /* removes alternating layout */
+  }
 }
 @media(max-width:767px){
   .home-left,.home-right{display:none;}
