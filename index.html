@@ -191,7 +191,6 @@ body:not(.home-active) #info-mobile {
     margin-bottom: 24px;
     background: var(--bg);
   }
-
   #page-food .card img,
   #page-activities .card img {
     width: 100%;
@@ -199,15 +198,28 @@ body:not(.home-active) #info-mobile {
     object-fit: cover;
     border-radius: 0;
   }
-
   #page-food .card .cinfo,
   #page-activities .card .cinfo {
     padding: 16px 18px;
   }
-
   #page-food .card:nth-child(even),
   #page-activities .card:nth-child(even) {
     flex-direction: unset; /* removes alternating layout */
+  }
+  #page-food .card,
+  #page-activities .card {
+    max-width: 700px;
+    margin: 0 auto 30px;
+    text-align: center;
+  }
+  #page-food .card .cinfo,
+  #page-activities .card .cinfo {
+    text-align: center;
+  }
+  #page-food .card p,
+  #page-activities .card p {
+    max-width: 500px;
+    margin: 0 auto;
   }
 }
 @media(max-width:767px){
