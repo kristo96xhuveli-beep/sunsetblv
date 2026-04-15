@@ -127,20 +127,13 @@ body:not(.home-active) #info-mobile {
   .home-mobile-sections{display:none;}
   .home-info-mobile{display:none;}
   /* Inner pages: no scroll, two-column layout */
-  /* ROOMS → custom layout */
-#page-rooms.active {
-  display: block !important;
-  height: calc(100vh - 60px);
-  overflow: hidden;
-}
-
-/* FOOD + ACTIVITIES → keep original */
-#page-food.active, 
+  /* ROOMS FOOD ACTIVITIES → custom layout */
+#page-rooms.active,
+#page-food.active,
 #page-activities.active {
   height: calc(100vh - 60px);
   overflow: hidden;
-  display: flex !important;
-  flex-direction: row;
+  display: block !important;
 }
   #page-rooms .content {
   display: block;
