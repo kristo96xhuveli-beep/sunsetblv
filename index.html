@@ -39,16 +39,13 @@ header{position:fixed;top:0;left:0;width:100%;height:50px;background:var(--heade
 .page:not(.active) #info-mobile {
   display: none;
 }
-
 #page-home.active ~ #info-mobile {
   display: block;
 }
-
 /* safer override */
 body:not(.home-active) #info-mobile {
   display: none;
 }
-
 /* Hide mobile-only blocks on desktop */
 @media(min-width:768px){
   #ourstory-anchor-mobile,
@@ -56,26 +53,22 @@ body:not(.home-active) #info-mobile {
     display: none !important;
   }
 }
-
 /* Prevent scroll ONLY on desktop home */
 @media(min-width:768px){
   #page-home.active {
     height: calc(100vh - 60px);
     overflow: hidden;
   }
-
   body {
     overflow: hidden;
   }
 }
-
 @media(min-width:768px){
   .home-right {
     height: 100%;
     overflow: hidden;
   }
 }
-
 /* ===== DESKTOP HOME: ABSOLUTE LOCK - NO SCROLL ===== */
 @media(min-width:768px){
 
@@ -83,7 +76,6 @@ body:not(.home-active) #info-mobile {
     height: 100%;
     overflow: hidden;
   }
-
   #page-home.active {
     position: fixed;
     top: 0; /* header height */
@@ -93,28 +85,23 @@ body:not(.home-active) #info-mobile {
     height: auto;
     overflow: hidden;
   }
-
   .home-desktop {
     height: 100%;
     max-height: 100%;
     overflow: hidden;
   }
-
   .home-left,
   .home-center,
   .home-right {
     height: 100%;
     overflow: hidden;
   }
-
   /* 🚫 kill anything that might extend layout */
   #ourstory-anchor-mobile,
   #info-mobile {
     display: none !important;
   }
-
 }
-
 /* DESKTOP 3-COLUMN HOME LAYOUT */
 .home-desktop{display:block;}
 @media(min-width:768px){
@@ -171,7 +158,7 @@ body:not(.home-active) #info-mobile {
   }
   #page-rooms .slider img {
   width: 100%;
-  height: 330px;
+  height: 310px;
   object-fit: cover;
   display: block;
   overflow: hidden;
