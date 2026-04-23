@@ -1439,6 +1439,23 @@ document.addEventListener('click', function(e){
 
 });
 
+document.querySelectorAll('.slider').forEach(slider => {
+  const slides = slider.querySelectorAll('.slide');
+  let index = 0;
+  const showSlide = (i) => {
+    slides.forEach(s => s.classList.remove('active'));
+    slides[i].classList.add('active');
+  };
+  slider.querySelector('.next').onclick = () => {
+    index = (index + 1) % slides.length;
+    showSlide(index);
+  };
+  slider.querySelector('.prev').onclick = () => {
+    index = (index - 1 + slides.length) % slides.length;
+    showSlide(index);
+  };
+});
+
 </script>
 
 </body>
