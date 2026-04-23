@@ -95,6 +95,8 @@ body:not(.home-active) #info-mobile { display: none; }
   .slider button:hover { background: rgba(255, 255, 255, 0.45); transform: translateY(-50%) scale(1.1);}
   .slider .prev { left: 12px; }
   .slider .next { right: 12px; }
+  .slider img { display: none; width: 100%; }
+  .slider img.active { display: block; }
 @media (max-width: 768px) {
   .slider button { opacity: 1; pointer-events: auto;
   }
@@ -644,7 +646,7 @@ Willkommen in unserem Zuhause.">
     <path fill="white" d="M15 18l-6-6 6-6"/>
   </svg>
 </button>
-        <img src="room1a.jpg" data-edit-img="room-1-img-1">
+        <img src="room1a.jpg" class="active" data-edit-img="room-1-img-1">
         <img src="room1b.jpg" data-edit-img="room-1-img-2">
         <img src="room1c.jpg" data-edit-img="room-1-img-3">
         <img src="room1d.jpg" data-edit-img="room-1-img-4">
@@ -682,7 +684,7 @@ Willkommen in unserem Zuhause.">
     <path fill="white" d="M15 18l-6-6 6-6"/>
   </svg>
 </button>
-        <img src="room2a.jpg" data-edit-img="room-2-img-1">
+        <img src="room2a.jpg" class="active" data-edit-img="room-2-img-1">
         <img src="room2b.jpg" data-edit-img="room-2-img-2">
         <img src="room2c.jpg" data-edit-img="room-2-img-3">
         <img src="room2d.jpg" data-edit-img="room-2-img-4">
@@ -712,7 +714,7 @@ Willkommen in unserem Zuhause.">
     <path fill="white" d="M15 18l-6-6 6-6"/>
   </svg>
 </button>
-        <img src="room3a.jpg" data-edit-img="room-3-img-1">
+        <img src="room3a.jpg" class="active" data-edit-img="room-3-img-1">
         <img src="room3b.jpg" data-edit-img="room-3-img-2">
         <img src="room3c.jpg" data-edit-img="room-3-img-3">
         <img src="room3d.jpg" data-edit-img="room-3-img-4">
@@ -1445,21 +1447,22 @@ document.addEventListener('click', function(e){
 
 });
 
-document.querySelectorAll('.slider').forEach(slider => {
-  const slides = slider.querySelectorAll('.slide');
-  let index = 0;
-  const showSlide = (i) => {
-    slides.forEach(s => s.classList.remove('active'));
-    slides[i].classList.add('active');
-  };
-  slider.querySelector('.next').onclick = () => {
-    index = (index + 1) % slides.length;
-    showSlide(index);
-  };
-  slider.querySelector('.prev').onclick = () => {
-    index = (index - 1 + slides.length) % slides.length;
-    showSlide(index);
-  };
+const slider = document.getElementById("slider-1");
+const images = slider.querySelectorAll("img");
+const nextBtn = slider.querySelector(".next");
+const prevBtn = slider.querySelector(".prev");
+let currentIndex = 0;
+function showImage(index) {
+  images.forEach(img => img.classList.remove("active"));
+  images[index].classList.add("active");
+}
+nextBtn.addEventListener("click", () => {
+  currentIndex = (currentIndex + 1) % images.length;
+  showImage(currentIndex);
+});
+prevBtn.addEventListener("click", () => {
+  currentIndex = (currentIndex - 1 + images.length) % images.length;
+  showImage(currentIndex);
 });
 
 </script>
