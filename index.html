@@ -86,36 +86,21 @@ body:not(.home-active) #info-mobile { display: none; }
   .home-center .video-container{width:100%;height:100%;border-radius:16px;background:var(--bg);}
   .home-mobile-sections{display:none;}
   .home-info-mobile{display:none;}
-  .slider {
-  position: relative;
-  width: 400px;
-  margin: 50px auto;
+  .slider { position: relative; }
+  .slider button { opacity: 0; pointer-events: none; }
+  .slider button { position: absolute; top: 50%; transform: translateY(-50%); width: 36px; height: 36px; border-radius: 50%; background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(6px); border: none; color: white; font-size: 18px; font-weight: bold; display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: all 0.25s ease; }
+  .room-card:hover .slider button { opacity: 1; pointer-events: auto; }
+  .slider button:hover { background: rgba(255, 255, 255, 0.45); transform: translateY(-50%) scale(1.1);}
+  .slider .prev { left: 12px; }
+  .slider .next { right: 12px; }
+  .slider img { display: none; width: 100%; }
+  .slider img.active { display: block; }
+@media (max-width: 768px) {
+  .slider button { opacity: 1; pointer-events: auto;
+  }
 }
-/* Images */
-.slider img {
-  width: 100%;
-  display: none;
-}
-.slider img.active {
-  display: block;
-}
-/* Buttons */
-.slider button {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 40px;
-  height: 40px;
-  background: red;
-  border: none;
-  color: white;
-  font-size: 18px;
-  cursor: pointer;
-  z-index: 9999;
-}
-.prev { left: 10px; }
-.next { right: 10px; }
-  
 #page-rooms.active,
 #page-food.active,
 #page-activities.active {
@@ -1466,23 +1451,21 @@ document.querySelectorAll(".slider").forEach(slider => {
   const images = slider.querySelectorAll("img");
   const nextBtn = slider.querySelector(".next");
   const prevBtn = slider.querySelector(".prev");
-
   let currentIndex = 0;
-
   function showImage(index) {
     images.forEach(img => img.classList.remove("active"));
     images[index].classList.add("active");
   }
-
   nextBtn.addEventListener("click", () => {
     currentIndex = (currentIndex + 1) % images.length;
     showImage(currentIndex);
   });
-
   prevBtn.addEventListener("click", () => {
     currentIndex = (currentIndex - 1 + images.length) % images.length;
     showImage(currentIndex);
   });
+  console.log("Slider loaded");
+  console.log(nextBtn, prevBtn);
 });
 
 </script>
