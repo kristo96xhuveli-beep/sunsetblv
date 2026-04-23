@@ -91,40 +91,30 @@ body:not(.home-active) #info-mobile { display: none; }
   position: relative;
   overflow: hidden;
   width: 100%;
-  z-index: 2;
+  height: 350px; /* IMPORTANT */
 }
 
-/* Images */
 .slider img {
-  display: none;
   width: 100%;
-  height: auto;
+  height: 100%;
   object-fit: cover;
-  pointer-events: none;
+  display: none;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 .slider img.active {
   display: block;
 }
 
-/* Buttons */
 .slider button {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.25);
-  backdrop-filter: blur(6px);
-  border: none;
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.25s ease;
   z-index: 9999;
+  pointer-events: auto;
+}
 
   /* IMPORTANT: always clickable */
   opacity: 1;
@@ -1506,38 +1496,39 @@ document.addEventListener('click', function(e){
 
 });
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", () => {
   document.querySelectorAll(".slider").forEach((slider) => {
-    const images = slider.querySelectorAll("img");
+    const images = Array.from(slider.querySelectorAll("img"));
     const nextBtn = slider.querySelector(".next");
     const prevBtn = slider.querySelector(".prev");
 
-    if (!images.length || !nextBtn || !prevBtn) return;
+    if (!nextBtn || !prevBtn || images.length === 0) return;
 
-    let currentIndex = 0;
+    let index = images.findIndex(img => img.classList.contains("active"));
+    if (index === -1) index = 0;
 
-    function showImage(index) {
-      images.forEach((img) => img.classList.remove("active"));
-      images[index].classList.add("active");
+    function show(i) {
+      images.forEach(img => img.classList.remove("active"));
+      images[i].classList.add("active");
     }
 
     nextBtn.addEventListener("click", (e) => {
+      e.preventDefault();
       e.stopPropagation();
-      currentIndex = (currentIndex + 1) % images.length;
-      showImage(currentIndex);
+      index = (index + 1) % images.length;
+      show(index);
     });
 
     prevBtn.addEventListener("click", (e) => {
+      e.preventDefault();
       e.stopPropagation();
-      currentIndex =
-        (currentIndex - 1 + images.length) % images.length;
-      showImage(currentIndex);
+      index = (index - 1 + images.length) % images.length;
+      show(index);
     });
 
-    showImage(currentIndex);
+    show(index);
   });
 });
-
 </script>
 </body>
 </html>
