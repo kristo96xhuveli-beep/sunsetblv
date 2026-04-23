@@ -147,6 +147,29 @@ body:not(.home-active) #info-mobile { display: none; }
 .slider .next {
   right: 12px;
 }
+  /* FORCE FIX FOR CLICK BLOCKING */
+.room-card {
+  position: relative;
+  z-index: 1;
+}
+
+.room-card * {
+  pointer-events: auto;
+}
+
+.slider {
+  position: relative;
+  z-index: 2;
+}
+
+.slider img {
+  pointer-events: none !important;
+}
+
+.slider button {
+  z-index: 9999 !important;
+  pointer-events: auto !important;
+}
 
 /* Mobile: always visible */
 @media (max-width: 768px) {
