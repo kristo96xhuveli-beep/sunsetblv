@@ -36,73 +36,45 @@ header{position:fixed;top:0;left:0;width:100%;height:50px;background:var(--heade
 @media(max-width:767px){#yt-player{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:177.78vh;min-width:100%;height:100vh;min-height:56.25vw;border:none;pointer-events:none;}}
 #yt-player{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:177.78vh;min-width:100%;height:100vh;min-height:56.25vw;border:none;pointer-events:none;}
 /* Hide mobile info on all pages except home */
-.page:not(.active) #info-mobile {
-  display: none;
-}
-#page-home.active ~ #info-mobile {
-  display: block;
-}
+.page:not(.active) #info-mobile { display: none; }
+#page-home.active ~ #info-mobile { display: block; }
 /* safer override */
-body:not(.home-active) #info-mobile {
-  display: none;
-}
+body:not(.home-active) #info-mobile { display: none; }
 /* Hide mobile-only blocks on desktop */
 @media(min-width:768px){
   #ourstory-anchor-mobile,
-  #info-mobile {
-    display: none !important;
+  #info-mobile { display: none !important;
   }
 }
 /* Prevent scroll ONLY on desktop home */
 @media(min-width:768px){
-  #page-home.active {
-    height: calc(100vh - 60px);
-    overflow: hidden;
+  #page-home.active { height: calc(100vh - 60px); overflow: hidden;
   }
-  body {
-    overflow: hidden;
+  body { overflow: hidden;
   }
 }
 @media(min-width:768px){
-  .home-right {
-    height: 100%;
-    overflow: hidden;
+  .home-right { height: 100%; overflow: hidden;
   }
 }
 /* ===== DESKTOP HOME: ABSOLUTE LOCK - NO SCROLL ===== */
 @media(min-width:768px){
-  html, body {
-    height: 100%;
-    overflow: hidden;
+  html, body { height: 100%; overflow: hidden;
   }
-  #page-home.active {
-    position: fixed;
-    top: 0; /* header height */
-    left: 0;
-    right: 0;
-    bottom: 0;
-    height: auto;
-    overflow: hidden;
+  #page-home.active { position: fixed; top: 0; left: 0; right: 0; bottom: 0; height: auto; overflow: hidden;
   }
-  .home-desktop {
-    height: 100%;
-    max-height: 100%;
-    overflow: hidden;
+  .home-desktop { height: 100%; max-height: 100%; overflow: hidden;
   }
   .home-left,
   .home-center,
-  .home-right {
-    height: 100%;
-    overflow: hidden;
+  .home-right { height: 100%; overflow: hidden;
   }
   /* 🚫 kill anything that might extend layout */
   #ourstory-anchor-mobile,
   #info-mobile {
     display: none !important;
   }
-
 }
-
 /* DESKTOP 3-COLUMN HOME LAYOUT */
 .home-desktop{display:block;}
 @media(min-width:768px){
@@ -114,8 +86,13 @@ body:not(.home-active) #info-mobile {
   .home-center .video-container{width:100%;height:100%;border-radius:16px;background:var(--bg);}
   .home-mobile-sections{display:none;}
   .home-info-mobile{display:none;}
-  /* Inner pages: no scroll, two-column layout */
-  /* ROOMS FOOD ACTIVITIES → custom layout */
+  .slider button { position: absolute; top: 50%; transform: translateY(-50%); width: 36px; height: 36px; border-radius: 50%; background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(6px); border: none; color: white; font-size: 18px; font-weight: bold; display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: all 0.25s ease; }
+  .slider button:hover { background: rgba(255, 255, 255, 0.45); transform: translateY(-50%) scale(1.1); }
+  .slider .prev { left: 12px; }
+  .slider .next { right: 12px;
+}
 #page-rooms.active,
 #page-food.active,
 #page-activities.active {
@@ -656,6 +633,11 @@ Willkommen in unserem Zuhause.">
     <!-- ROOM 1 -->
     <div class="room-card">
       <div class="slider" id="slider-1">
+        <button class="prev">
+  <svg width="16" height="16" viewBox="0 0 24 24">
+    <path fill="white" d="M15 18l-6-6 6-6"/>
+  </svg>
+</button>
         <img src="room1a.jpg" data-edit-img="room-1-img-1">
         <img src="room1b.jpg" data-edit-img="room-1-img-2">
         <img src="room1c.jpg" data-edit-img="room-1-img-3">
@@ -668,6 +650,11 @@ Willkommen in unserem Zuhause.">
         <img src="room1j.jpg" data-edit-img="room-1-img-10">
         <img src="room1k.jpg" data-edit-img="room-1-img-11">
         <img src="room1l.jpg" data-edit-img="room-1-img-12">
+        <button class="next">
+  <svg width="16" height="16" viewBox="0 0 24 24">
+    <path fill="white" d="M9 6l6 6-6 6"/>
+  </svg>
+</button>
       </div>
       <div class="dots" id="dots-1"></div>
 
@@ -684,10 +671,20 @@ Willkommen in unserem Zuhause.">
     <!-- ROOM 2 -->
     <div class="room-card">
       <div class="slider" id="slider-2">
+        <button class="prev">
+  <svg width="16" height="16" viewBox="0 0 24 24">
+    <path fill="white" d="M15 18l-6-6 6-6"/>
+  </svg>
+</button>
         <img src="room2a.jpg" data-edit-img="room-2-img-1">
         <img src="room2b.jpg" data-edit-img="room-2-img-2">
         <img src="room2c.jpg" data-edit-img="room-2-img-3">
         <img src="room2d.jpg" data-edit-img="room-2-img-4">
+        <button class="next">
+  <svg width="16" height="16" viewBox="0 0 24 24">
+    <path fill="white" d="M9 6l6 6-6 6"/>
+  </svg>
+</button>
       </div>
       <div class="dots" id="dots-2"></div>
 
@@ -704,10 +701,20 @@ Willkommen in unserem Zuhause.">
     <!-- ROOM 3 -->
     <div class="room-card">
       <div class="slider" id="slider-3">
+        <button class="prev">
+  <svg width="16" height="16" viewBox="0 0 24 24">
+    <path fill="white" d="M15 18l-6-6 6-6"/>
+  </svg>
+</button>
         <img src="room3a.jpg" data-edit-img="room-3-img-1">
         <img src="room3b.jpg" data-edit-img="room-3-img-2">
         <img src="room3c.jpg" data-edit-img="room-3-img-3">
         <img src="room3d.jpg" data-edit-img="room-3-img-4">
+        <button class="next">
+  <svg width="16" height="16" viewBox="0 0 24 24">
+    <path fill="white" d="M9 6l6 6-6 6"/>
+  </svg>
+</button>
       </div>
       <div class="dots" id="dots-3"></div>
 
