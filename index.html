@@ -86,24 +86,23 @@ body:not(.home-active) #info-mobile { display: none; }
   .home-center .video-container{width:100%;height:100%;border-radius:16px;background:var(--bg);}
   .home-mobile-sections{display:none;}
   .home-info-mobile{display:none;}
-  .slider {
+  /* ===== SLIDER ===== */
+.slider {
   position: relative;
   overflow: hidden;
+  width: 100%;
 }
 
 /* Images */
 .slider img {
   display: none;
   width: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 1;
+  height: auto;
+  pointer-events: none; /* prevents image from blocking button clicks */
 }
 
 .slider img.active {
   display: block;
-  position: relative;
 }
 
 /* Buttons */
@@ -123,28 +122,31 @@ body:not(.home-active) #info-mobile { display: none; }
   justify-content: center;
   cursor: pointer;
   transition: all 0.25s ease;
-
-  z-index: 999;
-
+  z-index: 9999;
   opacity: 0;
   pointer-events: none;
 }
 
-/* Show buttons on hover */
+/* Show buttons on room hover */
 .room-card:hover .slider button {
   opacity: 1;
   pointer-events: auto;
 }
 
-/* Hover effect */
+/* Button hover */
 .slider button:hover {
   background: rgba(255, 255, 255, 0.45);
   transform: translateY(-50%) scale(1.1);
 }
 
-/* Position */
-.slider .prev { left: 12px; }
-.slider .next { right: 12px; }
+/* Positions */
+.slider .prev {
+  left: 12px;
+}
+
+.slider .next {
+  right: 12px;
+}
 
 /* Mobile: always visible */
 @media (max-width: 768px) {
@@ -1499,25 +1501,29 @@ document.addEventListener('click', function(e){
 
 });
 
-document.querySelectorAll(".slider").forEach(slider => {
-  const images = slider.querySelectorAll("img");
-  const nextBtn = slider.querySelector(".next");
-  const prevBtn = slider.querySelector(".prev");
-  let currentIndex = 0;
-  function showImage(index) {
-    images.forEach(img => img.classList.remove("active"));
-    images[index].classList.add("active");
-  }
-  nextBtn.addEventListener("click", () => {
-    currentIndex = (currentIndex + 1) % images.length;
-    showImage(currentIndex);
+document.addEventListener("DOMContentLoaded", function () {
+  document.querySelectorAll(".slider").forEach((slider) => {
+    const images = slider.querySelectorAll("img");
+    const nextBtn = slider.querySelector(".next");
+    const prevBtn = slider.querySelector(".prev");
+
+    let currentIndex = 0;
+
+    function showImage(index) {
+      images.forEach((img) => img.classList.remove("active"));
+      images[index].classList.add("active");
+    }
+
+    nextBtn.addEventListener("click", function () {
+      currentIndex = (currentIndex + 1) % images.length;
+      showImage(currentIndex);
+    });
+
+    prevBtn.addEventListener("click", function () {
+      currentIndex = (currentIndex - 1 + images.length) % images.length;
+      showImage(currentIndex);
+    });
   });
-  prevBtn.addEventListener("click", () => {
-    currentIndex = (currentIndex - 1 + images.length) % images.length;
-    showImage(currentIndex);
-  });
-  console.log("Slider loaded");
-  console.log(nextBtn, prevBtn);
 });
 
 </script>
