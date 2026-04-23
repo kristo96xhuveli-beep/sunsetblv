@@ -1512,6 +1512,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const nextBtn = slider.querySelector(".next");
     const prevBtn = slider.querySelector(".prev");
 
+    if (!images.length || !nextBtn || !prevBtn) return;
+
     let currentIndex = 0;
 
     function showImage(index) {
@@ -1519,15 +1521,20 @@ document.addEventListener("DOMContentLoaded", function () {
       images[index].classList.add("active");
     }
 
-    nextBtn.addEventListener("click", function () {
+    nextBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
       currentIndex = (currentIndex + 1) % images.length;
       showImage(currentIndex);
     });
 
-    prevBtn.addEventListener("click", function () {
-      currentIndex = (currentIndex - 1 + images.length) % images.length;
+    prevBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      currentIndex =
+        (currentIndex - 1 + images.length) % images.length;
       showImage(currentIndex);
     });
+
+    showImage(currentIndex);
   });
 });
 
