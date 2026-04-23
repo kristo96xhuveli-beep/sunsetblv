@@ -91,6 +91,7 @@ body:not(.home-active) #info-mobile { display: none; }
   position: relative;
   overflow: hidden;
   width: 100%;
+  z-index: 2;
 }
 
 /* Images */
@@ -98,7 +99,8 @@ body:not(.home-active) #info-mobile { display: none; }
   display: none;
   width: 100%;
   height: auto;
-  pointer-events: none; /* prevents image from blocking button clicks */
+  object-fit: cover;
+  pointer-events: none;
 }
 
 .slider img.active {
@@ -110,8 +112,8 @@ body:not(.home-active) #info-mobile { display: none; }
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  width: 36px;
-  height: 36px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.25);
   backdrop-filter: blur(6px);
@@ -123,17 +125,13 @@ body:not(.home-active) #info-mobile { display: none; }
   cursor: pointer;
   transition: all 0.25s ease;
   z-index: 9999;
-  opacity: 0;
-  pointer-events: none;
-}
 
-/* Show buttons on room hover */
-.room-card:hover .slider button {
+  /* IMPORTANT: always clickable */
   opacity: 1;
   pointer-events: auto;
 }
 
-/* Button hover */
+/* Hover effect */
 .slider button:hover {
   background: rgba(255, 255, 255, 0.45);
   transform: translateY(-50%) scale(1.1);
@@ -147,31 +145,15 @@ body:not(.home-active) #info-mobile { display: none; }
 .slider .next {
   right: 12px;
 }
-  /* FORCE FIX FOR CLICK BLOCKING */
+
+/* ROOM CARD */
 .room-card {
   position: relative;
   z-index: 1;
+  overflow: hidden;
 }
 
-.room-card * {
-  pointer-events: auto;
-}
-
-.slider {
-  position: relative;
-  z-index: 2;
-}
-
-.slider img {
-  pointer-events: none !important;
-}
-
-.slider button {
-  z-index: 9999 !important;
-  pointer-events: auto !important;
-}
-
-/* Mobile: always visible */
+/* MOBILE */
 @media (max-width: 768px) {
   .slider button {
     opacity: 1;
