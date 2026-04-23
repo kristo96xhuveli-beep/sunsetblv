@@ -1447,25 +1447,25 @@ document.addEventListener('click', function(e){
 
 });
 
-const slider = document.getElementById("slider-1");
-const images = slider.querySelectorAll("img");
-const nextBtn = slider.querySelector(".next");
-const prevBtn = slider.querySelector(".prev");
-let currentIndex = 0;
-function showImage(index) {
-  images.forEach(img => img.classList.remove("active"));
-  images[index].classList.add("active");
-}
-nextBtn.addEventListener("click", () => {
-  currentIndex = (currentIndex + 1) % images.length;
-  showImage(currentIndex);
-});
-prevBtn.addEventListener("click", () => {
-  currentIndex = (currentIndex - 1 + images.length) % images.length;
-  showImage(currentIndex);
+document.querySelectorAll(".slider").forEach(slider => {
+  const images = slider.querySelectorAll("img");
+  const nextBtn = slider.querySelector(".next");
+  const prevBtn = slider.querySelector(".prev");
+  let currentIndex = 0;
+  function showImage(index) {
+    images.forEach(img => img.classList.remove("active"));
+    images[index].classList.add("active");
+  }
+  nextBtn.addEventListener("click", () => {
+    currentIndex = (currentIndex + 1) % images.length;
+    showImage(currentIndex);
+  });
+  prevBtn.addEventListener("click", () => {
+    currentIndex = (currentIndex - 1 + images.length) % images.length;
+    showImage(currentIndex);
+  });
 });
 
 </script>
-
 </body>
 </html>
