@@ -86,70 +86,36 @@ body:not(.home-active) #info-mobile { display: none; }
   .home-center .video-container{width:100%;height:100%;border-radius:16px;background:var(--bg);}
   .home-mobile-sections{display:none;}
   .home-info-mobile{display:none;}
-  /* ===== SLIDER ===== */
-.slider {
+  .slider {
   position: relative;
-  overflow: hidden;
-  width: 100%;
-  height: 350px; /* IMPORTANT */
+  width: 400px;
+  margin: 50px auto;
 }
-
+/* Images */
 .slider img {
   width: 100%;
-  height: 100%;
-  object-fit: cover;
   display: none;
-  position: absolute;
-  top: 0;
-  left: 0;
 }
-
 .slider img.active {
   display: block;
 }
-
+/* Buttons */
 .slider button {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  background: red;
+  border: none;
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
   z-index: 9999;
-  pointer-events: auto;
 }
-
-  /* IMPORTANT: always clickable */
-  opacity: 1;
-  pointer-events: auto;
-}
-
-/* Hover effect */
-.slider button:hover {
-  background: rgba(255, 255, 255, 0.45);
-  transform: translateY(-50%) scale(1.1);
-}
-
-/* Positions */
-.slider .prev {
-  left: 12px;
-}
-
-.slider .next {
-  right: 12px;
-}
-
-/* ROOM CARD */
-.room-card {
-  position: relative;
-  z-index: 1;
-  overflow: hidden;
-}
-
-/* MOBILE */
-@media (max-width: 768px) {
-  .slider button {
-    opacity: 1;
-    pointer-events: auto;
-  }
-}
+.prev { left: 10px; }
+.next { right: 10px; }
+  
 #page-rooms.active,
 #page-food.active,
 #page-activities.active {
@@ -1496,39 +1462,29 @@ document.addEventListener('click', function(e){
 
 });
 
-document.addEventListener("DOMContentLoaded", () => {
-  document.querySelectorAll(".slider").forEach((slider) => {
-    const images = Array.from(slider.querySelectorAll("img"));
-    const nextBtn = slider.querySelector(".next");
-    const prevBtn = slider.querySelector(".prev");
+document.querySelectorAll(".slider").forEach(slider => {
+  const images = slider.querySelectorAll("img");
+  const nextBtn = slider.querySelector(".next");
+  const prevBtn = slider.querySelector(".prev");
 
-    if (!nextBtn || !prevBtn || images.length === 0) return;
+  let currentIndex = 0;
 
-    let index = images.findIndex(img => img.classList.contains("active"));
-    if (index === -1) index = 0;
+  function showImage(index) {
+    images.forEach(img => img.classList.remove("active"));
+    images[index].classList.add("active");
+  }
 
-    function show(i) {
-      images.forEach(img => img.classList.remove("active"));
-      images[i].classList.add("active");
-    }
+  nextBtn.addEventListener("click", () => {
+    currentIndex = (currentIndex + 1) % images.length;
+    showImage(currentIndex);
+  });
 
-    nextBtn.addEventListener("click", (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      index = (index + 1) % images.length;
-      show(index);
-    });
-
-    prevBtn.addEventListener("click", (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      index = (index - 1 + images.length) % images.length;
-      show(index);
-    });
-
-    show(index);
+  prevBtn.addEventListener("click", () => {
+    currentIndex = (currentIndex - 1 + images.length) % images.length;
+    showImage(currentIndex);
   });
 });
+
 </script>
 </body>
 </html>
