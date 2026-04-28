@@ -84,6 +84,8 @@ body:not(.home-active) #info-mobile { display: none; }
   .slider button:hover { background: rgba(255, 255, 255, 0.45); transform: translateY(-50%) scale(1.1);}
   .slider .prev { left: 12px; }
   .slider .next { right: 12px; }
+ .slider-track { display: flex; overflow-x: auto; scroll-snap-type: x mandatory;}
+.slider-track img {flex: 0 0 100%; scroll-snap-align: start;}
 @media (max-width: 768px) {
   .slider button { opacity: 1; pointer-events: auto;
   }
@@ -557,6 +559,7 @@ Mirë se vini në shtëpinë tonë.">
     <path fill="white" d="M15 18l-6-6 6-6"/>
   </svg>
 </button>
+       <div class="slider-track">
         <img src="room1a.jpg" class="active" data-edit-img="room-1-img-1">
         <img src="room1b.jpg" data-edit-img="room-1-img-2">
         <img src="room1c.jpg" data-edit-img="room-1-img-3">
@@ -569,6 +572,7 @@ Mirë se vini në shtëpinë tonë.">
         <img src="room1j.jpg" data-edit-img="room-1-img-10">
         <img src="room1k.jpg" data-edit-img="room-1-img-11">
         <img src="room1l.jpg" data-edit-img="room-1-img-12">
+        </div>
         <button class="next">
   <svg width="16" height="16" viewBox="0 0 24 24">
     <path fill="white" d="M9 6l6 6-6 6"/>
@@ -989,13 +993,18 @@ document.getElementById('backBtn').addEventListener('click', function(){
       var nextBtn = slider.querySelector('.next');
       if (nextBtn) {
       nextBtn.addEventListener('click', function () {
-      slider.scrollBy({ left: slider.clientWidth, behavior: 'smooth'
+       
+      var track = slider.querySelector('.slider-track');
+     const scrollAmount = track.clientWidth;
+     track.scrollBy({ right: scrollAmount, behavior: 'smooth'
     });
   });
 }
      if (prevBtn) {
      prevBtn.addEventListener('click', function () {
-     slider.scrollBy({ left: -slider.clientWidth, behavior: 'smooth'
+     var track = slider.querySelector('.slider-track');
+     const scrollAmount = track.clientWidth; 
+     track.scrollBy({ left: scrollAmount, behavior: 'smooth'
     });
   });
 }
