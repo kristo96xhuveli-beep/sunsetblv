@@ -74,11 +74,7 @@ body:not(.home-active) #info-mobile { display: none; }
   .home-mobile-sections{display:none;}
   .home-info-mobile{display:none;}
   .slider-wrapper {position: relative;}
-  .slider-wrapper {
-  position: relative;
-}
-
-.slider-wrapper button {
+  .slider-wrapper button {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
@@ -106,10 +102,12 @@ body:not(.home-active) #info-mobile { display: none; }
 .slider-wrapper button:hover {background: rgba(255,255,255,0.45);transform: translateY(-50%) scale(1.1);}
 .slider-wrapper .prev {left: 12px;}
 .slider-wrapper .next {right: 12px;}
+/* MOBILE: hide slider arrows */
 @media (max-width: 768px) {
-  .room-card .slider-wrapper .prev,
-  .room-card .slider-wrapper .next {
-    display: none !important;}
+  .prev,
+  .next {
+    display: none !important;
+  }
 }
 #page-rooms.active,
 #page-food.active,
