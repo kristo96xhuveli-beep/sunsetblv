@@ -985,8 +985,6 @@ document.getElementById('backBtn').addEventListener('click', function(){
     var slider = document.getElementById('slider-' + n);
     var dotsEl = document.getElementById('dots-' + n);
 
-    if (!slider || !dotsEl || slider.dataset.ready) return;
-slider.dataset.ready = "1";
 
     // reset dots
     dotsEl.innerHTML = "";
@@ -998,6 +996,7 @@ slider.dataset.ready = "1";
     var nextBtn = slider.querySelector('.next');
 
     var currentIndex = 0;
+    slider.scrollLeft = 0;
 
 function goTo(index) {
   currentIndex = index;
