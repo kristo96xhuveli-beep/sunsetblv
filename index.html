@@ -102,25 +102,14 @@ body:not(.home-active) #info-mobile { display: none; }
 }
 
 /* show on hover */
-.room-card:hover .slider-wrapper button {
-  opacity: 1;
-}
-
-.slider-wrapper button:hover {
-  background: rgba(255,255,255,0.45);
-  transform: translateY(-50%) scale(1.1);
-}
-
-.slider-wrapper .prev {
-  left: 12px;
-}
-
-.slider-wrapper .next {
-  right: 12px;
-}
+.room-card:hover .slider-wrapper button {opacity: 1;}
+.slider-wrapper button:hover {background: rgba(255,255,255,0.45);transform: translateY(-50%) scale(1.1);}
+.slider-wrapper .prev {left: 12px;}
+.slider-wrapper .next {right: 12px;}
 @media (max-width: 768px) {
-  .slider button { opacity: 1; pointer-events: auto;
-  }
+  .room-card .slider-wrapper .prev,
+  .room-card .slider-wrapper .next {
+    display: none !important;}
 }
 #page-rooms.active,
 #page-food.active,
