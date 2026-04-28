@@ -97,13 +97,7 @@ body:not(.home-active) #info-mobile { display: none; }
 .slider-wrapper button:hover {background: rgba(255,255,255,0.45);transform: translateY(-50%) scale(1.1);}
 .slider-wrapper .prev {left: 12px;}
 .slider-wrapper .next {right: 12px;}
-/* MOBILE: hide slider arrows */
-@media (max-width: 900px) {
-  .prev,
-  .next {
-    display: none !important;
-  }
-}
+
 #page-rooms.active,
 #page-food.active,
 #page-activities.active {
@@ -301,6 +295,13 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
 .cal-cell.available { background:#e6f4ea; }
 .cal-cell.booked { background:#fdecea; }
 
+ /* MOBILE ONLY */
+@media (max-width: 900px) {
+  .prev,
+  .next {
+    display: none !important;
+  }
+}
  @media (hover: none) {
   button.prev,
   button.next {
