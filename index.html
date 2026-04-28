@@ -989,13 +989,15 @@ document.getElementById('backBtn').addEventListener('click', function(){
       var nextBtn = slider.querySelector('.next');
       if (nextBtn) {
       nextBtn.addEventListener('click', function () {
-      slider.scrollBy({ left: slider.clientWidth, behavior: 'smooth'
+      var imgWidth = slider.querySelector('img').clientWidth;
+      slider.scrollBy({ left: imgWidth, behavior: 'smooth'
     });
   });
 }
      if (prevBtn) {
      prevBtn.addEventListener('click', function () {
-     slider.scrollBy({ left: -slider.clientWidth, behavior: 'smooth'
+     var imgWidth = slider.querySelector('img').clientWidth;
+     slider.scrollBy({ left: -imgWidth, behavior: 'smooth'
     });
   });
 }
