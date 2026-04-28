@@ -76,14 +76,51 @@ body:not(.home-active) #info-mobile { display: none; }
   .home-center .video-container{width:100%;height:100%;border-radius:16px;background:var(--bg);}
   .home-mobile-sections{display:none;}
   .home-info-mobile{display:none;}
-  .slider button { position: absolute; top: 50%; transform: translateY(-50%); z-index: 20; width: 36px; height: 36px; border-radius: 50%; background: rgba(255, 255, 255, 0.25);
-  backdrop-filter: blur(6px); border: none; color: white; font-size: 18px; font-weight: bold; display: flex; align-items: center; justify-content: center;
-  cursor: pointer; transition: all 0.25s ease; opacity: 0; pointer-events: auto; }
-  .room-card:hover 
-  .slider button { opacity: 1; }
-  .slider button:hover { background: rgba(255, 255, 255, 0.45); transform: translateY(-50%) scale(1.1);}
-  .slider .prev { left: 12px; }
-  .slider .next { right: 12px; }
+  .slider-wrapper {position: relative;}
+  .slider-wrapper {
+  position: relative;
+}
+
+.slider-wrapper button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 20;
+
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.25);
+  backdrop-filter: blur(6px);
+  border: none;
+  color: white;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  transition: all 0.25s ease;
+  opacity: 0;
+}
+
+/* show on hover */
+.room-card:hover .slider-wrapper button {
+  opacity: 1;
+}
+
+.slider-wrapper button:hover {
+  background: rgba(255,255,255,0.45);
+  transform: translateY(-50%) scale(1.1);
+}
+
+.slider-wrapper .prev {
+  left: 12px;
+}
+
+.slider-wrapper .next {
+  right: 12px;
+}
 @media (max-width: 768px) {
   .slider button { opacity: 1; pointer-events: auto;
   }
@@ -552,12 +589,12 @@ Mirë se vini në shtëpinë tonë.">
 
     <!-- ROOM 1 -->
     <div class="room-card">
-      <div class="slider" id="slider-1">
         <button class="prev">
   <svg width="16" height="16" viewBox="0 0 24 24">
     <path fill="white" d="M15 18l-6-6 6-6"/>
   </svg>
 </button>
+     <div class="slider" id="slider-1">
         <img src="room1a.jpg" data-edit-img="room-1-img-1">
         <img src="room1b.jpg" data-edit-img="room-1-img-2">
         <img src="room1c.jpg" data-edit-img="room-1-img-3">
@@ -590,12 +627,12 @@ Mirë se vini në shtëpinë tonë.">
 
     <!-- ROOM 2 -->
     <div class="room-card">
-      <div class="slider" id="slider-2">
         <button class="prev">
   <svg width="16" height="16" viewBox="0 0 24 24">
     <path fill="white" d="M15 18l-6-6 6-6"/>
   </svg>
 </button>
+     <div class="slider" id="slider-2">
         <img src="room2a.jpg" data-edit-img="room-2-img-1">
         <img src="room2b.jpg" data-edit-img="room-2-img-2">
         <img src="room2c.jpg" data-edit-img="room-2-img-3">
@@ -620,12 +657,12 @@ Mirë se vini në shtëpinë tonë.">
 
     <!-- ROOM 3 -->
     <div class="room-card">
-      <div class="slider" id="slider-3">
         <button class="prev">
   <svg width="16" height="16" viewBox="0 0 24 24">
     <path fill="white" d="M15 18l-6-6 6-6"/>
   </svg>
 </button>
+     <div class="slider" id="slider-3">
         <img src="room3a.jpg" data-edit-img="room-3-img-1">
         <img src="room3b.jpg" data-edit-img="room-3-img-2">
         <img src="room3c.jpg" data-edit-img="room-3-img-3">
@@ -993,8 +1030,10 @@ document.getElementById('backBtn').addEventListener('click', function(){
     var imgs = slider.querySelectorAll('img');
     if (!imgs.length) return;
 
-    var prevBtn = slider.querySelector('.prev');
-    var nextBtn = slider.querySelector('.next');
+    var wrapper = slider.parentElement;
+
+var prevBtn = wrapper.querySelector('.prev');
+var nextBtn = wrapper.querySelector('.next');
 
     var currentIndex = 0;
     slider.scrollLeft = 0;
