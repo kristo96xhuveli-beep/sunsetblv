@@ -1020,27 +1020,28 @@ if (prevBtn) {
         var d = document.createElement('span');
         d.className = 'dot' + (i === 0 ? ' active' : '');
         d.addEventListener('click', (function(idx) {
-          return function() {
+          return function() { 
+    var imgWidth = slider.querySelector('img').clientWidth;
+    currentIndex = idx;
+
+    slider.scrollTo({ 
+      left: imgWidth * idx, 
+      behavior: 'smooth' 
+    }); 
+  };
+})(i));
+
+// SCROLL SYNC
+slider.addEventListener('scroll', function() {
+  var imgWidth = slider.querySelector('img').clientWidth;
+  var idx = Math.round(slider.scrollLeft / imgWidth);
+
   currentIndex = idx;
 
-  var imgWidth = slider.querySelector('img').clientWidth;
-
-  slider.scrollTo({
-    left: imgWidth * currentIndex,
-    behavior: 'smooth'
+  dotsEl.querySelectorAll('.dot').forEach(function(d, i) { 
+    d.classList.toggle('active', i === idx); 
   });
-};
-        })(i));
-        dotsEl.appendChild(d);
-      });
-      slider.addEventListener('scroll', function() {
-        var imgWidth = slider.querySelector('img').clientWidth;
-var idx = Math.round(slider.scrollLeft / imgWidth);
-
-currentIndex = idx;
-        dotsEl.querySelectorAll('.dot').forEach(function(d, i) { d.classList.toggle('active', i === idx); });
-      });
-    });
+});
   }
 
   // --- YOUTUBE ---
