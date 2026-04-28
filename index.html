@@ -558,7 +558,7 @@ Mirë se vini në shtëpinë tonë.">
     <path fill="white" d="M15 18l-6-6 6-6"/>
   </svg>
 </button>
-        <img src="room1a.jpg" class="active" data-edit-img="room-1-img-1">
+        <img src="room1a.jpg" data-edit-img="room-1-img-1">
         <img src="room1b.jpg" data-edit-img="room-1-img-2">
         <img src="room1c.jpg" data-edit-img="room-1-img-3">
         <img src="room1d.jpg" data-edit-img="room-1-img-4">
@@ -596,7 +596,7 @@ Mirë se vini në shtëpinë tonë.">
     <path fill="white" d="M15 18l-6-6 6-6"/>
   </svg>
 </button>
-        <img src="room2a.jpg" class="active" data-edit-img="room-2-img-1">
+        <img src="room2a.jpg" data-edit-img="room-2-img-1">
         <img src="room2b.jpg" data-edit-img="room-2-img-2">
         <img src="room2c.jpg" data-edit-img="room-2-img-3">
         <img src="room2d.jpg" data-edit-img="room-2-img-4">
@@ -626,7 +626,7 @@ Mirë se vini në shtëpinë tonë.">
     <path fill="white" d="M15 18l-6-6 6-6"/>
   </svg>
 </button>
-        <img src="room3a.jpg" class="active" data-edit-img="room-3-img-1">
+        <img src="room3a.jpg" data-edit-img="room-3-img-1">
         <img src="room3b.jpg" data-edit-img="room-3-img-2">
         <img src="room3c.jpg" data-edit-img="room-3-img-3">
         <img src="room3d.jpg" data-edit-img="room-3-img-4">
@@ -980,14 +980,14 @@ document.getElementById('backBtn').addEventListener('click', function(){
   applyLang(currentLang);
 
   // --- SLIDERS ---
-  function initSliders() {
+ function initSliders() {
   [1,2,3].forEach(function(n) {
 
     var slider = document.getElementById('slider-' + n);
     var dotsEl = document.getElementById('dots-' + n);
 
+    if (!slider || !dotsEl) return;
 
-    // reset dots
     dotsEl.innerHTML = "";
 
     var imgs = slider.querySelectorAll('img');
@@ -999,31 +999,34 @@ document.getElementById('backBtn').addEventListener('click', function(){
     var currentIndex = 0;
     slider.scrollLeft = 0;
 
-function goTo(index) {
-  currentIndex = index;
+    function goTo(index) {
+      currentIndex = index;
 
-  var target = imgs[currentIndex];
-  slider.scrollTo({
-    left: target.offsetLeft,   // 🔥 EXACT POSITION
-    behavior: 'smooth'
-  });
-}
+      var width = slider.clientWidth;
 
-if (nextBtn) {
-  nextBtn.onclick = function () {
-    if (currentIndex < imgs.length - 1) {
-      goTo(currentIndex + 1);
+      slider.scrollTo({
+        left: width * currentIndex,
+        behavior: 'smooth'
+      });
     }
-  };
-}
 
-if (prevBtn) {
-  prevBtn.onclick = function () {
-    if (currentIndex > 0) {
-      goTo(currentIndex - 1);
+    // NEXT
+    if (nextBtn) {
+      nextBtn.onclick = function () {
+        if (currentIndex < imgs.length - 1) {
+          goTo(currentIndex + 1);
+        }
+      };
     }
-  };
-}
+
+    // PREV
+    if (prevBtn) {
+      prevBtn.onclick = function () {
+        if (currentIndex > 0) {
+          goTo(currentIndex - 1);
+        }
+      };
+    }
 
     // DOTS
     imgs.forEach(function(_, i) {
@@ -1031,31 +1034,23 @@ if (prevBtn) {
       d.className = 'dot' + (i === 0 ? ' active' : '');
 
       d.onclick = function() {
-  goTo(i);
-};
+        goTo(i);
+      };
 
       dotsEl.appendChild(d);
     });
 
-    // SYNC SCROLL
+    // SCROLL SYNC (FIXED)
     slider.addEventListener('scroll', function() {
-  var closest = 0;
-  var minDiff = Infinity;
+      var width = slider.clientWidth;
+      var closest = Math.round(slider.scrollLeft / width);
 
-  imgs.forEach(function(img, i) {
-    var diff = Math.abs(slider.scrollLeft - img.offsetLeft);
-    if (diff < minDiff) {
-      minDiff = diff;
-      closest = i;
-    }
-  });
+      currentIndex = closest;
 
-  currentIndex = closest;
-
-  dotsEl.querySelectorAll('.dot').forEach(function(dot, i) {
-    dot.classList.toggle('active', i === closest);
-  });
-});
+      dotsEl.querySelectorAll('.dot').forEach(function(dot, i) {
+        dot.classList.toggle('active', i === closest);
+      });
+    });
 
   });
 }
