@@ -87,7 +87,7 @@ body:not(.home-active) #info-mobile { display: none; }
   .home-mobile-sections{display:none;}
   .home-info-mobile{display:none;}
   .slider { position: relative; }
-  .slider button { opacity: 0; pointer-events: none; }
+  .slider button { opacity: 0; pointer-events: auto; }
   .slider button { position: absolute; top: 50%; transform: translateY(-50%); width: 36px; height: 36px; border-radius: 50%; background: rgba(255, 255, 255, 0.25);
   backdrop-filter: blur(6px); border: none; color: white; font-size: 18px; font-weight: bold; display: flex; align-items: center; justify-content: center;
   cursor: pointer; transition: all 0.25s ease; }
@@ -1017,6 +1017,20 @@ document.getElementById('backBtn').addEventListener('click', function(){
       var dotsEl = document.getElementById('dots-' + n);
       if (!slider || dotsEl.children.length) return;
       var imgs = slider.querySelectorAll('img');
+      var prevBtn = slider.querySelector('.prev');
+      var nextBtn = slider.querySelector('.next');
+      if (nextBtn) {
+      nextBtn.addEventListener('click', function () {
+      slider.scrollBy({ left: slider.clientWidth, behavior: 'smooth'
+    });
+  });
+}
+     if (prevBtn) {
+     prevBtn.addEventListener('click', function () {
+     slider.scrollBy({ left: -slider.clientWidth, behavior: 'smooth'
+    });
+  });
+}
       imgs.forEach(function(_, i) {
         var d = document.createElement('span');
         d.className = 'dot' + (i === 0 ? ' active' : '');
