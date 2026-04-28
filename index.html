@@ -983,7 +983,8 @@ document.getElementById('backBtn').addEventListener('click', function(){
     [1,2,3].forEach(function(n) {
       var slider = document.getElementById('slider-' + n);
       var dotsEl = document.getElementById('dots-' + n);
-      if (!slider || dotsEl.children.length) return;
+      if (!slider) return;
+      dotsEl.innerHTML = "";
       var imgs = slider.querySelectorAll('img');
       var prevBtn = slider.querySelector('.prev');
       var nextBtn = slider.querySelector('.next');
