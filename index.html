@@ -300,7 +300,13 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
 
 .cal-cell.available { background:#e6f4ea; }
 .cal-cell.booked { background:#fdecea; }
-  
+
+ @media (hover: none) {
+  button.prev,
+  button.next {
+    display: none !important;
+  }
+}
 </style>
 </head>
 <body>
