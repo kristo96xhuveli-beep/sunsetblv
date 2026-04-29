@@ -20,7 +20,7 @@ header{position:fixed;top:0;left:0;width:100%;height:50px;background:var(--heade
 .page.active{display:block;}
 .reel-corner{display:none;}
 @media(min-width:768px){
- .reel-frame{position:absolute;top:0;left:50%;transform:translateX(-50%);width:65vh;height:100%;overflow:hidden;z-index:3;}
+ .reel-frame{position:absolute;top:0;left:50%;transform:translateX(-50%);width:100%;height:100%;overflow:hidden;z-index:3;border-radius:12px;}
 .video-wrapper{padding:0 6px;background:var(--video-bg);transition:background .3s;}
 .video-container{position:relative;width:100%;height:calc(100vh - 60px);overflow:hidden;background:#000;border-radius:0px;}
 .video-overlay{position:absolute;inset:0;z-index:2;}
@@ -72,7 +72,7 @@ body:not(.home-active) #info-mobile { display: none; }
   z-index: 20;
   width: 36px;
   height: 36px;
-  border-radius: 50%;
+  C
   background: rgba(255,255,255,0.25);
   backdrop-filter: blur(6px);
   border: none;
