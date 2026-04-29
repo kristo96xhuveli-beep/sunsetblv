@@ -28,13 +28,7 @@ header{position:fixed;top:0;left:0;width:100%;height:50px;background:var(--heade
 }
 .video-wrapper{padding:0 6px;background:var(--video-bg);transition:background .3s;}
 .video-container{position:relative;width:100%;height:calc(100vh - 60px);overflow:hidden;background:#000;border-radius:10px;}
-.video-overlay{ position:absolute;
-  inset:0;
-  z-index:9999;
-  background:black;
-  opacity:0;
-  transition:opacity 0.4s ease;
-  pointer-events:none;}
+.video-overlay{position:absolute;inset:0;z-index:2;}
 .video-container::before,.video-container::after{content:'';position:absolute;top:0;bottom:0;width:18%;z-index:3;pointer-events:none;}
 .video-container::before{left:0;background:linear-gradient(to right,rgba(0,0,0,0.72),transparent);}
 .video-container::after{right:0;background:linear-gradient(to left,rgba(0,0,0,0.72),transparent);}
@@ -317,22 +311,6 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
   button.prev,
   button.next {display: none !important;}
 }
-
- @media(max-width:767px){
-  #yt-player,
-  #yt-player iframe{
-    pointer-events: none !important;
-    touch-action: none !important;
-  }
-}
- @media(max-width:767px){
-  .video-cover{
-    position:absolute;
-    inset:0;
-    background:#000;
-    z-index:5;
-  }
-}
 </style>
 </head>
 <body>
@@ -443,7 +421,7 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
       <div class="video-wrapper">
         <div class="video-container">
           <div class="video-overlay"></div>
-          <div class="video-cover"></div>
+          <div class="reel-frame">
             <div id="yt-player"></div>
           </div>
           <div class="video-side-cover video-side-left"></div>
@@ -1464,14 +1442,7 @@ document.addEventListener('click', function(e){
   }
 
 });
-window.addEventListener("load", function(){
-  if (window.innerWidth <= 767) {
-    setTimeout(function(){
-      const cover = document.querySelector('.video-cover');
-      if (cover) cover.remove();
-    }, 600); // adjust 400–800 if needed
-  }
-});
+
 </script>
 </body>
 </html>
