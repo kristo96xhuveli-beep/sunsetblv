@@ -319,13 +319,15 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
 }
 
  @media(max-width:767px){
-  #yt-player{
+  .video-overlay.fade-out{
     opacity:0;
   }
 }
  @media(max-width:767px){
-  .video-overlay.fade-out{
-    opacity:0;
+  #yt-player,
+  #yt-player iframe{
+    pointer-events: none !important;
+    touch-action: none !important;
   }
 }
 </style>
