@@ -1448,9 +1448,11 @@ document.addEventListener('click', function(e){
     e.target.mute();
     e.target.playVideo();
 
+    // show after small delay (primary)
     setTimeout(function(){
-      document.getElementById('yt-player').style.opacity = 1;
-    }, 800); // adjust (600–1200ms)
+      const el = document.getElementById('yt-player');
+      if (el) el.style.opacity = 1;
+    }, 800);
   }
 }
 
