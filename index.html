@@ -1095,11 +1095,15 @@ var nextBtn = wrapper.querySelector('.next');
   document.head.appendChild(tag);
   window.onYouTubeIframeAPIReady = function() {
     new YT.Player('yt-player', {
-      videoId: '_3l5noL5Y1s',
-      playerVars: { autoplay:1, mute:1, loop:1, playlist:'_3l5noL5Y1s', controls:0, showinfo:0, rel:0, modestbranding:1, disablekb:1, fs:0, playsinline:1 },
-      events: { onReady: function(e) { e.target.mute(); e.target.playVideo(); } }
-    });
-  };
+    videoId: '_3l5noL5Y1s',
+    playerVars: { autoplay:1, mute:1, loop:1, playlist:'_3l5noL5Y1s', controls:0, showinfo:0, rel:0, modestbranding:1, disablekb:1, fs:0, playsinline:1 },
+    events: { onReady: function(e) { e.target.mute(); e.target.playVideo();
+        // ✅ SHOW ONLY AFTER READY
+        document.getElementById('yt-player').style.opacity = '1';
+      }
+    }
+  });
+};
 
 })();
 </script>
