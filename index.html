@@ -42,7 +42,16 @@ header{position:fixed;top:0;left:0;width:100%;height:50px;background:var(--heade
 #yt-player {pointer-events: none;}
 @media(max-width:767px){.video-container::before,.video-container::after{display:none;}}
 @media(max-width:767px){#yt-player{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:177.78vh;min-width:100%;height:100vh;min-height:56.25vw;border:none;pointer-events:none;}}
-#yt-player{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:177.78vh;min-width:100%;height:100vh;min-height:56.25vw;border:none;pointer-events:none;}
+#yt-player{position:absolute;
+  top:50%;
+  left:50%;
+  transform:translate(-50%,-50%);
+  width:177.78vh;
+  min-width:100%;
+  height:100vh;
+  min-height:56.25vw;
+  border:none;
+  pointer-events:none;}
 .page:not(.active) #info-mobile { display: none; }
 #page-home.active ~ #info-mobile { display: block; }
 body:not(.home-active) #info-mobile { display: none; }
@@ -428,7 +437,6 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
     <div class="home-center">
       <div class="video-wrapper">
         <div class="video-container">
-          <div class="reel-frame">
            <div class="video-overlay"></div>
             <iframe id="yt-player"
   src="https://www.youtube.com/embed/_3l5noL5Y1s?autoplay=1&mute=1&loop=1&playlist=_3l5noL5Y1s&controls=0&modestbranding=1&playsinline=1&rel=0&showinfo=0&iv_load_policy=3&disablekb=1"
