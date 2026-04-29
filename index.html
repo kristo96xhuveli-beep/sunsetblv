@@ -318,14 +318,16 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
   button.prev,
   button.next {display: none !important;}
 }
- @media (max-width: 767px) {
-  .video-wrapper {
-    opacity: 0;
-    transition: opacity 0.5s ease;
-  }
-  .video-wrapper.ready {
-    opacity: 1;
-  }
+.yt-cover {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  background: #000;
+  transition: opacity 0.5s ease;
+}
+.yt-cover.hide {
+  opacity: 0;
+  pointer-events: none;
 }
 </style>
 </head>
@@ -439,7 +441,7 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
           <div class="video-overlay"></div>
           <div class="reel-frame">
             <div id="yt-player"></div>
-           <div class="yt-touch-blocker"></div>
+          <div class="yt-cover"></div>
           </div>
           <div class="video-side-cover video-side-left"></div>
           <div class="video-side-cover video-side-right"></div>
@@ -1116,12 +1118,11 @@ var nextBtn = wrapper.querySelector('.next');
       playerVars: { autoplay:1, mute:1, loop:1, playlist:'_3l5noL5Y1s', controls:0, showinfo:0, rel:0, modestbranding:1, disablekb:1, fs:0, playsinline:1 },
       events: {
   onReady: function(e) {
-    e.target.mute();
-    e.target.playVideo();
-    setTimeout(() => {
-      document.querySelector('.video-wrapper').classList.add('ready');
-    }, 3000);
-  }
+  e.target.mute();
+  e.target.playVideo();
+  setTimeout(() => {
+    document.querySelector('.yt-cover').classList.add('hide');
+  }, 3000);
 }
     });
   };
