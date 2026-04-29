@@ -317,6 +317,11 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
     pointer-events:auto !important;
   }
 }
+ @media(max-width:767px){
+  #yt-player{
+    opacity:0;
+  }
+}
 </style>
 </head>
 <body>
@@ -1449,6 +1454,16 @@ document.addEventListener('click', function(e){
 
 });
 
+ onReady: function(e) {
+  e.target.mute();
+  e.target.playVideo();
+
+  if (window.innerWidth <= 767) {
+    setTimeout(function(){
+      document.getElementById('yt-player').style.opacity = 1;
+    }, 600);
+  }
+}
 </script>
 </body>
 </html>
