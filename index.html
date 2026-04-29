@@ -311,15 +311,18 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
   button.prev,
   button.next {display: none !important;}
 }
- @media(max-width:767px){
-  .video-overlay{
-    display:block;
-    pointer-events:auto !important;
-  }
-}
+
  @media(max-width:767px){
   #yt-player{
     opacity:0;
+  }
+}
+ @media(max-width:767px){
+  .video-overlay{
+    display:block;
+    background:black; 
+    z-index:9999;
+    pointer-events:none !important;
   }
 }
 </style>
