@@ -1457,16 +1457,14 @@ document.addEventListener('click', function(e){
 
 });
 
- onReady: function(e) {
-  e.target.mute();
-  e.target.playVideo();
-
+ window.addEventListener("load", function(){
   if (window.innerWidth <= 767) {
     setTimeout(function(){
-      document.getElementById('yt-player').style.opacity = 1;
-    }, 600);
+      const overlay = document.querySelector('.video-overlay');
+      if (overlay) overlay.style.display = "none";
+    }, 500);
   }
-}
+});
 </script>
 </body>
 </html>
