@@ -24,7 +24,7 @@ header{position:fixed;top:0;left:0;width:100%;height:50px;background:var(--heade
  .video-side-left{left:0;}
  .video-side-right{right:0;}
  .reel-frame{position:absolute;top:0;bottom:0;left:calc((100% - 56.25vh) / 2);width:56.25vh;border-radius:12px;overflow:hidden;z-index:3;}
- .reel-frame #yt-player{position:absolute;top:0;left:0;width:100%;height:100%;transform:none;border-radius: 14px;}
+ .reel-frame #yt-player{position:absolute;top:0;left:0;width:100%;height:100%;transform:none;}
 }
 .video-wrapper{padding:0 6px;background:var(--video-bg);transition:background .3s;}
 .video-container{position:relative;width:100%;height:calc(100vh - 60px);overflow:hidden;background:#000;border-radius:10px;}
@@ -421,6 +421,7 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
       <div class="video-wrapper">
         <div class="video-container">
           <div class="video-overlay"></div>
+           <div class="reel-frame">
             <div id="yt-player"></div>
           <div class="video-side-cover video-side-left"></div>
           <div class="video-side-cover video-side-right"></div>
