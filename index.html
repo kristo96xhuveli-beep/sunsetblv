@@ -1114,7 +1114,15 @@ var nextBtn = wrapper.querySelector('.next');
     new YT.Player('yt-player', {
       videoId: '_3l5noL5Y1s',
       playerVars: { autoplay:1, mute:1, loop:1, playlist:'_3l5noL5Y1s', controls:0, showinfo:0, rel:0, modestbranding:1, disablekb:1, fs:0, playsinline:1 },
-      events: { onReady: function(e) { e.target.mute(); e.target.playVideo(); } }
+      events: {
+  onReady: function(e) {
+    e.target.mute();
+    e.target.playVideo();
+    setTimeout(() => {
+      document.querySelector('.video-wrapper').classList.add('ready');
+    }, 3000);
+  }
+}
     });
   };
 
@@ -1459,13 +1467,6 @@ document.addEventListener('click', function(e){
   }
 
 });
- 
- function onPlayerReady(event) {
-  event.target.playVideo();
-  setTimeout(() => {
-    document.querySelector('.video-wrapper').classList.add('ready');
-  }, 3000); // wait 3s for controls to disappear
-}
 
 </script>
 </body>
