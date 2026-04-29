@@ -34,22 +34,14 @@ header{position:fixed;top:0;left:0;width:100%;height:50px;background:var(--heade
 .video-container::after{right:0;background:linear-gradient(to left,rgba(0,0,0,0.72),transparent);}
 @media(max-width:767px){.video-container::before,.video-container::after{display:none;}}
 @media(max-width:767px){.reel-frame {display: contents;}}
-#yt-player{position:absolute;top:50%;left:50%;transform:translate(-50%, -50%);width:100vw;height:56.25vw;min-height:100%;min-width:177.78vh;pointer-events:none;}
+#yt-player{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;}
 .page:not(.active) #info-mobile { display: none; }
 #page-home.active ~ #info-mobile { display: block; }
 body:not(.home-active) #info-mobile { display: none; }
-@media(min-width:768px){
-  #ourstory-anchor-mobile,
-  #info-mobile { display: none !important; }
-}
+@media(min-width:768px){#ourstory-anchor-mobile,#info-mobile { display: none !important; }}
 /* Prevent scroll ONLY on desktop home */
-@media(min-width:768px){
-  #page-home.active { height: calc(100vh - 60px); overflow: hidden; }
-  body { overflow: hidden; }
-}
-@media(min-width:768px){
-  .home-right { height: 100%; overflow: hidden; }
-}
+@media(min-width:768px){#page-home.active { height: calc(100vh - 60px); overflow: hidden; } body { overflow: hidden; }}
+@media(min-width:768px){.home-right { height: 100%; overflow: hidden; }}
 /* ===== DESKTOP HOME: ABSOLUTE LOCK - NO SCROLL ===== */
 @media(min-width:768px){
   html, body { height: 100%; overflow: hidden; }
@@ -58,7 +50,6 @@ body:not(.home-active) #info-mobile { display: none; }
   .home-left,
   .home-center,
   .home-right { height: 100%; overflow: hidden; }
-  /* 🚫 kill anything that might extend layout */
   #ourstory-anchor-mobile,
   #info-mobile { display: none !important; }
 }
