@@ -1460,20 +1460,23 @@ document.addEventListener('click', function(e){
 
 });
 
- document.addEventListener("DOMContentLoaded", function(){
+ if (window.innerWidth <= 767) {
 
-  if (window.innerWidth <= 767) {
     const overlay = document.querySelector('.video-overlay');
+    const iframe = document.querySelector('#yt-player iframe');
 
-    if (overlay){
-      // show overlay immediately
-      overlay.style.opacity = 1;
+    if (!overlay || !iframe) return;
 
-      // then hide it after short delay
+    // show overlay immediately
+    overlay.style.opacity = 1;
+
+    // wait until iframe actually loads
+    iframe.onload = function(){
       setTimeout(function(){
         overlay.style.opacity = 0;
-      }, 400);
-    }
+      }, 300);
+    };
+
   }
 
 });
