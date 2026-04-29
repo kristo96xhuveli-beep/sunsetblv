@@ -325,6 +325,14 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
     touch-action: none !important;
   }
 }
+ @media(max-width:767px){
+  .video-cover{
+    position:absolute;
+    inset:0;
+    background:#000;
+    z-index:5;
+  }
+}
 </style>
 </head>
 <body>
@@ -435,7 +443,7 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
       <div class="video-wrapper">
         <div class="video-container">
           <div class="video-overlay"></div>
-          <div class="reel-frame">
+          <div class="video-cover"></div>
             <div id="yt-player"></div>
           </div>
           <div class="video-side-cover video-side-left"></div>
@@ -1456,26 +1464,13 @@ document.addEventListener('click', function(e){
   }
 
 });
-
- if (window.innerWidth <= 767) {
-
-    const overlay = document.querySelector('.video-overlay');
-    const iframe = document.querySelector('#yt-player iframe');
-
-    if (!overlay || !iframe) return;
-
-    // show overlay immediately
-    overlay.style.opacity = 1;
-
-    // wait until iframe actually loads
-    iframe.onload = function(){
-      setTimeout(function(){
-        overlay.style.opacity = 0;
-      }, 300);
-    };
-
+window.addEventListener("load", function(){
+  if (window.innerWidth <= 767) {
+    setTimeout(function(){
+      const cover = document.querySelector('.video-cover');
+      if (cover) cover.remove();
+    }, 600); // adjust 400–800 if needed
   }
-
 });
 </script>
 </body>
