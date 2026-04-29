@@ -23,35 +23,18 @@ header{position:fixed;top:0;left:0;width:100%;height:50px;background:var(--heade
  .video-side-cover{display:block;position:absolute;top:0;bottom:0;width:calc((100% - 56.25vh) / 2);z-index:4;background:var(--bg);}
  .video-side-left{left:0;}
  .video-side-right{right:0;}
- .reel-frame{position:relative;top:0;bottom:0;left:calc((100% - 56.25vh) / 2);width:56.25vh;border-radius:12px;overflow:hidden;z-index:3;}
+ .reel-frame{position:absolute;top:0;bottom:0;left:calc((100% - 56.25vh) / 2);width:56.25vh;border-radius:12px;overflow:hidden;z-index:3;}
  .home-center #yt-player{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:56.25vh;height:100vh;border:none;pointer-events:none;}
 }
 .video-wrapper{padding:0 6px;background:var(--video-bg);transition:background .3s;}
 .video-container{position:relative;width:100%;height:calc(100vh - 60px);overflow:hidden;background:#000;border-radius:10px;}
-.video-overlay{position:absolute;
-  inset:0;
-  background:black;
-  z-index:5;
-  opacity:1;
-  transition: opacity 0.4s ease;
-  pointer-events:none;}
+.video-overlay{position:absolute;inset:0;z-index:2;}
 .video-container::before,.video-container::after{content:'';position:absolute;top:0;bottom:0;width:18%;z-index:3;pointer-events:none;}
 .video-container::before{left:0;background:linear-gradient(to right,rgba(0,0,0,0.72),transparent);}
 .video-container::after{right:0;background:linear-gradient(to left,rgba(0,0,0,0.72),transparent);}
-#yt-player {;transition: opacity 0.4s ease;}
-#yt-player {pointer-events: none;}
 @media(max-width:767px){.video-container::before,.video-container::after{display:none;}}
 @media(max-width:767px){#yt-player{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:177.78vh;min-width:100%;height:100vh;min-height:56.25vw;border:none;pointer-events:none;}}
-#yt-player{position:absolute;
-  top:50%;
-  left:50%;
-  transform:translate(-50%,-50%);
-  width:177.78vh;
-  min-width:100%;
-  height:100vh;
-  min-height:56.25vw;
-  border:none;
-  pointer-events:none;}
+#yt-player{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:177.78vh;min-width:100%;height:100vh;min-height:56.25vw;border:none;pointer-events:none;}
 .page:not(.active) #info-mobile { display: none; }
 #page-home.active ~ #info-mobile { display: block; }
 body:not(.home-active) #info-mobile { display: none; }
@@ -437,12 +420,9 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
     <div class="home-center">
       <div class="video-wrapper">
         <div class="video-container">
-           <div class="video-overlay"></div>
-            <iframe id="yt-player"
-  src="https://www.youtube.com/embed/_3l5noL5Y1s?autoplay=1&mute=1&loop=1&playlist=_3l5noL5Y1s&controls=0&modestbranding=1&playsinline=1&rel=0&showinfo=0&iv_load_policy=3&disablekb=1"
-  frameborder="0"
-  allow="autoplay; fullscreen"
-></iframe>
+          <div class="video-overlay"></div>
+          <div class="reel-frame">
+            <div id="yt-player"></div>
           </div>
           <div class="video-side-cover video-side-left"></div>
           <div class="video-side-cover video-side-right"></div>
@@ -1109,6 +1089,18 @@ var nextBtn = wrapper.querySelector('.next');
   });
 }
 
+  // --- YOUTUBE ---
+  var tag = document.createElement('script');
+  tag.src = 'https://www.youtube.com/iframe_api';
+  document.head.appendChild(tag);
+  window.onYouTubeIframeAPIReady = function() {
+    new YT.Player('yt-player', {
+      videoId: '_3l5noL5Y1s',
+      playerVars: { autoplay:1, mute:1, loop:1, playlist:'_3l5noL5Y1s', controls:0, showinfo:0, rel:0, modestbranding:1, disablekb:1, fs:0, playsinline:1 },
+      events: { onReady: function(e) { e.target.mute(); e.target.playVideo(); } }
+    });
+  };
+
 })();
 </script>
 
@@ -1449,12 +1441,6 @@ document.addEventListener('click', function(e){
     btn.textContent = 'Read less';
   }
 
-});
- window.addEventListener("load", function(){
-  setTimeout(() => {
-    const overlay = document.querySelector(".video-overlay");
-    if (overlay) overlay.style.opacity = "0";
-  }, 700);
 });
 
 </script>
