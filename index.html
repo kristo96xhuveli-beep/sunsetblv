@@ -318,6 +318,15 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
   button.prev,
   button.next {display: none !important;}
 }
+ @media (max-width: 767px) {
+  .video-wrapper {
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  }
+  .video-wrapper.ready {
+    opacity: 1;
+  }
+}
 </style>
 </head>
 <body>
@@ -1450,6 +1459,13 @@ document.addEventListener('click', function(e){
   }
 
 });
+ 
+ function onPlayerReady(event) {
+  event.target.playVideo();
+  setTimeout(() => {
+    document.querySelector('.video-wrapper').classList.add('ready');
+  }, 3000); // wait 3s for controls to disappear
+}
 
 </script>
 </body>
