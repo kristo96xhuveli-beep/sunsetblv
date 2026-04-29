@@ -1102,25 +1102,25 @@ var nextBtn = wrapper.querySelector('.next');
 }
 
   // --- YOUTUBE ---
-  var tag = document.createElement('script');
-  tag.src = 'https://www.youtube.com/iframe_api';
-  document.head.appendChild(tag);
-  window.onYouTubeIframeAPIReady = function() {
-    new YT.Player('yt-player', {
-      videoId: '_3l5noL5Y1s',
-      playerVars: { autoplay:1, mute:1, loop:1, playlist:'_3l5noL5Y1s', controls:0, showinfo:0, rel:0, modestbranding:1, disablekb:1, fs:0, playsinline:1 },
-      events: {
-  events: {
-  onReady: function(e) {
-    e.target.mute();
-    e.target.playVideo();
-    setTimeout(() => {
-      document.querySelector('.yt-cover').classList.add('hide');
-    }, 2000);
-  }
-}
-    });
-  };
+var tag = document.createElement('script');
+tag.src = 'https://www.youtube.com/iframe_api';
+document.head.appendChild(tag);
+window.onYouTubeIframeAPIReady = function() {
+  new YT.Player('yt-player', {
+    videoId: '_3l5noL5Y1s',
+    playerVars: { autoplay:1, mute:1, loop:1, playlist:'_3l5noL5Y1s', controls:0, showinfo:0, rel:0, modestbranding:1, disablekb:1, fs:0, playsinline:1 },
+    events: {
+      onReady: function(e) {
+        e.target.mute();
+        e.target.playVideo();
+        setTimeout(function() {
+          var cover = document.querySelector('.yt-cover');
+          if (cover) cover.classList.add('hide');
+        }, 2000);
+      }
+    }
+  });
+};
 
 })();
 </script>
