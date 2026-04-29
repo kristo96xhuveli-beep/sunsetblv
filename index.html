@@ -35,7 +35,6 @@ header{position:fixed;top:0;left:0;width:100%;height:50px;background:var(--heade
 @media(max-width:767px){.video-container::before,.video-container::after{display:none;}}
 @media(max-width:767px){#yt-player{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:177.78vh;min-width:100%;height:100vh;min-height:56.25vw;border:none;pointer-events:none;}}
 #yt-player{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:177.78vh;min-width:100%;height:100vh;min-height:56.25vw;border:none;pointer-events:none;}
-.reel-frame iframe{opacity:0;transition:opacity 0.3s ease;}
 .page:not(.active) #info-mobile { display: none; }
 #page-home.active ~ #info-mobile { display: block; }
 body:not(.home-active) #info-mobile { display: none; }
@@ -312,7 +311,6 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
   button.prev,
   button.next {display: none !important;}
 }
-
 </style>
 </head>
 <body>
@@ -424,22 +422,7 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
         <div class="video-container">
           <div class="video-overlay"></div>
           <div class="reel-frame">
-           <iframe
-  src="https://www.youtube.com/embed/_3l5noL5Y1s?autoplay=1&mute=1&loop=1&playlist=_3l5noL5Y1s&controls=0&playsinline=1&modestbranding=1"
-  frameborder="0"
-  allow="autoplay"
-  style="
-    position:absolute;
-    top:50%;
-    left:50%;
-    transform:translate(-50%,-50%);
-    width:177.78vh;
-    min-width:100%;
-    height:100vh;
-    min-height:56.25vw;
-    pointer-events:none;
-  ">
-</iframe>
+            <div id="yt-player"></div>
           </div>
           <div class="video-side-cover video-side-left"></div>
           <div class="video-side-cover video-side-right"></div>
@@ -1106,6 +1089,19 @@ var nextBtn = wrapper.querySelector('.next');
   });
 }
 
+  // --- YOUTUBE ---
+  var tag = document.createElement('script');
+  tag.src = 'https://www.youtube.com/iframe_api';
+  document.head.appendChild(tag);
+  window.onYouTubeIframeAPIReady = function() {
+    new YT.Player('yt-player', {
+      videoId: '_3l5noL5Y1s',
+      playerVars: { autoplay:1, mute:1, loop:1, playlist:'_3l5noL5Y1s', controls:0, showinfo:0, rel:0, modestbranding:1, disablekb:1, fs:0, playsinline:1 },
+      events: { onReady: function(e) { e.target.mute(); e.target.playVideo(); } }
+    });
+  };
+
+})();
 </script>
 
 <script>
@@ -1446,14 +1442,6 @@ document.addEventListener('click', function(e){
   }
 
 });
- <script>
-window.addEventListener("load", function(){
-  setTimeout(function(){
-    const iframe = document.querySelector('.reel-frame iframe');
-    if(iframe) iframe.style.opacity = 1;
-  }, 400);
-});
-</script>
 
 </script>
 </body>
