@@ -67,9 +67,10 @@ body:not(.home-active) #info-mobile { display: none; }
 .home-mobile-sections{display:none;}
 .home-info-mobile{display:none;}
 .slider-wrapper {position: relative;}
-.slider-wrapper button {position: absolute;top: 50%;transform: translateY(-50%);z-index: 20;width: 36px;height: 36px;background: rgba(255,255,255,0.25);
-  backdrop-filter: blur(6px);border: none;color: white;cursor: pointer;display: flex;align-items: center;justify-content: center;transition: all 0.25s ease;
-  opacity: 0;}
+.slider-wrapper button {position: absolute;top: 50%;transform: translateY(-50%);z-index: 20;width: 44px;height: 44px;border-radius: 50%;
+ background: rgba(255,255,255,0.15);backdrop-filter: blur(8px);border: 1px solid rgba(255,255,255,0.25);color: white;cursor: pointer;display: flex;
+ align-items: center;justify-content: center;transition: all 0.25s ease;opacity: 0;}
+ 
 .room-card:hover .slider-wrapper button {opacity: 1;}
 .slider-wrapper button:hover {background: rgba(255,255,255,0.45);transform: translateY(-50%) scale(1.1);}
 .slider-wrapper .prev {left: 12px;}
