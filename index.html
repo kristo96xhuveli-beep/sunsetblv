@@ -34,33 +34,23 @@ body:not(.home-active) #info-mobile { display: none; }
 #ourstory-anchor-mobile,
 #info-mobile { display: none !important; }
 }
-/* Prevent scroll ONLY on desktop home */
+
 @media(min-width:768px){
-#page-home.active { height: calc(100vh - 60px); overflow: hidden; }
-body { overflow: hidden; }
+.home-right { height: auto; overflow: visible; }
 }
-@media(min-width:768px){
-.home-right { height: 100%; overflow: hidden; }
-}
-/* ===== DESKTOP HOME: ABSOLUTE LOCK - NO SCROLL ===== */
-@media(min-width:768px){
-html, body { height: 100%; overflow: hidden; }
-#page-home.active { position: fixed; top: 0; left: 0; right: 0; bottom: 0; height: auto; overflow: hidden; }
-.home-desktop { height: 100%; max-height: 100%; overflow: hidden; }
-.home-left,
-.home-center,
-.home-right { height: 100%; overflow: hidden; }
-  /* 🚫 kill anything that might extend layout */
-#ourstory-anchor-mobile,
-#info-mobile { display: none !important; }
-}
+ 
 /* DESKTOP 3-COLUMN HOME LAYOUT */
 .home-desktop{display:block;}
 @media(min-width:768px){
-.home-desktop{display:grid;grid-template-columns:1fr 2fr 1fr;gap:0;align-items:start;height:calc(100vh - 60px);}
+.home-desktop{display:flex;flex-direction:column;gap:20px;}
+/* order */
+.home-center{order:1;}
+.home-left{order:2;}
+.home-right{order:3;}
+}
 .home-left,.home-right{overflow-y:auto;height:100%;background:var(--bg);transition:background .3s;}
 .home-right{display:flex;}
-.home-center{height:100%;}
+.home-center{height:auto;}
 .home-center .video-wrapper{padding:0;padding-bottom:10px;height:100%;box-sizing:border-box;background:var(--bg);display:flex;align-items:center;justify-content:center;}
 .home-center .video-container{width:100%;height:100%;border-radius:16px;background:var(--bg);}
 .home-mobile-sections{display:none;}
@@ -222,6 +212,11 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
 .side-row h3{font-size:18px;margin-bottom:6px;}
 /* description */
 .side-row p{font-size:14px;line-height:1.6;}
+}
+@media(min-width:768px){
+.home-center .video-container{
+  height:70vh;
+  border-radius:16px;}
 }
 </style>
 </head>
