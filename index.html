@@ -297,6 +297,37 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
 }
 
 }
+@media(min-width:768px){
+
+/* BREAK global card layout */
+#page-food .card,
+#page-activities .card{
+  display:inline-block !important;
+  width:360px !important;
+  height:500px !important;
+  vertical-align:top !important;
+  margin:0 16px 24px !important;
+}
+
+/* REMOVE horizontal layout */
+#page-food .card img,
+#page-activities .card img{
+  width:100% !important;
+  height:350px !important;
+}
+
+/* override global .card flex */
+#page-food .card,
+#page-activities .card{
+  flex:none !important;
+}
+
+/* IMPORTANT: kill inherited flex from .card */
+#page-food .card{
+  display:inline-block !important;
+}
+
+}
  
 </style>
 </head>
