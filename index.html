@@ -781,28 +781,38 @@ musicBtn.addEventListener('click', function() {
     activities: 'Activities', ourstory: 'Our Story'
   };
 
-  function showPage(pageId) {
-    document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
-    document.getElementById('page-' + pageId).classList.add('active');
-    window.scrollTo(0, 0);
-    document.getElementById('pageTitle').innerHTML = pageTitles[pageId] || pageId;
-    var backBtn = document.getElementById('backBtn');
-    var menuBtn = document.getElementById('menuBtn');
-    if (pageId === 'home') {
-      backBtn.style.display = 'none';
-      menuBtn.style.display = 'block';
-    } else {
-      backBtn.style.display = 'block';
-      menuBtn.style.display = 'none';
-    }
-    if (pageId === 'rooms') initSliders();
+  function showPage(pageId, addToHistory = true) {
+  document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
+  document.getElementById('page-' + pageId).classList.add('active');
+  window.scrollTo(0, 0);
+  document.getElementById('pageTitle').innerHTML = pageTitles[pageId] || pageId;
+  var backBtn = document.getElementById('backBtn');
+  var menuBtn = document.getElementById('menuBtn');
+  if (pageId === 'home') {
+    backBtn.style.display = 'none';
+    menuBtn.style.display = 'block';
+  } else {
+    backBtn.style.display = 'block';
+    menuBtn.style.display = 'none';
   }
-
-// ✅ ADD HERE
-document.getElementById('backBtn').addEventListener('click', function(){
-  showPage('home');
+  if (pageId === 'rooms') initSliders();
+  if (addToHistory) {
+    history.pushState({ page: pageId }, "", "#" + pageId);
+  }
+}
+ const initialPage = location.hash.replace("#", "") || "home";
+history.replaceState({ page: initialPage }, "", "#" + initialPage);
+showPage(initialPage, false);
+ document.getElementById('backBtn').addEventListener('click', function(){
+  history.back();
 });
-
+     window.addEventListener("popstate", function(e){
+  if (e.state && e.state.page) {
+    showPage(e.state.page, false);
+  } else {
+    showPage("home", false);
+  }
+});
   document.querySelectorAll('[data-page]').forEach(function(el) {
   el.addEventListener('click', function(e) {
 
