@@ -218,25 +218,29 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
 }
 @media(min-width:768px){
 
-/* CENTER the whole section */
+/* RESET content layout */
 #page-food .content,
 #page-activities .content{
+  display:block;
   max-width:1200px;
   margin:0 auto;
-  display:flex;
-  gap:24px;
-  justify-content:center;
+  text-align:center;
 }
 
-/* cards */
+/* wrapper for cards row */
 #page-food .card,
 #page-activities .card{
-  width:100%;
-  max-width:360px;
-  flex:1;
-  display:flex;
+  display:inline-block;
+  width:30%;
+  vertical-align:top;
+  margin:0 1.5% 24px;
+}
+
+/* FIX card layout */
+#page-food .card,
+#page-activities .card{
+  display:inline-flex;
   flex-direction:column;
-  margin:0;
 }
 
 /* image */
@@ -251,7 +255,6 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
 #page-food .card .cinfo,
 #page-activities .card .cinfo{
   text-align:center;
-  padding:16px;
 }
 
 }
