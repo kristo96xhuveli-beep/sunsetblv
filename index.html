@@ -273,6 +273,30 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
   height:350px !important;
 }
 }
+@media(min-width:768px){
+
+#page-food .content,
+#page-activities .content{
+  display:block !important;
+  max-width:1200px !important;
+  margin:0 auto !important;
+  text-align:center !important;
+}
+
+/* force cards to behave normally */
+#page-food .card,
+#page-activities .card{
+  width:360px !important;
+  display:inline-block !important;
+}
+
+/* IMPORTANT: kill any flex/grid influence */
+#page-food .content *,
+#page-activities .content *{
+  flex:none !important;
+}
+
+}
  
 </style>
 </head>
