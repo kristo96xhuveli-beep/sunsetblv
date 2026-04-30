@@ -16,20 +16,55 @@ header{position:fixed;top:0;left:0;width:100%;height:50px;background:var(--heade
 .back-btn{position:absolute;left:10px;top:50%;transform:translateY(-50%);font-size:22px;cursor:pointer;color:var(--text);background:none;border:none;padding:4px 8px;display:none;}
 .music-btn{position:absolute;right:10px;top:50%;transform:translateY(-50%);background:#0b1f3a;color:white;padding:6px 8px;border-radius:6px;font-size:11px;white-space:nowrap;border:none;cursor:pointer;}
 .title{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-size:14px;text-align:center;line-height:1.1;width:60%;overflow:hidden;text-overflow:ellipsis;color:var(--text);}
-.page{display:none;padding-top:60px;min-height:100vh;max-width:1200px;margin:0 auto;}
+.page{display:none;padding-top:60px;min-height:100vh;}
 .page.active{display:block;}
 .reel-corner{display:none;}
 @media(min-width:768px){
  .reel-frame{position:absolute;top:0;left:50%;transform:translateX(-50%);width:100%;height:100%;overflow:hidden;z-index:3;border-radius:14px;}
 }
 .video-wrapper{padding:0 6px;padding-bottom:10px;background:var(--video-bg);transition:background .3s;}
-.video-container{height:75vh;border-radius:18px;}
-@media(max-width:767px){
-.video-container{height:85vh;}
-}
+.video-container{position:relative;width:100%;height:calc(100vh - 60px);overflow:hidden;background:#000;border-radius:0px;}
 .video-overlay{position:absolute;inset:0;z-index:2;}
 #bg-video{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:100%;height:100%;object-fit:cover;pointer-events:none;}
 @media(max-width:767px){.video-container{border-radius:14px;overflow:hidden;}}
+.page:not(.active) #info-mobile { display: none; }
+#page-home.active ~ #info-mobile { display: block; }
+body:not(.home-active) #info-mobile { display: none; }
+@media(min-width:768px){
+#ourstory-anchor-mobile,
+#info-mobile { display: none !important; }
+}
+/* Prevent scroll ONLY on desktop home */
+@media(min-width:768px){
+#page-home.active { height: calc(100vh - 60px); overflow: hidden; }
+body { overflow: hidden; }
+}
+@media(min-width:768px){
+.home-right { height: 100%; overflow: hidden; }
+}
+/* ===== DESKTOP HOME: ABSOLUTE LOCK - NO SCROLL ===== */
+@media(min-width:768px){
+html, body { height: 100%; overflow: hidden; }
+#page-home.active { position: fixed; top: 0; left: 0; right: 0; bottom: 0; height: auto; overflow: hidden; }
+.home-desktop { height: 100%; max-height: 100%; overflow: hidden; }
+.home-left,
+.home-center,
+.home-right { height: 100%; overflow: hidden; }
+  /* 🚫 kill anything that might extend layout */
+#ourstory-anchor-mobile,
+#info-mobile { display: none !important; }
+}
+/* DESKTOP 3-COLUMN HOME LAYOUT */
+.home-desktop{display:block;}
+@media(min-width:768px){
+.home-desktop{display:grid;grid-template-columns:1fr 2fr 1fr;gap:0;align-items:start;height:calc(100vh - 60px);}
+.home-left,.home-right{overflow-y:auto;height:100%;background:var(--bg);transition:background .3s;}
+.home-right{display:flex;}
+.home-center{height:100%;}
+.home-center .video-wrapper{padding:0;padding-bottom:10px;height:100%;box-sizing:border-box;background:var(--bg);display:flex;align-items:center;justify-content:center;}
+.home-center .video-container{width:100%;height:100%;border-radius:16px;background:var(--bg);}
+.home-mobile-sections{display:none;}
+.home-info-mobile{display:none;}
 .slider-wrapper {position: relative;}
 .slider-wrapper button {position: absolute;top: 50%;transform: translateY(-50%);z-index: 20;width: 40px;height: 40px;border-radius: 50%;
  background: rgba(255,255,255,0.15);backdrop-filter: blur(8px);border: 1px solid rgba(255,255,255,0.25);color: white;cursor: pointer;display: flex;
@@ -65,11 +100,37 @@ header{position:fixed;top:0;left:0;width:100%;height:50px;background:var(--heade
 #page-activities .card p {margin: 0;}
 }
 @media(max-width:767px){
+.home-left,.home-right{display:none;}
 .home-center .video-wrapper{padding:0 6px;}
-.home-center .video-container{height: 85vh;}
+.home-center .video-container{height: 80vh;}
+.home-mobile-sections{display:block;}
+.home-info-mobile{display:block;}
 }
 
 /* DESKTOP SIDEBAR SECTIONS */
+.side-section{padding:16px;cursor:pointer;display:block;color:var(--text);background:var(--bg);transition:background .3s;text-decoration:none;border-bottom:1px solid var(--border);}
+.side-section:hover{background:var(--section-hover);}
+.side-row{display:flex;flex-direction:row;gap:12px;align-items:center;}
+.side-row.rev{flex-direction:row-reverse;}
+.side-row img{width:45%;border-radius:12px;object-fit:cover;aspect-ratio:1/1;}
+.side-row .text{flex:1;}
+.side-row h3{margin:0 0 4px;font-size:15px;color:var(--text);}
+.side-row p{margin:0;font-size:12px;color:var(--sub2);line-height:1.5;}
+.side-arrow{opacity:0.35;}
+.side-info-block{background:#0b1f3a;color:white;border-radius:14px;padding:20px 20px 10px;box-sizing:border-box;}
+body.dark .side-info-block{background:#000;}
+.side-info-block p{margin:6px 0;font-size:12px;}
+.side-info-block h3{margin:0 0 10px;font-size:15px;}
+.section{padding:20px;border:none;cursor:pointer;display:block;color:var(--text);background:var(--bg);transition:background .3s;text-decoration:none;}
+.section:active{background:var(--section-hover);}
+.section-arrow{font-size:18px;opacity:0.35;}
+.sec-row{display:flex;flex-direction:row;gap:12px;align-items:center;}
+.sec-row.reverse{flex-direction:row-reverse;}
+.sec-row img{width:45%;border-radius:12px;object-fit:cover;aspect-ratio:1/1;}
+.sec-row .text{flex:1;}
+.info-footer{background:#0b1f3a;color:white;padding:25px;}
+body.dark .info-footer{background:#000;}
+.info-footer p{margin:8px 0;}
 .hero{width:100%;height:52vw;max-height:320px;object-fit:cover;display:block;}
 .content{padding:20px;}
 .content h2{font-size:22px;margin:0 0 8px;}
@@ -145,24 +206,6 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
   button.prev,
   button.next {display: none !important;}
 }
-
- /* ===== HOME SPACING (NEW) ===== */
-.home-center{padding:30px 20px 10px;}
-.home-cards{margin-top:10px;}
-.our-story{margin:60px auto 40px;}
-.info-section{margin-top:40px;}
-
- /* ===== HOME CARDS ===== */
-.card-link{flex:1;text-decoration:none;color:inherit;background:var(--bg);border-radius:16px;overflow:hidden;box-shadow:0 6px 20px rgba(0,0,0,0.08);transition:transform .25s ease, box-shadow .25s ease;}
-.card-link:hover{transform:translateY(-6px);box-shadow:0 12px 30px rgba(0,0,0,0.12);}
-.card-link img{width:100%;height:220px;object-fit:cover;}
-.card-link h3{margin:10px;}
-.card-link p{margin:0 10px 15px;font-size:13px;}
-
- .our-story p,
-.info-section p{max-width:700px;margin-left:auto;margin-right:auto;}
-
-
 </style>
 </head>
 <body>
@@ -202,48 +245,97 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
 
 <!-- HOME -->
 <div class="page active" id="page-home">
-   
-  <!-- CENTER: Video -->
-<div class="home-center">
-  <div class="video-wrapper">
-    <div class="video-container">
-      <div class="video-overlay"></div>
-      <video id="bg-video" autoplay muted loop playsinline>
-        <source src="video.mp4" type="video/mp4">
-      </video>
-    </div> <!-- video-container -->
-  </div> <!-- video-wrapper -->
-</div> <!-- home-center -->
+  <div class="home-desktop">
 
-      <!-- CARDS: ROOMS / FOOD / ACTIVITIES -->
-  <div class="home-cards">
+    <!-- LEFT: Rooms, Food, Activities -->
+<div class="home-left">
 
-    <a class="card-link" href="#" data-page="rooms">
-      <img src="room1.jpg">
-      <h3>Rooms</h3>
-      <p>Discover our comfortable rooms by the sea</p>
-    </a>
+  <!-- ROOMS -->
+  <a class="side-section" href="#" data-page="rooms">
+    <div class="side-row">
+      <img src="room1.jpg" alt="Rooms">
+      <div class="text">
+        <h3 
+        data-en="Rooms"
+        data-al="Dhomat">
+        Rooms
+      </h3>
+        <p id="rooms-desc" data-edit="rooms-desc"
+        data-en="Discover our comfortable rooms by the sea"
+        data-al="Zbuloni dhomat tona komode pranë detit">
+        Discover our comfortable rooms by the sea
+      </p>
+      </div>
+    </div>
+  </a>
 
-    <a class="card-link" href="#" data-page="food">
-      <img src="food1.jpg">
-      <h3>Food & Drinks</h3>
-      <p>Enjoy fresh flavors, local dishes and drinks</p>
-    </a>
+  <!-- FOOD -->
+  <a class="side-section" href="#" data-page="food">
+    <div class="side-row rev">
+      <img src="food1.jpg" alt="Food & Drinks">
+      <div class="text">
+        <h3 
+        data-en="Food & Drinks"
+        data-al="Ushqim & Pije">
+        Food & Drinks
+      </h3>
 
-    <a class="card-link" href="#" data-page="activities">
-      <img src="activities1.jpg">
-      <h3>Activities</h3>
-      <p>Explore Qeparo and the Riviera</p>
-    </a>
+      <p id="food-desc" data-edit="food-desc"
+        data-en="Enjoy fresh flavors, local dishes and refreshing drinks"
+        data-al="Shijoni shije të freskëta, gatime lokale dhe pije freskuese">
+        Enjoy fresh flavors, local dishes and refreshing drinks
+      </p>
+      </div>
+    </div>
+  </a>
 
-  </div>
+  <!-- ACTIVITIES -->
+  <a class="side-section" href="#" data-page="activities">
+    <div class="side-row">
+      <img src="activities1.jpg" alt="Activities">
+      <div class="text">
+        <h3 
+        data-en="Activities"
+        data-al="Aktivitete">
+        Activities
+      </h3>
 
-   <!-- OUR STORY -->
-  <div class="our-story">
-    <h2>Our Story</h2>
-    <p 
-  data-edit="ourstory-desc"
-data-en="Some stories begin with a grand plan. Ours began with an open door.
+      <p data-edit="activities-desc"
+        data-en="Explore Qeparo and enjoy the Riviera experience"
+        data-al="Eksploroni Qeparon dhe shijoni përvojën e Rivierës">
+        Explore Qeparo and enjoy the Riviera experience
+      </p>
+      </div>
+    </div>
+  </a>
+
+</div>
+
+    <!-- CENTER: Video -->
+    <div class="home-center">
+      <div class="video-wrapper">
+        <div class="video-container">
+          <div class="video-overlay"></div>
+          <div class="reel-frame">
+            <video id="bg-video" autoplay muted loop playsinline>
+             <source src="video.mp4" type="video/mp4">
+           </video>
+          </div>
+          <div class="video-side-cover video-side-left"></div>
+          <div class="video-side-cover video-side-right"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RIGHT: Our Story on top, Info with blue bg at 1/3 down -->
+    <div class="home-right" style="flex-direction:column;">
+      <div class="side-section" id="ourstory-anchor" style="flex:0 0 auto;text-align:center;cursor:default;">
+        <h3 data-edit="ourstory-title" data-en="Our Story" data-al="Historia Jonë">
+  Our Story
+</h3>
+
+<p
+   data-edit="ourstory-desc" data-en="Some stories begin with a grand plan. Ours began with an open door.
 Back in the early 1990s, our family did what felt natural, they shared what they had. A spare room in the family home became a place of welcome, offered to travelers and guests who needed a place to rest. There was no big vision back then, only warmth, good intentions, and the simple belief that taking care of people was worth doing well.
 That spirit quietly grew. By the year 2000, what had started as a single room had become something more. The family built two new rooms, purpose-made for guests, and with them came a deeper commitment, this was no longer just sharing space, it was a calling. Every guest who walked through the door taught them something new about hospitality, about comfort, about the small details that make someone feel truly at home.
 Then came 2004, and a new generation stepped forward. The children of the family, now young adults full of energy and ideas, opened the bar. It was a bold move, a fresh chapter, for them and the small villageu, it breathed new life into everything. Laughter, music, and the clink of glasses filled what had once been quiet evenings. The bar became a gathering place, a heart beating at the center of it all.
@@ -251,8 +343,7 @@ From there, the growth never really stopped. More rooms were added over the year
 And now, a new exciting step: a kitchen is joining the bar. Because a meal shared is a memory made, and we have always believed that the best way to welcome someone is to feed them well.
 From a single room to a full experience, accommodation, drinks, and now food now, this journey has been our greatest teacher. Every guest has shaped us. Every challenge has refined us.
 We are still learning, we are still growing, and we wouldn't have it in any other way.
-Welcome to our home."
-data-al="Disa histori fillojnë me një plan të madh. E jona filloi me një derë të hapur.
+Welcome to our home." data-al="Disa histori fillojnë me një plan të madh. E jona filloi me një derë të hapur.
 Në fillim të viteve '90, familja jonë bëri atë që ndihej e natyrshme, ndau atë që kishte. Një prej dhomave të familjes në shtëpi u bë një vend mirëseardhjeje, per tju ofruar udhëtarëve dhe mysafirëve që kishin nevojë për një vend ku të pushonin. Atëherë nuk kishte asnjë vizion të madh, vetëm ngrohtësi, qëllime të mira dhe besimi i thjeshtë se kujdesi për njerëzit ia vlente të bëhej mirë.
 Ai shpirt u rrit në heshtje. Deri në vitin 2000, ajo që kishte filluar si një dhomë e vetme kishte bërë diçka më shumë. Familja ndërtoi dy dhoma të reja, të krijuara posaçërisht për mysafirët, dhe me to erdhi një angazhim më i thellë, kjo nuk ishte më vetëm ndarje e hapësirës, ishte një thirrje. Çdo mysafir që kalonte pragun e derës u mësonte diçka të re për mikpritjen, për rehatin, për detajet e vogla që e bëjnë dikë të ndihet vërtet si në shtëpi.
 Pastaj erdhi viti 2004, dhe brez i ri doli përpara. Fëmijët e familjes, tani të rritur, plot energji dhe ide, hapën barin. Ishte një hap i guximshëm, një kapitull i ri, për ta dhe për fshatin e vogël, frymëzoi gjithçka me jetë të re. Të qeshurat, muzika dhe tingëllima e gotave mbushën ato që dikur ishin mbrëmje të qeta. Bari u bë një vend takimi, një zemër që rrihte në qendër të gjithçkaje.
@@ -260,17 +351,21 @@ Nga aty, rritja nuk u ndal kurrë me të vërtetë. Dhoma të reja u shtuan me k
 Dhe tani, një hap i ri dhe i emocionshëm: një kuzhinë po i bashkohet barit. Sepse një vakt i ndarë është një kujtim i krijuar, dhe ne kemi besuar gjithmonë se mënyra më e mirë për të mirëpritur dikë është ta ushqesh mirë.
 Nga një dhomë e vetme deri në një përvojë të plotë, akomodim, pije dhe tani ushqim, ky udhëtim ka qenë mësuesi ynë më i madh. Çdo mysafir na ka formësuar. Çdo sfidë na ka rafinuar.
 Ne jemi ende duke mësuar, jemi ende duke u rritur, dhe nuk mund të ishte ndryshe.
-Mirë se vini në shtëpinë tonë."
- </p>
-  </div>
+Mirë se vini në shtëpinë tonë.">
+<span class="short-text"> Disa histori fillojnë me një plan të madh. E jona filloi me një derë të hapur. Në fillim të viteve '90, familja jonë bëri atë që ndihej e natyrshme, ndau atë që kishte. Një prej dhomave të familjes në shtëpi u bë një vend mirëseardhjeje, per tju ofruar udhëtarëve dhe mysafirëve që kishin nevojë për një vend ku të pushonin. Atëherë nuk kishte asnjë vizion të madh, vetëm ngrohtësi, qëllime të mira dhe besimi i thjeshtë se kujdesi për njerëzit ia vlente të bëhej mirë.
+  Ai shpirt u rrit në heshtje. Deri në vitin 2000, ajo që kishte filluar si... </span>
 
-  <!-- INFO -->
-  <div class="info-section">
-    <h2>Info</h2>
-
-    <p>WhatsApp: +355 XX XXX XXXX</p>
-    <p>Email: info@sunsetblvd3.com</p>
-    <p>Location: Qeparo, Vlorë, Albania</p>
+  <span class="full-text" style="display:none;"></span>
+  <br>
+  <a href="#" class="read-toggle">Read more</a>
+</p>
+      </div>
+      <div style="flex:1 1 33%;"></div>
+      <div class="side-info-block" id="info">
+        <h2 data-edit="info-title" style="margin:0 0 10px;font-size:22px;text-align:center;">Info</h2>
+<p data-edit="info-whatsapp">WhatsApp: +355 XX XXX XXXX</p>
+<p data-edit="info-email">Email: info@sunsetblvd3.com</p>
+<p data-edit="info-location">Location: Qeparo, Vlorë, Albania</p>
         <div style="display:flex;justify-content:center;gap:28px;margin-top:22px;">
           <a href="https://maps.app.goo.gl/nJMC9Ebtgd8oft4K8" target="_blank" style="color:white;text-decoration:none;display:flex;flex-direction:column;align-items:center;gap:6px;font-size:11px;">
             <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="white"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/></svg>
@@ -285,9 +380,11 @@ Mirë se vini në shtëpinë tonë."
             Facebook
           </a>
         </div>
-      </div> <!-- info-section -->
-   </div> <!-- page-home -->
- 
+      </div>
+    </div>
+
+  </div>
+
   <!-- MOBILE: sections stack below video -->
 <div class="home-mobile-sections">
 
@@ -684,38 +781,28 @@ musicBtn.addEventListener('click', function() {
     activities: 'Activities', ourstory: 'Our Story'
   };
 
-  function showPage(pageId, addToHistory = true) {
-  document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
-  document.getElementById('page-' + pageId).classList.add('active');
-  window.scrollTo(0, 0);
-  document.getElementById('pageTitle').innerHTML = pageTitles[pageId] || pageId;
-  var backBtn = document.getElementById('backBtn');
-  var menuBtn = document.getElementById('menuBtn');
-  if (pageId === 'home') {
-    backBtn.style.display = 'none';
-    menuBtn.style.display = 'block';
-  } else {
-    backBtn.style.display = 'block';
-    menuBtn.style.display = 'none';
+  function showPage(pageId) {
+    document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
+    document.getElementById('page-' + pageId).classList.add('active');
+    window.scrollTo(0, 0);
+    document.getElementById('pageTitle').innerHTML = pageTitles[pageId] || pageId;
+    var backBtn = document.getElementById('backBtn');
+    var menuBtn = document.getElementById('menuBtn');
+    if (pageId === 'home') {
+      backBtn.style.display = 'none';
+      menuBtn.style.display = 'block';
+    } else {
+      backBtn.style.display = 'block';
+      menuBtn.style.display = 'none';
+    }
+    if (pageId === 'rooms') initSliders();
   }
-  if (pageId === 'rooms') initSliders();
-  if (addToHistory) {
-    history.pushState({ page: pageId }, "", "#" + pageId);
-  }
-}
- const initialPage = location.hash.replace("#", "") || "home";
-history.replaceState({ page: initialPage }, "", "#" + initialPage);
-showPage(initialPage, false);
- document.getElementById('backBtn').addEventListener('click', function(){
-  history.back();
+
+// ✅ ADD HERE
+document.getElementById('backBtn').addEventListener('click', function(){
+  showPage('home');
 });
-     window.addEventListener("popstate", function(e){
-  if (e.state && e.state.page) {
-    showPage(e.state.page, false);
-  } else {
-    showPage("home", false);
-  }
-});
+
   document.querySelectorAll('[data-page]').forEach(function(el) {
   el.addEventListener('click', function(e) {
 
