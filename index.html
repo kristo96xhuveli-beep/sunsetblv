@@ -62,7 +62,7 @@ body:not(.home-active) #info-mobile { display: none; }
 #page-food.active,
 #page-activities.active {height:auto;overflow:visible;display: block !important;}
 #page-rooms .content {display: block;width: 100%;height: auto;box-sizing: border-box;text-align: center;overscroll-behavior: contain;}
-#page-rooms .room-card {width: 30%;height: 550px;display: inline-block;vertical-align: top;margin: 0 1.5% 24px;overflow: hidden;border-radius: 14px;}
+#page-rooms .room-card {width: 30%;height: auto;;display: inline-block;vertical-align: top;margin: 0 1.5% 24px;overflow: hidden;border-radius: 14px;}
 #page-rooms .content, #page-food .content, #page-activities .content { width: 100%; height: auto; box-sizing: border-box; padding: 0px; }
 #page-rooms .card img { width:90%; max-width:180px; aspect-ratio: 1/1; object-fit: cover; border-radius: 14px; }
 #page-rooms .slider img { height:350px; border-radius: 14px; }
@@ -212,59 +212,29 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
 }
 @media(min-width:768px){
 #page-food .content,
-#page-activities .content {
-  display:block;
-  text-align:center;
-}
-
+#page-activities .content {display:block;text-align:center;}
 #page-food .card,
-#page-activities .card {
-  width:30%;
-  height:500px;
-  display:inline-block;
-  vertical-align:top;
-  margin:0 1.5% 24px;
-}
-
+#page-activities .card {width:30%;height:500px;display:inline-block;vertical-align:top;margin:0 1.5% 24px;}
 #page-food .card img,
-#page-activities .card img {
-  width:100%;
-  height:350px;
-  object-fit:cover;
-  display:block;
-}
-
-#page-food .card .cinfo {
-  padding:14px 16px;
-}
-
+#page-activities .card img {width:100%;height:350px;object-fit:cover;display:block;}
+#page-food .card .cinfo {padding:14px 16px;}
 #page-food .card p,
-#page-activities .card p {
-  margin:0;
-}
+#page-activities .card p { margin:0;}
 }
 @media(min-width:768px){
 #page-food .card,
-#page-activities .card{
-  display:inline-block !important;
-}
+#page-activities .card{display:inline-block !important;}
 }
 @media(min-width:768px){
-
 #page-rooms.active,
 #page-food.active,
-#page-activities.active{
-  height:auto;
-  overflow:visible;
-}
-
+#page-activities.active{height:auto;overflow:visible;}
 #page-rooms .content,
 #page-food .content,
-#page-activities .content{
-  height:auto;
-  overflow:visible;
+#page-activities .content{height:auto;overflow:visible;}
 }
-}
+
+
 </style>
 </head>
 <body>
