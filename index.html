@@ -128,7 +128,7 @@ body.dark .tag{background:#1a3a5c;}
 .room-card{border-radius:14px;overflow:hidden;box-shadow:0 2px 12px var(--card-shadow);margin-bottom:24px;background:var(--bg);}
 .slider{position: relative;overflow-x: scroll;overscroll-behavior-x: contain;scroll-snap-type:x mandatory;white-space: nowrap;-webkit-overflow-scrolling:touch;scrollbar-width:none;scroll-behavior: smooth;}
 .slider::-webkit-scrollbar{display:none;}
-.slider img{flex:0 0 100%;width:100%;object-fit:cover;display:inline-block;scroll-snap-align:start;position: relative;z-index: 1;min-width: 100%;border-radius:14px}
+.slider img{flex:0 0 100%;width:100%;object-fit:cover;display:inline-block;scroll-snap-align:start;position: relative;z-index: 1;min-width: 100%;}
 .dots{display:flex;justify-content:center;gap:6px;padding:10px 0 4px;}
 .dot{width:7px;height:7px;border-radius:50%;background:var(--border);transition:background .2s;cursor:pointer;}
 .dot.active{background:#0b1f3a;}
@@ -810,26 +810,38 @@ musicBtn.addEventListener('click', function() {
     activities: 'Activities', ourstory: 'Our Story'
   };
 
-  function showPage(pageId) {
-    document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
-    document.getElementById('page-' + pageId).classList.add('active');
-    window.scrollTo(0, 0);
-    document.getElementById('pageTitle').innerHTML = pageTitles[pageId] || pageId;
-    var backBtn = document.getElementById('backBtn');
-    var menuBtn = document.getElementById('menuBtn');
-    if (pageId === 'home') {
-      backBtn.style.display = 'none';
-      menuBtn.style.display = 'block';
-    } else {
-      backBtn.style.display = 'block';
-      menuBtn.style.display = 'none';
-    }
-    if (pageId === 'rooms') initSliders();
+  function showPage(pageId, addToHistory = true) {
+  document.querySelectorAll('.page').forEach(function(p) {
+    p.classList.remove('active');
+  });
+
+  document.getElementById('page-' + pageId).classList.add('active');
+
+  window.scrollTo(0, 0);
+
+  document.getElementById('pageTitle').innerHTML = pageTitles[pageId] || pageId;
+
+  var backBtn = document.getElementById('backBtn');
+  var menuBtn = document.getElementById('menuBtn');
+
+  if (pageId === 'home') {
+    backBtn.style.display = 'none';
+    menuBtn.style.display = 'block';
+  } else {
+    backBtn.style.display = 'block';
+    menuBtn.style.display = 'none';
   }
 
-// ✅ ADD HERE
+  if (pageId === 'rooms') initSliders();
+
+  // ✅ ADD THIS
+  if (addToHistory) {
+    history.pushState({ page: pageId }, '', '#' + pageId);
+  }
+}
+
 document.getElementById('backBtn').addEventListener('click', function(){
-  showPage('home');
+  history.back();
 });
 
   document.querySelectorAll('[data-page]').forEach(function(el) {
