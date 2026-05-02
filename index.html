@@ -810,38 +810,53 @@ musicBtn.addEventListener('click', function() {
     activities: 'Activities', ourstory: 'Our Story'
   };
 
+  document.addEventListener('DOMContentLoaded', function () {
+
   function showPage(pageId, addToHistory = true) {
-  document.querySelectorAll('.page').forEach(function(p) {
-    p.classList.remove('active');
+    document.querySelectorAll('.page').forEach(function(p) {
+      p.classList.remove('active');
+    });
+
+    document.getElementById('page-' + pageId).classList.add('active');
+
+    window.scrollTo(0, 0);
+
+    document.getElementById('pageTitle').innerHTML = pageTitles[pageId] || pageId;
+
+    var backBtn = document.getElementById('backBtn');
+    var menuBtn = document.getElementById('menuBtn');
+
+    if (pageId === 'home') {
+      backBtn.style.display = 'none';
+      menuBtn.style.display = 'block';
+    } else {
+      backBtn.style.display = 'block';
+      menuBtn.style.display = 'none';
+    }
+
+    if (pageId === 'rooms') initSliders();
+
+    if (addToHistory) {
+      history.pushState({ page: pageId }, '', '#' + pageId);
+    }
+  }
+
+  // ✅ Back button
+  document.getElementById('backBtn').addEventListener('click', function(){
+    history.back();
   });
 
-  document.getElementById('page-' + pageId).classList.add('active');
+  // ✅ Browser back/forward
+  window.addEventListener('popstate', function(event) {
+    const page = event.state?.page || 'home';
+    showPage(page, false);
+  });
 
-  window.scrollTo(0, 0);
-
-  document.getElementById('pageTitle').innerHTML = pageTitles[pageId] || pageId;
-
-  var backBtn = document.getElementById('backBtn');
-  var menuBtn = document.getElementById('menuBtn');
-
-  if (pageId === 'home') {
-    backBtn.style.display = 'none';
-    menuBtn.style.display = 'block';
-  } else {
-    backBtn.style.display = 'block';
-    menuBtn.style.display = 'none';
+  // ✅ Initial state
+  if (!history.state) {
+    history.replaceState({ page: 'home' }, '', '#home');
   }
 
-  if (pageId === 'rooms') initSliders();
-
-  // ✅ ADD THIS
-  if (addToHistory) {
-    history.pushState({ page: pageId }, '', '#' + pageId);
-  }
-}
-
-document.getElementById('backBtn').addEventListener('click', function(){
-  history.back();
 });
 
   document.querySelectorAll('[data-page]').forEach(function(el) {
