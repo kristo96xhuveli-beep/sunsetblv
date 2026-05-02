@@ -230,17 +230,28 @@ body.dark .avail-btn:hover{background:#2a5a8c;}
 #page-food .content,
 #page-activities .content{height:auto;overflow:visible;}
 }
-/* REMOVE SIDEBARS COMPLETELY */
 .home-left,
-.home-right{display: none !important;}
-/* STACK CONTENT NORMALLY */
+.home-right{
+  display:none !important;
+}
+
+/* RESET LAYOUT */
 .home-desktop{
   display:block !important;
+  height:auto !important;
 }
-/* ALLOW PAGE TO GROW */
+
+/* MAKE VIDEO NOT LOCK HEIGHT */
+.home-center,
+.home-center .video-wrapper,
 .home-center .video-container{
-  height:auto;
-  min-height:70vh;
+  height:auto !important;
+  min-height:85vh;
+}
+
+/* FORCE PAGE TO SCROLL */
+.page{
+  min-height:150vh;
 }
 
 </style>
