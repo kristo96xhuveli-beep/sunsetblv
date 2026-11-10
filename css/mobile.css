@@ -544,7 +544,7 @@ html {
   z-index: 1;
   width: min(94vw, 1100px);
   max-height: 92vh;
-  background: #fff;
+  background: transparent;
   color: #102b4e;
   border-radius: 12px;
   padding: 24px;
