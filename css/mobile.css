@@ -529,17 +529,16 @@ html {
   align-items: center;
   justify-content: center;
 }
-
 .photo-gallery.is-open {
   display: flex;
 }
-
 .photo-gallery-backdrop {
-  position: absolute;
+ position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, .88);
+  background: rgba(0, 0, 0, .55);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
-
 .photo-gallery-dialog {
   position: relative;
   z-index: 1;
@@ -553,7 +552,6 @@ html {
   flex-direction: column;
   gap: 15px;
 }
-
 .gallery-close {
   position: absolute;
   top: 10px;
@@ -565,14 +563,12 @@ html {
   cursor: pointer;
   z-index: 3;
 }
-
 #galleryTitle {
   font-size: 22px;
   font-weight: 500;
   margin: 0;
   padding-right: 40px;
 }
-
 .gallery-stage {
   position: relative;
   height: 65vh;
@@ -584,13 +580,11 @@ html {
   border-radius: 8px;
   overflow: hidden;
 }
-
 #galleryMainImage {
   width: 100%;
   height: 100%;
   object-fit: contain;
 }
-
 .gallery-arrow {
   position: absolute;
   top: 50%;
@@ -605,29 +599,24 @@ html {
   cursor: pointer;
   z-index: 2;
 }
-
 .gallery-prev {
   left: 12px;
 }
-
 .gallery-next {
   right: 12px;
 }
-
 .gallery-bottom {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
 }
-
 .gallery-thumbnails {
   display: flex;
   gap: 8px;
   overflow-x: auto;
   padding: 3px;
 }
-
 .gallery-thumb {
   flex: 0 0 65px;
   width: 65px;
@@ -639,32 +628,26 @@ html {
   background: #eee;
   cursor: pointer;
 }
-
 .gallery-thumb img {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
-
 .gallery-thumb.active {
   border-color: #4884bb;
 }
-
 #galleryCounter {
   white-space: nowrap;
   font: 12px Arial, sans-serif;
   color: #65758a;
 }
-
 body.gallery-open {
   overflow: hidden;
 }
-
 .room-card,
 .simple-grid article {
   cursor: pointer;
 }
-
 .room-card a,
 .simple-grid article a {
   cursor: pointer;
