@@ -331,7 +331,7 @@ footer > .eyebrow {
   border-radius: 14px;
   overflow: hidden;
   box-shadow: 0 3px 14px #00000012;
-  padding: 8px 8px 18px;
+  padding: 0 0 18px;
   text-align: center;
 }
 
@@ -341,7 +341,7 @@ footer > .eyebrow {
   height: auto;
   object-fit: cover;
   display: block;
-  border-radius: 10px;
+  border-radius: 14px;
 }
 
 .simple-grid h3 {
