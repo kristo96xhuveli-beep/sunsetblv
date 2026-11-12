@@ -145,12 +145,6 @@
     updatePlayerVisibility(playerBar.hidden);
   });
 
-  // Hiding the player does not stop the music.
-  closeButton.addEventListener('click', () => {
-    updatePlayerVisibility(false);
-    closeVolumePanel();
-  });
-
   // Play or pause.
   playButton.addEventListener('click', async () => {
     if (audio.paused) {
