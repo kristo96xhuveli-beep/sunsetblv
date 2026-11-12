@@ -22,34 +22,118 @@
     });
   });
 
-  setupRadio();
   function setupRadio() {
-    const audio = document.getElementById('radioPlayer');
-    const button = document.getElementById('musicToggle');
-    let playlist = [], started = false, muted = false;
-    fetch('audio.json').then(r => { if (!r.ok) throw new Error('audio.json not found'); return r.json(); })
-      .then(data => {
-        const h = new Date().getHours();
-        playlist = h >= 6 && h < 12 ? data.morning || [] : h >= 12 && h < 20 ? data.day || [] : data.night || [];
-      }).catch(() => { button.title = 'Add audio.json to enable the hotel radio'; });
-    let previous = -1;
-    function nextTrack() {
-      if (!playlist.length) return;
-      let index = Math.floor(Math.random() * playlist.length);
-      if (playlist.length > 1 && index === previous) index = (index + 1) % playlist.length;
-      previous = index; audio.src = playlist[index]; audio.play().catch(() => {});
+  const audio = document.getElementById('radioPlayer');
+  const button = document.getElementById('musicToggle');
+  const icon = document.getElementById('playPauseIcon');
+  const nextButton = document.getElementById('musicNext');
+  const volumeToggle = document.getElementById('volumeToggle');
+  const volumePanel = document.getElementById('volumePanel');
+  const volumeSlider = document.getElementById('volumeSlider');
+
+  let playlist = [];
+  let previous = -1;
+  let playlistReady = false;
+
+  audio.volume = 0.7;
+
+  function updatePlayIcon(playing) {
+    if (playing) {
+      icon.innerHTML = '<path d="M7 5h4v14H7z M15 5h4v14h-4z"/>';
+      button.setAttribute('aria-label', 'Pause radio');
+    } else {
+      icon.innerHTML = '<path d="M8 5v14l11-7Z"/>';
+      button.setAttribute('aria-label', 'Play radio');
     }
-    audio.addEventListener('ended', nextTrack);
-    button.addEventListener('click', async () => {
-      if (!started) {
-        if (!audio.src) nextTrack();
-        try { await audio.play(); started = true; muted = false; button.textContent = '🔇 Mute'; }
-        catch { button.textContent = 'Tap to play'; }
-      } else {
-        muted = !muted; audio.muted = muted; button.textContent = muted ? '🔊 Unmute' : '🔇 Mute';
-      }
-    });
   }
+
+  fetch('audio.json')
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('audio.json not found');
+      }
+      return response.json();
+    })
+    .then(data => {
+      const hour = new Date().getHours();
+
+      playlist = hour >= 6 && hour < 12
+        ? data.morning || []
+        : hour >= 12 && hour < 20
+          ? data.day || []
+          : data.night || [];
+
+      playlistReady = playlist.length > 0;
+
+      if (!playlistReady) {
+        button.title = 'No songs available in this playlist';
+      }
+    })
+    .catch(() => {
+      button.title = 'Unable to load hotel radio';
+    });
+
+  async function playNextTrack() {
+    if (!playlistReady) return;
+
+    let index = Math.floor(Math.random() * playlist.length);
+
+    if (playlist.length > 1 && index === previous) {
+      index = (index + 1) % playlist.length;
+    }
+
+    previous = index;
+    audio.src = playlist[index];
+    audio.load();
+
+    try {
+      await audio.play();
+    } catch (error) {
+      updatePlayIcon(false);
+    }
+  }
+
+  button.addEventListener('click', async () => {
+    if (audio.paused) {
+      if (!audio.src) {
+        await playNextTrack();
+      } else {
+        try {
+          await audio.play();
+        } catch (error) {
+          updatePlayIcon(false);
+        }
+      }
+    } else {
+      audio.pause();
+    }
+  });
+
+  nextButton.addEventListener('click', playNextTrack);
+
+  audio.addEventListener('play', () => updatePlayIcon(true));
+  audio.addEventListener('pause', () => updatePlayIcon(false));
+  audio.addEventListener('ended', playNextTrack);
+
+  volumeToggle.addEventListener('click', () => {
+    const isOpen = !volumePanel.hidden;
+
+    volumePanel.hidden = isOpen;
+    volumeToggle.setAttribute('aria-expanded', String(!isOpen));
+  });
+
+  volumeSlider.addEventListener('input', () => {
+    audio.volume = Number(volumeSlider.value);
+  });
+
+  document.addEventListener('click', event => {
+    if (!event.target.closest('#musicControls')) {
+      volumePanel.hidden = true;
+      volumeToggle.setAttribute('aria-expanded', 'false');
+    }
+  });
+}
+  
   /* PHOTO GALLERY */
 
 (() => {
