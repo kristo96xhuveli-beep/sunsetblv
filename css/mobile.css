@@ -102,11 +102,13 @@ a {
   right: 12px;
   bottom: calc(12px + env(safe-area-inset-bottom, 0px));
   z-index: 1000;
-  background: var(--navy);
+  background: rgba(11, 31, 58, 0.78);
   color: #fff;
   border-radius: 20px;
-  padding: 8px 14px;
-  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.25);
+  padding: 5px 14px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.18);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
 }
 
 .radio-player-bar[hidden],
