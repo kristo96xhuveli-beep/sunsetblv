@@ -27,7 +27,6 @@
   const audio = document.getElementById('radioPlayer');
   const headerButton = document.getElementById('musicToggle');
   const playerBar = document.getElementById('radioPlayerBar');
-  const closeButton = document.getElementById('radioPlayerClose');
   const playButton = document.getElementById('musicPlayPause');
   const playIcon = document.getElementById('playPauseIcon');
   const nextButton = document.getElementById('musicNext');
