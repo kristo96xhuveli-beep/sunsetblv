@@ -214,6 +214,7 @@
 
   updatePlayButton();
 }
+  setupRadio();
   
   /* PHOTO GALLERY */
 
