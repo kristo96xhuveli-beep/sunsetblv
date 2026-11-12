@@ -36,7 +36,7 @@
   const status = document.getElementById('radioStatus');
 
   if (
-    !audio || !headerButton || !playerBar || !closeButton ||
+    !audio || !headerButton || !playerBar ||
     !playButton || !playIcon || !nextButton ||
     !volumeButton || !volumePanel || !volumeSlider || !status
   ) {
