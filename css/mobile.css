@@ -69,10 +69,10 @@ a {
   margin-top: 5px;
 }
 
-/* 4. HEADER BUTTONS */
+/* 4. HEADER BUTTONS AND RADIO PLAYER */
 
 .menu-button,
-.music-control {
+.music-button {
   border: 0;
   cursor: pointer;
 }
@@ -84,71 +84,132 @@ a {
   padding: 8px;
 }
 
-.music-controls {
-  position: relative;
+.music-button {
+  background: var(--navy);
+  color: #fff;
+  border-radius: 20px;
+  padding: 9px 13px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+/* FIXED BOTTOM RADIO PLAYER */
+
+.radio-player-bar {
+  position: fixed;
+  left: 12px;
+  right: 12px;
+  bottom: calc(12px + env(safe-area-inset-bottom, 0px));
+  z-index: 1000;
+  background: var(--navy);
+  color: #fff;
+  border-radius: 20px;
+  padding: 14px 18px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.25);
+}
+
+.radio-player-bar[hidden],
+.radio-volume-panel[hidden] {
+  display: none;
+}
+
+.radio-player-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.radio-player-heading strong {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+.radio-player-heading span {
+  display: block;
+  margin-top: 3px;
+  font-size: 11px;
+  opacity: 0.75;
+}
+
+.radio-player-close {
+  background: none;
+  border: 0;
+  color: #fff;
+  font-size: 25px;
+  line-height: 1;
+  padding: 3px 5px;
+  cursor: pointer;
+}
+
+.radio-player-controls {
   display: flex;
   align-items: center;
   justify-content: space-around;
-  width: 126px;
-  height: 48px;
-  padding: 3px 5px;
-  background: var(--navy);
-  border-radius: 30px;
-  flex-shrink: 0;
+  gap: 18px;
+  position: relative;
 }
 
-.music-control {
+.radio-control {
+  width: 44px;
+  height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 38px;
-  height: 40px;
-  padding: 8px;
+  border: 0;
+  border-radius: 50%;
   background: transparent;
   color: #fff;
+  cursor: pointer;
 }
 
-.music-control + .music-control {
-  border-left: 1px solid #ffffff45;
-}
-
-.music-control svg {
-  width: 21px;
-  height: 21px;
+.radio-control svg {
+  width: 22px;
+  height: 22px;
   fill: none;
   stroke: currentColor;
-  stroke-width: 2;
+  stroke-width: 1.8;
   stroke-linecap: round;
   stroke-linejoin: round;
 }
 
-#playPauseIcon path {
-  fill: currentColor;
-  stroke: none;
+.radio-play-button {
+  width: 48px;
+  height: 48px;
+  background: rgba(255, 255, 255, 0.16);
 }
 
-.volume-panel {
+.radio-play-button svg {
+  width: 25px;
+  height: 25px;
+}
+
+.radio-volume-wrap {
+  position: relative;
+}
+
+.radio-volume-panel {
   position: absolute;
-  top: calc(100% + 10px);
-  left: 0;
-  z-index: 30;
-  width: 126px;
-  padding: 13px 12px;
-  background: var(--card);
-  border: 1px solid var(--line);
+  left: -10px;
+  bottom: calc(100% + 14px);
+  width: 150px;
+  padding: 13px;
   border-radius: 12px;
-  box-shadow: 0 4px 16px #0002;
+  background: #fff;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.2);
 }
 
-.volume-panel input {
+.radio-volume-panel input {
   display: block;
   width: 100%;
   accent-color: var(--navy);
-  cursor: pointer;
 }
 
-.volume-panel[hidden] {
-  display: none;
+body.radio-player-open {
+  padding-bottom: 115px;
 }
 
 /* 5. HOMEPAGE HERO VIDEO */
