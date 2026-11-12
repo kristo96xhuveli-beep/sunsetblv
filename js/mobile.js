@@ -24,28 +24,94 @@
 
   function setupRadio() {
   const audio = document.getElementById('radioPlayer');
-  const button = document.getElementById('musicToggle');
-  const icon = document.getElementById('playPauseIcon');
+  const headerButton = document.getElementById('musicToggle');
+  const playerBar = document.getElementById('radioPlayerBar');
+  const closeButton = document.getElementById('radioPlayerClose');
+  const playButton = document.getElementById('musicPlayPause');
+  const playIcon = document.getElementById('playPauseIcon');
   const nextButton = document.getElementById('musicNext');
-  const volumeToggle = document.getElementById('volumeToggle');
-  const volumePanel = document.getElementById('volumePanel');
+  const volumeButton = document.getElementById('volumeToggle');
+  const volumePanel = document.getElementById('radioVolumePanel');
   const volumeSlider = document.getElementById('volumeSlider');
+  const status = document.getElementById('radioStatus');
+
+  if (
+    !audio || !headerButton || !playerBar || !closeButton ||
+    !playButton || !playIcon || !nextButton ||
+    !volumeButton || !volumePanel || !volumeSlider || !status
+  ) {
+    return;
+  }
 
   let playlist = [];
-  let previous = -1;
-  let playlistReady = false;
+  let previousTrack = -1;
 
-  audio.volume = 0.7;
+  audio.volume = Number(volumeSlider.value);
 
-  function updatePlayIcon(playing) {
-    if (playing) {
-      icon.innerHTML = '<path d="M7 5h4v14H7z M15 5h4v14h-4z"/>';
-      button.setAttribute('aria-label', 'Pause radio');
+  function updatePlayButton() {
+    if (audio.paused) {
+      playIcon.innerHTML = '<path d="M8 5v14l11-7Z"></path>';
+      playButton.setAttribute('aria-label', 'Play music');
     } else {
-      icon.innerHTML = '<path d="M8 5v14l11-7Z"/>';
-      button.setAttribute('aria-label', 'Play radio');
+      playIcon.innerHTML =
+        '<path d="M8 5v14"></path><path d="M16 5v14"></path>';
+      playButton.setAttribute('aria-label', 'Pause music');
     }
   }
+
+  function updatePlayerVisibility(show) {
+    playerBar.hidden = !show;
+    headerButton.setAttribute('aria-expanded', String(show));
+    headerButton.setAttribute(
+      'aria-label',
+      show ? 'Hide music player' : 'Open music player'
+    );
+    document.body.classList.toggle('radio-player-open', show);
+  }
+
+  function closeVolumePanel() {
+    volumePanel.hidden = true;
+    volumeButton.setAttribute('aria-expanded', 'false');
+  }
+
+  function openVolumePanel() {
+    volumePanel.hidden = false;
+    volumeButton.setAttribute('aria-expanded', 'true');
+  }
+
+  function chooseNextTrack() {
+    if (!playlist.length) return null;
+
+    let index = Math.floor(Math.random() * playlist.length);
+
+    if (playlist.length > 1 && index === previousTrack) {
+      index = (index + 1) % playlist.length;
+    }
+
+    previousTrack = index;
+    return playlist[index];
+  }
+
+  async function playNextTrack() {
+    const track = chooseNextTrack();
+
+    if (!track) {
+      status.textContent = 'No music tracks available';
+      return;
+    }
+
+    audio.src = track;
+
+    try {
+      await audio.play();
+    } catch (error) {
+      status.textContent = 'Tap play to start music';
+      updatePlayButton();
+    }
+  }
+
+  // Load the playlist according to the local time.
+  status.textContent = 'Loading music...';
 
   fetch('audio.json')
     .then(response => {
@@ -57,43 +123,36 @@
     .then(data => {
       const hour = new Date().getHours();
 
-      playlist = hour >= 6 && hour < 12
-        ? data.morning || []
-        : hour >= 12 && hour < 20
-          ? data.day || []
-          : data.night || [];
+      playlist =
+        hour >= 6 && hour < 12
+          ? data.morning || []
+          : hour >= 12 && hour < 20
+            ? data.day || []
+            : data.night || [];
 
-      playlistReady = playlist.length > 0;
-
-      if (!playlistReady) {
-        button.title = 'No songs available in this playlist';
+      if (playlist.length) {
+        status.textContent = 'Ready to play';
+      } else {
+        status.textContent = 'No tracks in this playlist';
       }
     })
     .catch(() => {
-      button.title = 'Unable to load hotel radio';
+      status.textContent = 'Radio playlist unavailable';
     });
 
-  async function playNextTrack() {
-    if (!playlistReady) return;
+  // Header button only shows or hides the player.
+  headerButton.addEventListener('click', () => {
+    updatePlayerVisibility(playerBar.hidden);
+  });
 
-    let index = Math.floor(Math.random() * playlist.length);
+  // Hiding the player does not stop the music.
+  closeButton.addEventListener('click', () => {
+    updatePlayerVisibility(false);
+    closeVolumePanel();
+  });
 
-    if (playlist.length > 1 && index === previous) {
-      index = (index + 1) % playlist.length;
-    }
-
-    previous = index;
-    audio.src = playlist[index];
-    audio.load();
-
-    try {
-      await audio.play();
-    } catch (error) {
-      updatePlayIcon(false);
-    }
-  }
-
-  button.addEventListener('click', async () => {
+  // Play or pause.
+  playButton.addEventListener('click', async () => {
     if (audio.paused) {
       if (!audio.src) {
         await playNextTrack();
@@ -101,37 +160,59 @@
         try {
           await audio.play();
         } catch (error) {
-          updatePlayIcon(false);
+          status.textContent = 'Unable to play this track';
         }
       }
     } else {
       audio.pause();
     }
+
+    updatePlayButton();
   });
 
+  // Skip to another random track.
   nextButton.addEventListener('click', playNextTrack);
 
-  audio.addEventListener('play', () => updatePlayIcon(true));
-  audio.addEventListener('pause', () => updatePlayIcon(false));
+  // Automatically play another track when one ends.
   audio.addEventListener('ended', playNextTrack);
 
-  volumeToggle.addEventListener('click', () => {
-    const isOpen = !volumePanel.hidden;
+  audio.addEventListener('play', () => {
+    status.textContent = 'Now playing';
+    updatePlayButton();
+  });
 
-    volumePanel.hidden = isOpen;
-    volumeToggle.setAttribute('aria-expanded', String(!isOpen));
+  audio.addEventListener('pause', updatePlayButton);
+
+  audio.addEventListener('error', () => {
+    status.textContent = 'Track unavailable';
+    updatePlayButton();
+  });
+
+  // Volume control.
+  volumeButton.addEventListener('click', () => {
+    if (volumePanel.hidden) {
+      openVolumePanel();
+    } else {
+      closeVolumePanel();
+    }
   });
 
   volumeSlider.addEventListener('input', () => {
     audio.volume = Number(volumeSlider.value);
   });
 
+  // Close the volume slider when clicking elsewhere.
   document.addEventListener('click', event => {
-    if (!event.target.closest('#musicControls')) {
-      volumePanel.hidden = true;
-      volumeToggle.setAttribute('aria-expanded', 'false');
+    if (
+      !volumePanel.hidden &&
+      !volumePanel.contains(event.target) &&
+      !volumeButton.contains(event.target)
+    ) {
+      closeVolumePanel();
     }
   });
+
+  updatePlayButton();
 }
   
   /* PHOTO GALLERY */
