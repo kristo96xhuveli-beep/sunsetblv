@@ -511,6 +511,13 @@ footer > .eyebrow {
 .simple-grid p {
   margin: 0 20px 8px;
 }
+/* BACKGROUND */
+#food {
+  background-color: #F3F7F7;
+}
+#activities {
+  background-color: #F7F8F2;
+}
 
 /* 12. OUR STORY */
 
@@ -522,6 +529,10 @@ footer > .eyebrow {
 .story-section > p:last-child {
   text-align: left;
   font-size: 14px;
+}
+/* BACKGROUND */
+#story {
+  background-color: #F5F3EE;
 }
 
 /* 13. FOOTER & CONTACT INFORMATION */
