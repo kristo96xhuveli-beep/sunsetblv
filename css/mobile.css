@@ -416,23 +416,19 @@ footer > .eyebrow {
   letter-spacing: .2px;
 }
 
-/* 11. FOOD & DRINKS / ACTIVITIES */
-
-.tinted {
-  background: var(--soft);
-}
+/* 11. FOOD & DRINKS / ACTIVITIES — FULL WIDTH */
 
 .simple-grid {
   display: grid;
-  gap: 22px;
-  margin-top: 25px;
+  gap: 35px;
+  margin: 25px -16px 0;
 }
 
 .simple-grid article {
   background: var(--card);
-  border-radius: 14px;
-  overflow: hidden;
-  box-shadow: 0 3px 14px #00000012;
+  border-radius: 0;
+  overflow: visible;
+  box-shadow: none;
   padding: 0 0 18px;
   text-align: center;
 }
@@ -443,21 +439,17 @@ footer > .eyebrow {
   height: auto;
   object-fit: cover;
   display: block;
-  border-radius: 14px;
+  border-radius: 0;
 }
 
 .simple-grid h3 {
-  font-size: 18px;
+  font-size: 21px;
   font-weight: 500;
-  margin: 14px 8px 8px;
+  margin: 18px 16px 8px;
 }
 
 .simple-grid p {
-  margin: 0 8px 4px;
-}
-.menu-button-wrapper {
-  text-align: center;
-  margin-top: 28px;
+  margin: 0 20px 8px;
 }
 
 /* 12. OUR STORY */
