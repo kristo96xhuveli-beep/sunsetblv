@@ -905,3 +905,21 @@ body.gallery-open {
     color: #fff;
   }
 }
+
+
+/* 19. QEPARO LOCAL TIME & WEATHER */
+.local-weather-strip { display:grid; grid-template-columns:1fr 1fr; align-items:center; background:#f7f6f3; padding:30px 12px; color:#77746f; }
+.local-time,.local-weather { min-width:0; min-height:125px; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; }
+.local-time { border-right:1px solid #dedbd5; }
+.weather-label { font:10px Arial,sans-serif; letter-spacing:2px; color:#969a98; }
+.local-time strong,.weather-main strong { font-size:48px; font-weight:400; line-height:1.3; color:#77746f; }
+.local-time small { margin-top:8px; font:14px Arial,sans-serif; color:#969a98; }
+.weather-main { display:flex; align-items:center; justify-content:center; gap:8px; }
+.weather-main strong { font-size:48px; }
+#weatherIcon svg { width:55px; height:55px; stroke:#7395a7; fill:none; stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round; }
+#weatherDescription { margin-top:5px; text-transform:uppercase; }
+body.dark .local-weather-strip { background:#172330; }
+body.dark .local-time strong,body.dark .weather-main strong { color:#e0e7ec; }
+body.dark .weather-label,body.dark .local-time small { color:#aebbc5; }
+body.dark .local-time { border-color:#344453; }
+
