@@ -276,6 +276,7 @@ body.radio-player-open {
   gap: 8px 4px;
   padding: 30px 8px 36px;
   text-align: center;
+  background: #f7f6f3;
 }
 
 .experience div {
