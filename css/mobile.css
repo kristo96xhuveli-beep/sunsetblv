@@ -511,6 +511,17 @@ footer > .eyebrow {
 .simple-grid p {
   margin: 0 20px 8px;
 }
+
+/* CENTER VIEW OUR MENU BUTTON */
+.menu-button-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin: 24px auto 0;
+  text-align: center;
+}
+
 /* BACKGROUND */
 #food {
   background-color: #F3F7F7;
