@@ -476,20 +476,21 @@ footer > .eyebrow {
   letter-spacing: .2px;
 }
 
-/* FOOD & DRINKS — ORIGINAL CARD DESIGN, FULL WIDTH */
+/* 11. FOOD & DRINKS / ACTIVITIES — NO CARDS */
 
 .simple-grid {
   display: grid;
-  gap: 22px;
+  gap: 35px;
   margin: 25px -16px 0;
 }
 
 .simple-grid article {
-  background: var(--card);
-  border-radius: 14px;
-  overflow: hidden;
-  box-shadow: 0 3px 12px rgba(0,0,0,0.08);
-  padding: 0 0 18px;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+  overflow: visible;
+  padding: 0 0 20px;
   text-align: center;
 }
 
@@ -505,7 +506,7 @@ footer > .eyebrow {
 .simple-grid h3 {
   font-size: 21px;
   font-weight: 500;
-  margin: 18px 16px 8px;
+  margin: 20px 16px 8px;
 }
 
 .simple-grid p {
