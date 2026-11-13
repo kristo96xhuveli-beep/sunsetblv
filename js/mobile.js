@@ -22,6 +22,60 @@
       });
     });
   });
+  
+function setupLocalWeather() {
+  const timeEl=document.getElementById('qeparoTime'), dateEl=document.getElementById('qeparoDate'), tempEl=document.getElementById('weatherTemp'), descEl=document.getElementById('weatherDescription'), iconEl=document.getElementById('weatherIcon');
+  if (!timeEl || !dateEl || !tempEl || !descEl || !iconEl) return;
+  const timezone='Europe/Tirane';
+
+  function updateClock() {
+    const now=new Date();
+    timeEl.textContent=new Intl.DateTimeFormat('en-GB',{timeZone:timezone,hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).format(now);
+    dateEl.textContent=new Intl.DateTimeFormat('en-GB',{timeZone:timezone,weekday:'short',day:'numeric',month:'short',year:'numeric'}).format(now);
+  }
+
+  function getWeather(code) {
+    if (code===0) return ['Clear sky','sun'];
+    if (code===1) return ['Mainly clear','sun'];
+    if (code===2) return ['Partly cloudy','partly'];
+    if (code===3) return ['Overcast','cloud'];
+    if (code<=48) return ['Foggy','cloud'];
+    if (code<=67) return ['Rain','rain'];
+    if (code<=77) return ['Snow','rain'];
+    if (code<=82) return ['Rain showers','rain'];
+    if (code<=86) return ['Snow showers','rain'];
+    return ['Thunderstorm','rain'];
+  }
+
+  function iconSvg(type) {
+    const sun=`<circle cx="17" cy="15" r="6"/><path d="M17 3v3 M17 24v3 M5 15H2 M29 15h-3 M8.5 6.5l2 2 M23.5 21.5l2 2 M25.5 6.5l-2 2 M10.5 21.5l-2 2"/>`;
+    const cloud=`<path d="M9 25h15a7 7 0 0 0 0-14 10 10 0 0 0-19 3 6 6 0 0 0 4 11Z"/>`;
+    if (type==='sun') return `<svg viewBox="0 0 34 34">${sun}</svg>`;
+    if (type==='partly') return `<svg viewBox="0 0 34 34"><g stroke="#c3ad83">${sun}</g>${cloud}</svg>`;
+    if (type==='rain') return `<svg viewBox="0 0 34 34">${cloud}<path d="m12 27-2 4 M20 27l-2 4 M27 27l-2 4"/></svg>`;
+    return `<svg viewBox="0 0 34 34">${cloud}</svg>`;
+  }
+
+  async function loadWeather() {
+    try {
+      const response=await fetch('https://api.open-meteo.com/v1/forecast?latitude=40.05&longitude=19.82&current=temperature_2m,weather_code&timezone=Europe%2FTirane');
+      if (!response.ok) throw new Error('Weather unavailable');
+      const data=await response.json(), current=data.current, info=getWeather(current.weather_code);
+      tempEl.textContent=`${Math.round(current.temperature_2m)}°C`;
+      descEl.textContent=info[0].toUpperCase();
+      iconEl.innerHTML=iconSvg(info[1]);
+    } catch (error) {
+      tempEl.textContent='--°C'; descEl.textContent='WEATHER UNAVAILABLE'; iconEl.innerHTML='';
+    }
+  }
+
+  updateClock(); loadWeather();
+  setInterval(updateClock,30000);
+  setInterval(loadWeather,15*60*1000);
+}
+
+setupLocalWeather();
+
 
   function setupRadio() {
   const audio = document.getElementById('radioPlayer');
