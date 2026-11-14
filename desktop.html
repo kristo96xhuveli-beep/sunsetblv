@@ -110,31 +110,45 @@
   </div>
 </section>
 
+
 <!-- FOOD & DRINKS -->
 <section class="content-section tinted" id="food">
   <p class="eyebrow">At the bar</p>
   <h2>Taste the Riviera</h2>
 
   <div class="simple-grid">
-    <article>
+    <article
+      data-gallery-title="Grills & Mains"
+      data-gallery="Pictures/food.JPG"
+      tabindex="0"
+      aria-label="Open Grills and Mains gallery">
       <img src="Pictures/food.JPG" alt="Food">
       <h3>Grills & Mains</h3>
       <p>Fresh food and local flavours.</p>
     </article>
 
-    <article>
+    <article
+      data-gallery-title="Signature & Classic Cocktails"
+      data-gallery="Pictures/cocktails1.jpg"
+      tabindex="0"
+      aria-label="Open Cocktails gallery">
       <img src="Pictures/cocktails1.jpg" alt="Cocktails">
       <h3>Signature & Classic Cocktails</h3>
       <p>Enjoy our signature creations and classic cocktails.</p>
     </article>
 
-    <article>
+    <article
+      data-gallery-title="Coffees & Drinks"
+      data-gallery="Pictures/activities1.jpg"
+      tabindex="0"
+      aria-label="Open Coffees and Drinks gallery">
       <img src="Pictures/activities1.jpg" alt="Coffee and drinks">
       <h3>Coffees & Drinks</h3>
       <p>Espresso, cappuccino, homemade lemonade and more.</p>
     </article>
   </div>
 </section>
+
 
 <!-- ACTIVITIES -->
 <section class="content-section" id="activities">
@@ -170,13 +184,7 @@
 
   <div class="photo-gallery-dialog" role="dialog" aria-modal="true" aria-label="Accommodation photo gallery">
     <button class="gallery-close" data-gallery-close aria-label="Close gallery">×</button>
-
-    <h2 class="gallery-heading" id="galleryHeading">Accommodation</h2>
-
     <div class="gallery-tabs" id="galleryTabs" role="tablist" aria-label="Room categories"></div>
-
-    <h3 id="galleryTitle" class="gallery-current-title"></h3>
-
     <div class="gallery-stage">
       <button class="gallery-arrow gallery-prev" type="button" aria-label="Previous photo">‹</button>
       <img id="galleryMainImage" src="" alt="">
