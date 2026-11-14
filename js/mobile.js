@@ -269,6 +269,7 @@ setupLocalWeather();
  
 
 
+
 /* PHOTO GALLERY */
 (() => {
   const gallery = document.getElementById("photoGallery");
@@ -288,24 +289,35 @@ setupLocalWeather();
   let lastFocused = null;
   let touchStartX = 0;
 
-  
-const doubleBedIcon = `<svg viewBox="0 0 40 32" aria-hidden="true"><path d="M5 25V8M35 25V8M5 20H35M8 20V13Q8 10 11 10H29Q32 10 32 13V20M5 25V28M35 25V28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="10" y="12" width="9" height="5" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="21" y="12" width="9" height="5" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>`;
-const singleBedIcon = `<svg viewBox="0 0 40 32" aria-hidden="true"><path d="M5 25V8M35 25V8M5 20H35M8 20V13Q8 10 11 10H29Q32 10 32 13V20M5 25V28M35 25V28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="14" y="12" width="12" height="5" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>`;
+  let galleryHistoryOpen = false;
+  let savedScrollY = 0;
+  let bodyStyleBeforeGallery = null;
 
+  const doubleBedIcon = `<svg viewBox="0 0 40 32" aria-hidden="true"><path d="M5 25V8M35 25V8M5 20H35M8 20V13Q8 10 11 10H29Q32 10 32 13V20M5 25V28M35 25V28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="10" y="12" width="9" height="5" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="21" y="12" width="9" height="5" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>`;
+
+  const singleBedIcon = `<svg viewBox="0 0 40 32" aria-hidden="true"><path d="M5 25V8M35 25V8M5 20H35M8 20V13Q8 10 11 10H29Q32 10 32 13V20M5 25V28M35 25V28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="14" y="12" width="12" height="5" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>`;
 
   function getGroupIcon(groupTitle) {
     if (groupTitle.includes("Deluxe")) return doubleBedIcon;
-    if (groupTitle.includes("Triple")) return `<span class="gallery-bed-icons">${doubleBedIcon}${singleBedIcon}</span>`;
-    if (groupTitle.includes("Cocktail")) return `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h18l-8 9v6h5v2H6v-2h5v-6L3 4Z"/></svg>`;
-    if (groupTitle.includes("Coffee")) return `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h14v8a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4V8Zm14 2h2a2 2 0 0 1 0 4h-2M8 4c-1 1 1 2 0 3m5-3c-1 1 1 2 0 3"/></svg>`;
+
+    if (groupTitle.includes("Triple")) {
+      return `<span class="gallery-bed-icons">${doubleBedIcon}${singleBedIcon}</span>`;
+    }
+
+    if (groupTitle.includes("Cocktail")) {
+      return `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h18l-8 9v6h5v2H6v-2h5v-6L3 4Z"/></svg>`;
+    }
+
+    if (groupTitle.includes("Coffee")) {
+      return `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h14v8a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4V8Zm14 2h2a2 2 0 0 1 0 4h-2M8 4c-1 1 1 2 0 3m5-3c-1 1 1 2 0 3"/></svg>`;
+    }
+
     return `<svg viewBox="0 0 32 32" aria-hidden="true">
-  <g fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M5 3V11M10 3V11M15 3V11M5 11V12C5 16 9 18 10 18H10V29M15 11V12C15 16 12 18 10 18"/>
-    <path d="M27 3C22 5 20 10 20 15V18C20 20 22 21 25 21H27V29M27 3V21"/>
-  </g>
-</svg>`;
-
-
+      <g fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M5 3V11M10 3V11M15 3V11M5 11V12C5 16 9 18 10 18H10V29M15 11V12C15 16 12 18 10 18"/>
+        <path d="M27 3C22 5 20 10 20 15V18C20 20 22 21 25 21H27V29M27 3V21"/>
+      </g>
+    </svg>`;
   }
 
   function renderTabs() {
@@ -374,6 +386,7 @@ const singleBedIcon = `<svg viewBox="0 0 40 32" aria-hidden="true"><path d="M5 2
 
   function selectGroup(index) {
     if (index < 0 || index >= groups.length) return;
+
     currentGroup = index;
     currentPhoto = 0;
     renderThumbnails();
@@ -410,8 +423,7 @@ const singleBedIcon = `<svg viewBox="0 0 40 32" aria-hidden="true"><path d="M5 2
         .filter(Boolean);
 
       const groupTitle = group.dataset.galleryTitle || "Photo Gallery";
-
-      let shortTitle = groupTitle
+      const shortTitle = groupTitle
         .replace(" Room", "")
         .toUpperCase();
 
@@ -424,16 +436,55 @@ const singleBedIcon = `<svg viewBox="0 0 40 32" aria-hidden="true"><path d="M5 2
     currentGroup = 0;
     currentPhoto = 0;
 
+    /* SAVE PAGE POSITION */
+    savedScrollY = window.scrollY;
+
+    /* ADD GALLERY TO BROWSER HISTORY */
+    history.pushState(
+      { ...(history.state || {}), photoGalleryOpen: true },
+      "",
+      location.href
+    );
+
+    galleryHistoryOpen = true;
+
+    /* SAVE ORIGINAL BODY STYLES */
+    bodyStyleBeforeGallery = {
+      position: document.body.style.position,
+      top: document.body.style.top,
+      left: document.body.style.left,
+      right: document.body.style.right,
+      width: document.body.style.width
+    };
+
+    /* LOCK PAGE SCROLL WITHOUT LOSING POSITION */
+    document.body.style.position = "fixed";
+    document.body.style.top = `-${savedScrollY}px`;
+    document.body.style.left = "0";
+    document.body.style.right = "0";
+    document.body.style.width = "100%";
+
     gallery.classList.add("is-open");
     gallery.setAttribute("aria-hidden", "false");
     document.body.classList.add("gallery-open");
 
     renderThumbnails();
     showPhoto(0);
+
     gallery.querySelector(".gallery-close").focus();
   }
 
-  function closeGallery() {
+  function closeGallery(fromHistory = false) {
+    if (!gallery.classList.contains("is-open")) return;
+
+    /* USE BROWSER BACK TO CLOSE GALLERY */
+    if (galleryHistoryOpen && !fromHistory) {
+      history.back();
+      return;
+    }
+
+    galleryHistoryOpen = false;
+
     gallery.classList.remove("is-open");
     gallery.setAttribute("aria-hidden", "true");
     document.body.classList.remove("gallery-open");
@@ -443,8 +494,29 @@ const singleBedIcon = `<svg viewBox="0 0 40 32" aria-hidden="true"><path d="M5 2
     tabs.innerHTML = "";
     groups = [];
 
+    /* RESTORE ORIGINAL BODY STYLES */
+    if (bodyStyleBeforeGallery) {
+      document.body.style.position = bodyStyleBeforeGallery.position;
+      document.body.style.top = bodyStyleBeforeGallery.top;
+      document.body.style.left = bodyStyleBeforeGallery.left;
+      document.body.style.right = bodyStyleBeforeGallery.right;
+      document.body.style.width = bodyStyleBeforeGallery.width;
+
+      bodyStyleBeforeGallery = null;
+    }
+
+    /* RESTORE EXACT PAGE POSITION */
+    window.scrollTo(0, savedScrollY);
+
     if (lastFocused) lastFocused.focus();
   }
+
+  /* ANDROID AND BROWSER BACK BUTTON */
+  window.addEventListener("popstate", () => {
+    if (gallery.classList.contains("is-open")) {
+      closeGallery(true);
+    }
+  });
 
   document.querySelectorAll(
     ".room-card[data-gallery-group], .simple-grid article[data-gallery-group]"
@@ -466,7 +538,7 @@ const singleBedIcon = `<svg viewBox="0 0 40 32" aria-hidden="true"><path d="M5 2
   next.addEventListener("click", () => movePhoto(1));
 
   gallery.querySelectorAll("[data-gallery-close]").forEach(button => {
-    button.addEventListener("click", closeGallery);
+    button.addEventListener("click", () => closeGallery());
   });
 
   document.addEventListener("keydown", event => {
@@ -483,7 +555,10 @@ const singleBedIcon = `<svg viewBox="0 0 40 32" aria-hidden="true"><path d="M5 2
 
   mainImage.addEventListener("touchend", event => {
     const difference = event.changedTouches[0].screenX - touchStartX;
-    if (Math.abs(difference) > 50) movePhoto(difference < 0 ? 1 : -1);
+
+    if (Math.abs(difference) > 50) {
+      movePhoto(difference < 0 ? 1 : -1);
+    }
   }, { passive: true });
 })();
 
