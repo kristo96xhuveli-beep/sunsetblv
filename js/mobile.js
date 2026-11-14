@@ -288,8 +288,10 @@ setupLocalWeather();
   let lastFocused = null;
   let touchStartX = 0;
 
-  const doubleBedIcon = `<svg viewBox="0 0 32 32" aria-hidden="true"><path d="M4 26V8h2v9h20V8h2v18h-2v-5H6v5H4Z"/><path d="M8 17v-5a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3v5M8 17h16"/></svg>`;
-  const singleBedIcon = `<svg viewBox="0 0 32 32" aria-hidden="true"><path d="M6 26V8h2v9h16V8h2v18h-2v-5H8v5H6Z"/><path d="M10 17v-5a3 3 0 0 1 3-3h6a3 3 0 0 1 3 3v5M10 17h12"/></svg>`;
+  
+const doubleBedIcon = `<svg viewBox="0 0 40 32" aria-hidden="true"><path d="M5 25V8M35 25V8M5 20H35M8 20V13Q8 10 11 10H29Q32 10 32 13V20M5 25V28M35 25V28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="10" y="12" width="9" height="5" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="21" y="12" width="9" height="5" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>`;
+const singleBedIcon = `<svg viewBox="0 0 40 32" aria-hidden="true"><path d="M5 25V8M35 25V8M5 20H35M8 20V13Q8 10 11 10H29Q32 10 32 13V20M5 25V28M35 25V28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="14" y="12" width="12" height="5" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>`;
+
 
   function getGroupIcon(groupTitle) {
     if (groupTitle.includes("Deluxe")) return doubleBedIcon;
