@@ -28,214 +28,218 @@
   });
   
 
-/* PHOTO GALLERY */
 
+/* PHOTO GALLERY */
 (() => {
   const gallery = document.getElementById("photoGallery");
   if (!gallery) return;
 
+  const dialog = gallery.querySelector(".photo-gallery-dialog");
+  const tabsContainer = document.getElementById("galleryTabs");
   const mainImage = document.getElementById("galleryMainImage");
   const thumbnails = document.getElementById("galleryThumbnails");
   const counter = document.getElementById("galleryCounter");
-  const tabs = document.getElementById("galleryTabs");
-  const prev = gallery.querySelector(".gallery-prev");
-  const next = gallery.querySelector(".gallery-next");
 
-  const roomCards = [...document.querySelectorAll("#rooms .room-card[data-gallery]")];
-  const foodCards = [...document.querySelectorAll("#food .simple-grid article[data-gallery]")];
+  const closeButton = gallery.querySelector(".gallery-close");
+  const previousButton = gallery.querySelector(".gallery-prev");
+  const nextButton = gallery.querySelector(".gallery-next");
 
-  let groups = [];
-  let currentGroup = 0;
-  let currentPhoto = 0;
-  let lastFocused = null;
+  if (!dialog || !tabsContainer || !mainImage || !thumbnails) return;
+
+  let currentGroups = [];
+  let activeGroupIndex = 0;
+  let activePhotoIndex = 0;
   let touchStartX = 0;
 
-  const doubleBedIcon = `<svg viewBox="0 0 40 32" aria-hidden="true"><path d="M5 25V8M35 25V8M5 20H35M8 20V13Q8 10 11 10H29Q32 10 32 13V20M5 25V28M35 25V28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="10" y="12" width="9" height="5" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="21" y="12" width="9" height="5" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>`;
+  const getCardTitle = (card) => {
+    return (
+      card.dataset.galleryTitle ||
+      card.querySelector("h3")?.textContent.trim() ||
+      "Photo Gallery"
+    );
+  };
 
-  const singleBedIcon = `<svg viewBox="0 0 40 32" aria-hidden="true"><path d="M5 25V8M35 25V8M5 20H35M8 20V13Q8 10 11 10H29Q32 10 32 13V20M5 25V28M35 25V28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="14" y="12" width="12" height="5" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>`;
+  const getShortTitle = (title) => {
+    const shortTitles = {
+      "Deluxe Double Room": "DELUXE DOUBLE",
+      "Standard Triple Room": "STANDARD TRIPLE",
+      "Simple Triple Room": "SIMPLE TRIPLE",
+      "Grills & Mains": "GRILLS & MAINS",
+      "Signature & Classic Cocktails": "COCKTAILS",
+      "Coffees & Drinks": "COFFEES & DRINKS",
+      "Beach & Swimming": "BEACH",
+      "Boat Trips & Canoeing": "BOAT TRIPS",
+      "Village Hiking": "HIKING"
+    };
 
-  function getGroupIcon(title) {
-    if (title.includes("Deluxe")) return doubleBedIcon;
+    return shortTitles[title] || title.toUpperCase();
+  };
 
-    if (title.includes("Triple")) {
-      return `<span class="gallery-bed-icons">${doubleBedIcon}${singleBedIcon}</span>`;
-    }
+  const getPhotos = (card) => {
+    const rawPhotos = card.dataset.gallery || "";
 
-    if (title.includes("Cocktail")) {
-      return `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h18l-8 9v6h5v2H6v-2h5v-6L3 4Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>`;
-    }
+    return rawPhotos
+      .split(",")
+      .map(photo => photo.trim())
+      .filter(Boolean);
+  };
 
-    if (title.includes("Coffee")) {
-      return `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h14v8a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4V8Zm14 2h2a2 2 0 0 1 0 4h-2M8 4c-1 1 1 2 0 3m5-3c-1 1 1 2 0 3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>`;
-    }
+  const getSectionCards = (card) => {
+    const section = card.closest("section") || card.closest("#rooms, #food, #food-drinks, #activities");
 
-    if (title.includes("Grills")) {
-      return `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4v7m3-7v7m-6-4h6M4 11v9m13-16v16m0-16c4 2 4 8 0 10" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>`;
-    }
+    if (!section) return [card];
 
-    return doubleBedIcon;
-  }
+    return Array.from(section.querySelectorAll("[data-gallery]"))
+      .filter(item => getPhotos(item).length > 0);
+  };
 
-  function renderTabs() {
-    tabs.innerHTML = "";
+  const buildGroups = (cards) => {
+    return cards.map(card => ({
+      element: card,
+      title: getCardTitle(card),
+      shortTitle: getShortTitle(getCardTitle(card)),
+      photos: getPhotos(card)
+    })).filter(group => group.photos.length > 0);
+  };
 
-    groups.forEach((group, index) => {
-      const button = document.createElement("button");
-      button.type = "button";
-      button.className = "gallery-tab";
-      button.classList.toggle("active", index === currentGroup);
-      button.setAttribute("role", "tab");
-      button.setAttribute("aria-selected", String(index === currentGroup));
+  const renderTabs = () => {
+    tabsContainer.innerHTML = "";
 
-      const label = document.createElement("span");
-      label.className = "gallery-tab-label";
-      label.textContent = group.shortTitle;
+    currentGroups.forEach((group, index) => {
+      const tab = document.createElement("button");
+      tab.type = "button";
+      tab.className = "gallery-tab";
+      tab.textContent = group.shortTitle;
+      tab.setAttribute("aria-label", `View ${group.title} photos`);
+      tab.setAttribute("aria-selected", index === activeGroupIndex ? "true" : "false");
 
-      const icon = document.createElement("span");
-      icon.className = "gallery-tab-icon";
-      icon.innerHTML = getGroupIcon(group.title);
+      if (index === activeGroupIndex) {
+        tab.classList.add("active");
+      }
 
-      button.append(label, icon);
-      button.addEventListener("click", () => selectGroup(index));
-      tabs.appendChild(button);
+      tab.addEventListener("click", () => {
+        selectGroup(index);
+      });
+
+      tabsContainer.appendChild(tab);
     });
-  }
+  };
 
-  function renderThumbnails() {
+  const renderThumbnails = () => {
     thumbnails.innerHTML = "";
 
-    groups[currentGroup].photos.forEach((src, index) => {
-      const button = document.createElement("button");
-      button.type = "button";
-      button.className = "gallery-thumb";
-      button.classList.toggle("active", index === currentPhoto);
-      button.setAttribute("aria-label", "Show photo " + (index + 1));
+    const photos = currentGroups[activeGroupIndex].photos;
+
+    photos.forEach((photo, index) => {
+      const thumbnail = document.createElement("button");
+      thumbnail.type = "button";
+      thumbnail.className = "gallery-thumbnail";
+      thumbnail.setAttribute("aria-label", `View photo ${index + 1}`);
+
+      if (index === activePhotoIndex) {
+        thumbnail.classList.add("active");
+      }
 
       const image = document.createElement("img");
-      image.src = src;
+      image.src = photo;
       image.alt = "";
+      image.loading = "lazy";
 
-      button.appendChild(image);
-      button.addEventListener("click", () => showPhoto(index));
-      thumbnails.appendChild(button);
+      thumbnail.appendChild(image);
+
+      thumbnail.addEventListener("click", () => {
+        showPhoto(index);
+      });
+
+      thumbnails.appendChild(thumbnail);
     });
-  }
+  };
 
-  function showPhoto(index) {
-    const photos = groups[currentGroup].photos;
-    if (!photos.length) return;
+  const showPhoto = (index) => {
+    const group = currentGroups[activeGroupIndex];
+    if (!group || !group.photos.length) return;
 
-    currentPhoto = Math.max(0, Math.min(index, photos.length - 1));
+    activePhotoIndex = (index + group.photos.length) % group.photos.length;
 
-    mainImage.src = photos[currentPhoto];
-    mainImage.alt = groups[currentGroup].title + " photo " + (currentPhoto + 1);
+    mainImage.src = group.photos[activePhotoIndex];
+    mainImage.alt = `${group.title} - Photo ${activePhotoIndex + 1}`;
 
-    counter.textContent = (currentPhoto + 1) + " / " + photos.length;
+    if (counter) {
+      counter.textContent = `${activePhotoIndex + 1} / ${group.photos.length}`;
+    }
 
-    thumbnails.querySelectorAll(".gallery-thumb").forEach((button, i) => {
-      button.classList.toggle("active", i === currentPhoto);
+    thumbnails.querySelectorAll(".gallery-thumbnail").forEach((thumbnail, i) => {
+      thumbnail.classList.toggle("active", i === activePhotoIndex);
     });
 
-    prev.style.display = "flex";
-    next.style.display = "flex";
+    const activeThumbnail = thumbnails.querySelector(".gallery-thumbnail.active");
+    activeThumbnail?.scrollIntoView({
+      behavior: "smooth",
+      block: "nearest",
+      inline: "nearest"
+    });
+  };
+
+  const selectGroup = (index) => {
+    if (!currentGroups[index]) return;
+
+    activeGroupIndex = index;
+    activePhotoIndex = 0;
 
     renderTabs();
-  }
-
-  function selectGroup(index) {
-    if (index < 0 || index >= groups.length) return;
-
-    currentGroup = index;
-    currentPhoto = 0;
-
     renderThumbnails();
     showPhoto(0);
-  }
+  };
 
-  function movePhoto(direction) {
-    const photos = groups[currentGroup].photos;
+  const movePhoto = (direction) => {
+    showPhoto(activePhotoIndex + direction);
+  };
 
-    if (direction > 0 && currentPhoto < photos.length - 1) {
-      showPhoto(currentPhoto + 1);
-      return;
-    }
+  const openGallery = (card) => {
+    const cards = getSectionCards(card);
+    currentGroups = buildGroups(cards);
 
-    if (direction < 0 && currentPhoto > 0) {
-      showPhoto(currentPhoto - 1);
-      return;
-    }
+    if (!currentGroups.length) return;
 
-    const nextGroup = currentGroup + direction;
+    const clickedIndex = currentGroups.findIndex(
+      group => group.element === card
+    );
 
-    if (nextGroup >= 0 && nextGroup < groups.length) {
-      selectGroup(nextGroup);
-    }
-  }
+    activeGroupIndex = clickedIndex >= 0 ? clickedIndex : 0;
+    activePhotoIndex = 0;
 
-  function openGallery(card) {
-    const isFood = Boolean(card.closest("#food"));
-    const cards = isFood ? foodCards : roomCards;
-
-    groups = cards.map(item => {
-      const groupTitle = item.dataset.galleryTitle || "Photo Gallery";
-      const photos = (item.dataset.gallery || "")
-        .split("|")
-        .map(photo => photo.trim())
-        .filter(Boolean);
-
-      return {
-        title: groupTitle,
-        shortTitle: groupTitle
-          .replace(" Room", "")
-          .replace("Signature & Classic Cocktails", "COCKTAILS")
-          .replace("Grills & Mains", "GRILLS & MAINS")
-          .replace("Coffees & Drinks", "COFFEES & DRINKS")
-          .toUpperCase(),
-        photos
-      };
-    }).filter(group => group.photos.length);
-
-    if (!groups.length) return;
-
-    lastFocused = document.activeElement;
-
-    const clickedTitle = card.dataset.galleryTitle;
-    const selectedIndex = groups.findIndex(group => group.title === clickedTitle);
-
-    currentGroup = selectedIndex >= 0 ? selectedIndex : 0;
-    currentPhoto = 0;
+    renderTabs();
+    renderThumbnails();
+    showPhoto(0);
 
     gallery.classList.add("is-open");
     gallery.setAttribute("aria-hidden", "false");
     document.body.classList.add("gallery-open");
 
-    renderThumbnails();
-    showPhoto(0);
+    closeButton?.focus();
+  };
 
-    gallery.querySelector(".gallery-close").focus();
-  }
-
-  function closeGallery() {
+  const closeGallery = () => {
     gallery.classList.remove("is-open");
     gallery.setAttribute("aria-hidden", "true");
     document.body.classList.remove("gallery-open");
+  };
 
-    mainImage.src = "";
-    thumbnails.innerHTML = "";
-    tabs.innerHTML = "";
-    counter.textContent = "";
-    groups = [];
+  const galleryCards = document.querySelectorAll(
+    "#rooms [data-gallery], #food [data-gallery], #food-drinks [data-gallery], #activities [data-gallery], section [data-gallery]"
+  );
 
-    if (lastFocused) lastFocused.focus();
-  }
-
-  [...roomCards, ...foodCards].forEach(card => {
-    card.addEventListener("click", event => {
+  galleryCards.forEach(card => {
+    card.addEventListener("click", (event) => {
       if (event.target.closest("a, button")) return;
       openGallery(card);
     });
 
-    card.addEventListener("keydown", event => {
+    card.setAttribute("tabindex", "0");
+    card.setAttribute("role", "button");
+    card.setAttribute("aria-label", `Open ${getCardTitle(card)} photo gallery`);
+
+    card.addEventListener("keydown", (event) => {
       if (event.key === "Enter" || event.key === " ") {
         event.preventDefault();
         openGallery(card);
@@ -243,34 +247,51 @@
     });
   });
 
-  prev.addEventListener("click", () => movePhoto(-1));
-  next.addEventListener("click", () => movePhoto(1));
+  closeButton?.addEventListener("click", closeGallery);
 
-  gallery.querySelectorAll("[data-gallery-close]").forEach(button => {
-    button.addEventListener("click", closeGallery);
+  previousButton?.addEventListener("click", () => {
+    movePhoto(-1);
   });
 
-  document.addEventListener("keydown", event => {
+  nextButton?.addEventListener("click", () => {
+    movePhoto(1);
+  });
+
+  gallery.addEventListener("click", (event) => {
+    if (event.target === gallery) {
+      closeGallery();
+    }
+  });
+
+  document.addEventListener("keydown", (event) => {
     if (!gallery.classList.contains("is-open")) return;
 
-    if (event.key === "Escape") closeGallery();
-    if (event.key === "ArrowLeft") movePhoto(-1);
-    if (event.key === "ArrowRight") movePhoto(1);
+    if (event.key === "Escape") {
+      closeGallery();
+    } else if (event.key === "ArrowLeft") {
+      movePhoto(-1);
+    } else if (event.key === "ArrowRight") {
+      movePhoto(1);
+    }
   });
 
-  mainImage.addEventListener("touchstart", event => {
+  const stage = gallery.querySelector(".gallery-stage");
+
+  stage?.addEventListener("touchstart", (event) => {
     touchStartX = event.changedTouches[0].screenX;
   }, { passive: true });
 
-  mainImage.addEventListener("touchend", event => {
-    const difference = event.changedTouches[0].screenX - touchStartX;
+  stage?.addEventListener("touchend", (event) => {
+    const touchEndX = event.changedTouches[0].screenX;
+    const difference = touchStartX - touchEndX;
 
-    if (Math.abs(difference) > 50) {
-      movePhoto(difference < 0 ? 1 : -1);
-    }
+    if (Math.abs(difference) < 45) return;
+
+    movePhoto(difference > 0 ? 1 : -1);
   }, { passive: true });
 
 })();
+
 
 
   })();
