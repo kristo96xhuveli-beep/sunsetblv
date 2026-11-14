@@ -333,7 +333,7 @@
     }
 
     galleries.forEach(gallery => {
-      const tabs = gallery.querySelector('.feature-category-tabs');
+      const tabs = gallery.closest('.feature-layout')?.querySelector('.feature-copy .feature-category-tabs');
       const imageWrap = gallery.querySelector('.feature-image-wrap');
       const mainImage = imageWrap?.querySelector('img');
       const previousButton = imageWrap?.querySelector('.feature-prev');
