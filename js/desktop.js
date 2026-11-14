@@ -27,14 +27,13 @@
     }
   });
   
+
 /* PHOTO GALLERY */
 
 (() => {
   const gallery = document.getElementById("photoGallery");
   if (!gallery) return;
 
-  const heading = document.getElementById("galleryHeading");
-  const title = document.getElementById("galleryTitle");
   const mainImage = document.getElementById("galleryMainImage");
   const thumbnails = document.getElementById("galleryThumbnails");
   const counter = document.getElementById("galleryCounter");
@@ -43,6 +42,7 @@
   const next = gallery.querySelector(".gallery-next");
 
   const roomCards = [...document.querySelectorAll("#rooms .room-card[data-gallery]")];
+  const foodCards = [...document.querySelectorAll("#food .simple-grid article[data-gallery]")];
 
   let groups = [];
   let currentGroup = 0;
@@ -59,6 +59,18 @@
 
     if (title.includes("Triple")) {
       return `<span class="gallery-bed-icons">${doubleBedIcon}${singleBedIcon}</span>`;
+    }
+
+    if (title.includes("Cocktail")) {
+      return `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h18l-8 9v6h5v2H6v-2h5v-6L3 4Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/></svg>`;
+    }
+
+    if (title.includes("Coffee")) {
+      return `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h14v8a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4V8Zm14 2h2a2 2 0 0 1 0 4h-2M8 4c-1 1 1 2 0 3m5-3c-1 1 1 2 0 3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>`;
+    }
+
+    if (title.includes("Grills")) {
+      return `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4v7m3-7v7m-6-4h6M4 11v9m13-16v16m0-16c4 2 4 8 0 10" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>`;
     }
 
     return doubleBedIcon;
@@ -92,9 +104,7 @@
   function renderThumbnails() {
     thumbnails.innerHTML = "";
 
-    const photos = groups[currentGroup].photos;
-
-    photos.forEach((src, index) => {
+    groups[currentGroup].photos.forEach((src, index) => {
       const button = document.createElement("button");
       button.type = "button";
       button.className = "gallery-thumb";
@@ -120,7 +130,6 @@
     mainImage.src = photos[currentPhoto];
     mainImage.alt = groups[currentGroup].title + " photo " + (currentPhoto + 1);
 
-    title.textContent = groups[currentGroup].title;
     counter.textContent = (currentPhoto + 1) + " / " + photos.length;
 
     thumbnails.querySelectorAll(".gallery-thumb").forEach((button, i) => {
@@ -164,17 +173,24 @@
   }
 
   function openGallery(card) {
-    groups = roomCards.map(room => {
-      const groupTitle = room.dataset.galleryTitle || "Photo Gallery";
+    const isFood = Boolean(card.closest("#food"));
+    const cards = isFood ? foodCards : roomCards;
 
-      const photos = (room.dataset.gallery || "")
+    groups = cards.map(item => {
+      const groupTitle = item.dataset.galleryTitle || "Photo Gallery";
+      const photos = (item.dataset.gallery || "")
         .split("|")
         .map(photo => photo.trim())
         .filter(Boolean);
 
       return {
         title: groupTitle,
-        shortTitle: groupTitle.replace(" Room", "").toUpperCase(),
+        shortTitle: groupTitle
+          .replace(" Room", "")
+          .replace("Signature & Classic Cocktails", "COCKTAILS")
+          .replace("Grills & Mains", "GRILLS & MAINS")
+          .replace("Coffees & Drinks", "COFFEES & DRINKS")
+          .toUpperCase(),
         photos
       };
     }).filter(group => group.photos.length);
@@ -188,8 +204,6 @@
 
     currentGroup = selectedIndex >= 0 ? selectedIndex : 0;
     currentPhoto = 0;
-
-    heading.textContent = "Accommodation";
 
     gallery.classList.add("is-open");
     gallery.setAttribute("aria-hidden", "false");
@@ -209,15 +223,13 @@
     mainImage.src = "";
     thumbnails.innerHTML = "";
     tabs.innerHTML = "";
-    title.textContent = "";
     counter.textContent = "";
-
     groups = [];
 
     if (lastFocused) lastFocused.focus();
   }
 
-  roomCards.forEach(card => {
+  [...roomCards, ...foodCards].forEach(card => {
     card.addEventListener("click", event => {
       if (event.target.closest("a, button")) return;
       openGallery(card);
@@ -259,5 +271,6 @@
   }, { passive: true });
 
 })();
+
 
   })();
