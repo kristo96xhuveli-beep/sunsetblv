@@ -21,7 +21,42 @@
       <div class="hero-copy"><p class="eyebrow">Qeparo Beach · Albanian Riviera</p><h1>A Seaside Experience Since 2000</h1><p>Warm hospitality, comfortable rooms, cocktails, good music and unforgettable summer vibes by the sea.</p><a class="primary-link" href="#rooms">Discover our rooms</a></div>
       <div class="desktop-video"><video autoplay muted loop playsinline poster="Pictures/room1.jpg"><source src="video.mp4" type="video/mp4"></video></div>
     </section>
-    <section class="experience"><div><span>☀</span><b>May – October</b></div><div><span>🏖</span><b>Beachfront</b></div><div><span>🍸</span><b>Cocktails & Music</b></div><div><span>♧</span><b>Family Run</b></div></section>
+   
+<section class="desktop-info-strip">
+  <div class="local-time">
+    <span class="weather-label">LOCAL TIME</span>
+    <strong id="qeparoTime">--:--</strong>
+    <small id="qeparoDate">Loading date...</small>
+  </div>
+  <div class="local-weather">
+    <div class="weather-main">
+      <span id="weatherIcon"></span>
+      <strong id="weatherTemp">--°C</strong>
+    </div>
+    <span id="weatherDescription" class="weather-label">Loading weather...</span>
+  </div>
+  <div class="desktop-experience-item">
+    <img src="Pictures/icons/calendar-small-svgrepo-com.svg" alt="">
+    <b>May – October</b>
+  </div>
+  <div class="desktop-experience-item">
+    <img src="Pictures/icons/person-lying-on-a-beach-under-an-umbrella-svgrepo-com.svg" alt="">
+    <b>Beachfront</b>
+  </div>
+  <div class="desktop-experience-item">
+    <img src="Pictures/icons/fork-and-knife-in-cross-svgrepo-com.svg" alt="">
+    <b>Food</b>
+  </div>
+  <div class="desktop-experience-item">
+    <img src="Pictures/icons/cocktail-svgrepo-com.svg" alt="">
+    <b>Cocktails & Music</b>
+  </div>
+  <div class="desktop-experience-item">
+    <img src="Pictures/icons/family-svgrepo-com.svg" alt="">
+    <b>Family Run</b>
+  </div>
+</section>
+
     <section class="content-section" id="rooms"><p class="eyebrow">Stay with us</p><h2>Your Favorite Summer Escape By The Sea</h2><p>Comfortable accommodation on the Albanian Riviera.</p><div class="room-grid">
        <article class="room-card"
   data-gallery-title="Deluxe Double Room"
@@ -41,10 +76,57 @@
     </div></section>
     <section class="content-section tinted" id="food"><p class="eyebrow">At the bar</p><h2>Taste the Riviera</h2><div class="simple-grid"><article><img src="Pictures/food.JPG" alt="Food"><h3>Grills & Mains</h3><p>Fresh food and local flavours.</p></article><article><img src="Pictures/cocktails1.jpg" alt="Cocktails"><h3>Signature & Classic Cocktails</h3><p>Enjoy our signature creations and classic cocktails.</p></article><article><img src="Pictures/activities1.jpg" alt="Coffee and drinks"><h3>Coffees & Drinks</h3><p>Espresso, cappuccino, homemade lemonade and more.</p></article></div></section>
     <section class="content-section" id="activities"><p class="eyebrow">Discover the coast</p><h2>Explore Qeparo</h2><div class="simple-grid"><article><img src="Pictures/beach1.jpg" alt="Qeparo beach"><h3>Beach & Swimming</h3><p>Relax and swim in the clear waters of Qeparo.</p></article><article><img src="Pictures/boat1.jpg" alt="Boat trip"><h3>Boat Trips & Canoeing</h3><p>Discover hidden beaches and sea caves along the coast.</p></article><article><img src="Pictures/hiking1.jpg" alt="Hiking in Qeparo"><h3>Village Hiking</h3><p>Explore the old village, stone paths and panoramic views.</p></article></div></section>
+    
+<!-- PHOTO GALLERY -->
+<div class="photo-gallery" id="photoGallery" aria-hidden="true">
+  <div class="photo-gallery-backdrop" data-gallery-close></div>
+  <div class="photo-gallery-dialog" role="dialog" aria-modal="true">
+    <button class="gallery-close" data-gallery-close aria-label="Close gallery">×</button>
+    <div class="gallery-tabs" id="galleryTabs" aria-label="Gallery categories"></div>
+    <h2 id="galleryTitle"></h2>
+    <div class="gallery-stage">
+      <button class="gallery-arrow gallery-prev" aria-label="Previous photo">‹</button>
+      <img id="galleryMainImage" src="" alt="">
+      <button class="gallery-arrow gallery-next" aria-label="Next photo">›</button>
+    </div>
+    <div class="gallery-bottom">
+      <div class="gallery-thumbnails" id="galleryThumbnails"></div>
+      <p id="galleryCounter"></p>
+    </div>
+  </div>
+</div>
+
     <section class="content-section story-section" id="story"><p class="eyebrow">Since the early 1990s</p><h2>Our Story</h2><p>Some stories begin with a grand plan. Ours began with an open door. Back in the early 1990s, our family welcomed travellers into a spare room. By 2000, two purpose-built guest rooms marked a new chapter. In 2004, the next generation opened the bar, bringing music, laughter and a new meeting place to the village. More rooms followed over the years. Today, we continue that family journey with accommodation, drinks and food. Welcome to our home.</p></section>
   </main>
   <footer id="info"><p class="eyebrow">Find us in Qeparo</p><h2>Contact & Info</h2><p>WhatsApp: <a href="https://wa.me/355692853586">+355 69 285 3586</a> · Email: <a href="mailto:sunsetboulevardqepar@gmail.com">sunsetboulevardqepar@gmail.com</a></p><p>Qeparo, Vlorë, Albania</p><div class="social-links"><a href="https://maps.app.goo.gl/nJMC9Ebtgd8oft4K8" target="_blank" rel="noopener">Maps</a><a href="https://www.instagram.com/sunset.boulevard.cocktailbar" target="_blank" rel="noopener">Instagram</a><a href="https://www.facebook.com/share/1G3LhkB6gP/" target="_blank" rel="noopener">Facebook</a></div><small>© Sunset Boulevard Beach Hotel</small></footer>
-  <audio id="radioPlayer" preload="none"></audio>
+  
+<div class="radio-player-bar" id="radioPlayerBar" hidden>
+  <div class="radio-player-heading">
+    <div>
+      <strong>Sunset Boulevard Radio</strong>
+      <span id="radioStatus">Loading music...</span>
+    </div>
+    <button class="radio-player-close" id="radioPlayerClose" type="button" aria-label="Close music player">×</button>
+  </div>
+  <div class="radio-player-controls">
+    <div class="radio-volume-wrap">
+      <button class="radio-control" id="volumeToggle" type="button" aria-label="Volume" aria-expanded="false">
+        <svg viewBox="0 0 24 24"><path d="M11 5 6 9H3v6h3l5 4V5Z"></path><path d="M15.5 8.5a5 5 0 0 1 0 7"></path><path d="M18.5 5.5a9 9 0 0 1 0 13"></path></svg>
+      </button>
+      <div class="radio-volume-panel" id="radioVolumePanel" hidden>
+        <input id="volumeSlider" type="range" min="0" max="1" step="0.05" value="0.7" aria-label="Music volume">
+      </div>
+    </div>
+    <button class="radio-control radio-play-button" id="musicPlayPause" type="button" aria-label="Play music">
+      <svg id="playPauseIcon" viewBox="0 0 24 24"><path d="M8 5v14l11-7Z"></path></svg>
+    </button>
+    <button class="radio-control" id="musicNext" type="button" aria-label="Next track">
+      <svg viewBox="0 0 24 24"><path d="M5 5v14l11-7Z"></path><path d="M19 5v14"></path></svg>
+    </button>
+  </div>
+</div>
+<audio id="radioPlayer" preload="none"></audio>
+
   <script src="js/desktop.js" defer></script>
 </body>
 </html>
