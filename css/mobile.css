@@ -94,6 +94,7 @@ footer > .eyebrow { text-align: center; }
 .room-card p { max-width: 300px; margin: 0 auto 23px; font-size: 14px; line-height: 1.75; color: var(--muted); }
 .pill { display: inline-block; background: #edf3f6; color: #607d8b; border-radius: 30px; padding: 6px 13px; font: 10px Arial, sans-serif; letter-spacing: .3px; }
 .primary-link { display: inline-block; background: var(--navy); color: #fff; text-decoration: none; border-radius: 7px; padding: 11px 22px; font: 13px Arial, sans-serif; letter-spacing: .2px; }
+#galleryTitle { display: none !important; }
 
 /* 11. FOOD & DRINKS / ACTIVITIES  */
 .simple-grid { display: grid; gap: 35px; margin: 25px -16px 0; }
