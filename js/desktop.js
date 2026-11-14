@@ -1,4 +1,3 @@
-
 (() => {
   const body = document.body;
 
@@ -208,268 +207,119 @@
     });
   }
 
-  /* 5. PHOTO GALLERY */
+  /* 5. INLINE FEATURE GALLERIES */
   (() => {
-    const gallery = document.getElementById('photoGallery');
-    if (!gallery) return;
+    const galleries = document.querySelectorAll('[data-feature-gallery]');
+    if (!galleries.length) return;
 
-    const dialog = gallery.querySelector('.photo-gallery-dialog');
-    const tabsContainer = document.getElementById('galleryTabs');
-    const mainImage = document.getElementById('galleryMainImage');
-    const thumbnails = document.getElementById('galleryThumbnails');
-    const counter = document.getElementById('galleryCounter');
-
-    const closeButton = gallery.querySelector('.gallery-close');
-    const previousButton = gallery.querySelector('.gallery-prev');
-    const nextButton = gallery.querySelector('.gallery-next');
-
-    if (!dialog || !tabsContainer || !mainImage || !thumbnails) return;
-
-    let currentGroups = [];
-    let activeGroupIndex = 0;
-    let activePhotoIndex = 0;
-    let touchStartX = 0;
-
-    const getCardTitle = card => {
-      return (
-        card.dataset.galleryTitle ||
-        card.querySelector('h3')?.textContent.trim() ||
-        'Photo Gallery'
-      );
+    const shortTitles = {
+      'Deluxe Double': 'DELUXE DOUBLE',
+      'Standard Triple': 'STANDARD TRIPLE',
+      'Simple Triple': 'SIMPLE TRIPLE',
+      'Grills & Mains': 'GRILLS & MAINS',
+      'Signature & Classic Cocktails': 'COCKTAILS',
+      'Coffees & Drinks': 'COFFEES & DRINKS',
+      'Beach & Swimming': 'BEACH',
+      'Boat Trips & Canoeing': 'BOAT TRIPS',
+      'Village Hiking': 'HIKING'
     };
 
-    const getShortTitle = title => {
-      const shortTitles = {
-        'Deluxe Double Room': 'DELUXE DOUBLE',
-        'Standard Triple Room': 'STANDARD TRIPLE',
-        'Simple Triple Room': 'SIMPLE TRIPLE',
-        'Grills & Mains': 'GRILLS & MAINS',
-        'Signature & Classic Cocktails': 'COCKTAILS',
-        'Coffees & Drinks': 'COFFEES & DRINKS',
-        'Beach & Swimming': 'BEACH',
-        'Boat Trips & Canoeing': 'BOAT TRIPS',
-        'Village Hiking': 'HIKING'
+    const getPhotos = item => (item.dataset.gallery || '')
+      .split(/[|,]/)
+      .map(photo => photo.trim())
+      .filter(Boolean);
+
+    galleries.forEach(gallery => {
+      const tabs = gallery.querySelector('.feature-category-tabs');
+      const imageWrap = gallery.querySelector('.feature-image-wrap');
+      const mainImage = imageWrap?.querySelector('img');
+      const previousButton = imageWrap?.querySelector('.feature-prev');
+      const nextButton = imageWrap?.querySelector('.feature-next');
+      const counter = imageWrap?.querySelector('.feature-counter');
+
+      if (!tabs || !imageWrap || !mainImage) return;
+
+      const groups = Array.from(gallery.querySelectorAll('[data-gallery]'))
+        .map(item => ({
+          title: item.dataset.galleryTitle || 'Photo Gallery',
+          photos: getPhotos(item)
+        }))
+        .filter(group => group.photos.length);
+
+      if (!groups.length) return;
+
+      let activeGroupIndex = 0;
+      let activePhotoIndex = 0;
+      let touchStartX = 0;
+
+      const updatePhoto = () => {
+        const group = groups[activeGroupIndex];
+        const photo = group.photos[activePhotoIndex];
+
+        mainImage.src = photo;
+        mainImage.alt = `${group.title} - Photo ${activePhotoIndex + 1}`;
+
+        if (counter) {
+          counter.textContent = `${activePhotoIndex + 1} / ${group.photos.length}`;
+        }
+
+        gallery.dataset.singlePhoto = String(group.photos.length <= 1);
       };
 
-      return shortTitles[title] || title.toUpperCase();
-    };
+      const renderTabs = () => {
+        tabs.innerHTML = '';
 
-    /* SUPPORT BOTH | AND , PHOTO SEPARATORS */
-    const getPhotos = card => {
-      return (card.dataset.gallery || '')
-        .split(/[|,]/)
-        .map(photo => photo.trim())
-        .filter(Boolean);
-    };
+        groups.forEach((group, index) => {
+          const tab = document.createElement('button');
 
-    const getSectionCards = card => {
-      const section = card.closest('section');
+          tab.type = 'button';
+          tab.className = 'feature-category-tab';
+          tab.textContent = shortTitles[group.title] || group.title.toUpperCase();
+          tab.setAttribute('role', 'tab');
+          tab.setAttribute('aria-selected', String(index === activeGroupIndex));
 
-      if (!section) return [card];
+          tab.addEventListener('click', () => {
+            activeGroupIndex = index;
+            activePhotoIndex = 0;
+            renderTabs();
+            updatePhoto();
+          });
 
-      return Array.from(section.querySelectorAll('[data-gallery]'))
-        .filter(item => getPhotos(item).length > 0);
-    };
+          if (index === activeGroupIndex) {
+            tab.classList.add('active');
+          }
 
-    const buildGroups = cards => {
-      return cards.map(card => ({
-        element: card,
-        title: getCardTitle(card),
-        shortTitle: getShortTitle(getCardTitle(card)),
-        photos: getPhotos(card)
-      })).filter(group => group.photos.length > 0);
-    };
+          tabs.appendChild(tab);
+        });
+      };
 
-    const renderTabs = () => {
-      tabsContainer.innerHTML = '';
+      const movePhoto = direction => {
+        const photos = groups[activeGroupIndex].photos;
 
-      currentGroups.forEach((group, index) => {
-        const tab = document.createElement('button');
+        if (photos.length <= 1) return;
 
-        tab.type = 'button';
-        tab.className = 'gallery-tab';
-        tab.textContent = group.shortTitle;
-        tab.setAttribute('aria-label', `View ${group.title} photos`);
-        tab.setAttribute('aria-selected', index === activeGroupIndex ? 'true' : 'false');
+        activePhotoIndex = (activePhotoIndex + direction + photos.length) % photos.length;
+        updatePhoto();
+      };
 
-        if (index === activeGroupIndex) {
-          tab.classList.add('active');
-        }
+      previousButton?.addEventListener('click', () => movePhoto(-1));
+      nextButton?.addEventListener('click', () => movePhoto(1));
 
-        tab.addEventListener('click', () => selectGroup(index));
+      imageWrap.addEventListener('touchstart', event => {
+        touchStartX = event.changedTouches[0].screenX;
+      }, { passive: true });
 
-        tabsContainer.appendChild(tab);
-      });
-    };
+      imageWrap.addEventListener('touchend', event => {
+        const difference = touchStartX - event.changedTouches[0].screenX;
 
-    const renderThumbnails = () => {
-      thumbnails.innerHTML = '';
+        if (Math.abs(difference) < 45) return;
 
-      const photos = currentGroups[activeGroupIndex].photos;
-
-      photos.forEach((photo, index) => {
-        const thumbnail = document.createElement('button');
-
-        thumbnail.type = 'button';
-        thumbnail.className = 'gallery-thumb';
-        thumbnail.setAttribute('aria-label', `View photo ${index + 1}`);
-
-        if (index === activePhotoIndex) {
-          thumbnail.classList.add('active');
-        }
-
-        const image = document.createElement('img');
-        image.src = photo;
-        image.alt = '';
-        image.loading = 'lazy';
-
-        thumbnail.appendChild(image);
-
-        thumbnail.addEventListener('click', () => showPhoto(index));
-
-        thumbnails.appendChild(thumbnail);
-      });
-    };
-
-    const showPhoto = index => {
-      const group = currentGroups[activeGroupIndex];
-
-      if (!group || !group.photos.length) return;
-
-      activePhotoIndex =
-        (index + group.photos.length) % group.photos.length;
-
-      mainImage.src = group.photos[activePhotoIndex];
-      mainImage.alt = `${group.title} - Photo ${activePhotoIndex + 1}`;
-
-      if (counter) {
-        counter.textContent = `${activePhotoIndex + 1} / ${group.photos.length}`;
-      }
-
-      thumbnails.querySelectorAll('.gallery-thumb').forEach((thumbnail, i) => {
-        thumbnail.classList.toggle('active', i === activePhotoIndex);
-      });
-
-      const activeThumbnail = thumbnails.querySelector('.gallery-thumb.active');
-
-      activeThumbnail?.scrollIntoView({
-        behavior: 'smooth',
-        block: 'nearest',
-        inline: 'nearest'
-      });
-    };
-
-    const selectGroup = index => {
-      if (!currentGroups[index]) return;
-
-      activeGroupIndex = index;
-      activePhotoIndex = 0;
+        movePhoto(difference > 0 ? 1 : -1);
+      }, { passive: true });
 
       renderTabs();
-      renderThumbnails();
-      showPhoto(0);
-    };
-
-    const movePhoto = direction => {
-      showPhoto(activePhotoIndex + direction);
-    };
-
-    const openGallery = card => {
-      const cards = getSectionCards(card);
-      currentGroups = buildGroups(cards);
-
-      if (!currentGroups.length) return;
-
-      const clickedIndex = currentGroups.findIndex(
-        group => group.element === card
-      );
-
-      activeGroupIndex = clickedIndex >= 0 ? clickedIndex : 0;
-      activePhotoIndex = 0;
-
-      renderTabs();
-      renderThumbnails();
-      showPhoto(0);
-
-      gallery.classList.add('is-open');
-      gallery.setAttribute('aria-hidden', 'false');
-      body.classList.add('gallery-open');
-
-      closeButton?.focus();
-    };
-
-    const closeGallery = () => {
-      gallery.classList.remove('is-open');
-      gallery.setAttribute('aria-hidden', 'true');
-      body.classList.remove('gallery-open');
-    };
-
-    const galleryCards = document.querySelectorAll(
-      '#rooms [data-gallery], #food [data-gallery], #activities [data-gallery]'
-    );
-
-    galleryCards.forEach(card => {
-      card.addEventListener('click', event => {
-        if (event.target.closest('a, button')) return;
-        openGallery(card);
-      });
-
-      card.setAttribute('tabindex', '0');
-      card.setAttribute('role', 'button');
-      card.setAttribute(
-        'aria-label',
-        `Open ${getCardTitle(card)} photo gallery`
-      );
-
-      card.addEventListener('keydown', event => {
-        if (event.key === 'Enter' || event.key === ' ') {
-          event.preventDefault();
-          openGallery(card);
-        }
-      });
+      updatePhoto();
     });
-
-    closeButton?.addEventListener('click', closeGallery);
-
-    previousButton?.addEventListener('click', () => movePhoto(-1));
-    nextButton?.addEventListener('click', () => movePhoto(1));
-
-    gallery.addEventListener('click', event => {
-      if (
-        event.target === gallery ||
-        event.target.classList.contains('photo-gallery-backdrop')
-      ) {
-        closeGallery();
-      }
-    });
-
-    document.addEventListener('keydown', event => {
-      if (!gallery.classList.contains('is-open')) return;
-
-      if (event.key === 'Escape') {
-        closeGallery();
-      } else if (event.key === 'ArrowLeft') {
-        movePhoto(-1);
-      } else if (event.key === 'ArrowRight') {
-        movePhoto(1);
-      }
-    });
-
-    const stage = gallery.querySelector('.gallery-stage');
-
-    stage?.addEventListener('touchstart', event => {
-      touchStartX = event.changedTouches[0].screenX;
-    }, { passive: true });
-
-    stage?.addEventListener('touchend', event => {
-      const touchEndX = event.changedTouches[0].screenX;
-      const difference = touchStartX - touchEndX;
-
-      if (Math.abs(difference) < 45) return;
-
-      movePhoto(difference > 0 ? 1 : -1);
-    }, { passive: true });
-
   })();
 
 })();
