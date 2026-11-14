@@ -267,6 +267,7 @@ setupLocalWeather();
   setupRadio();
   
  
+
 /* PHOTO GALLERY */
 (() => {
   const gallery = document.getElementById("photoGallery");
@@ -276,86 +277,149 @@ setupLocalWeather();
   const mainImage = document.getElementById("galleryMainImage");
   const thumbnails = document.getElementById("galleryThumbnails");
   const counter = document.getElementById("galleryCounter");
+  const tabs = document.getElementById("galleryTabs");
   const prev = gallery.querySelector(".gallery-prev");
   const next = gallery.querySelector(".gallery-next");
 
-  let photos = [];
-  let currentIndex = 0;
+  let groups = [];
+  let currentGroup = 0;
+  let currentPhoto = 0;
   let lastFocused = null;
   let touchStartX = 0;
 
-  function showPhoto(index) {
-    if (!photos.length) return;
+  const doubleBedIcon = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 19V9m18 10V9M3 14h18M5 14V8a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v6M3 19v2m18-2v2M7 10h10"/></svg>`;
+  const singleBedIcon = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19V8m16 11V8M4 14h16M6 14V9h12v5M4 19v2m16-2v2"/></svg>`;
 
-    currentIndex = (index + photos.length) % photos.length;
-    const photo = photos[currentIndex];
-
-    title.textContent = photo.title;
-    mainImage.src = photo.src;
-    mainImage.alt = photo.title + " photo " + (photo.photoIndex + 1);
-
-    counter.textContent = (photo.photoIndex + 1) + " / " + photo.groupLength;
-
-    thumbnails.querySelectorAll(".gallery-thumb").forEach((button, i) => {
-      button.classList.toggle("active", i === currentIndex);
-    });
-
-    prev.style.display = photos.length > 1 ? "" : "none";
-    next.style.display = photos.length > 1 ? "" : "none";
+  function getGroupIcon(groupTitle) {
+    if (groupTitle.includes("Deluxe")) return doubleBedIcon;
+    if (groupTitle.includes("Triple")) return `<span class="gallery-bed-icons">${doubleBedIcon}${singleBedIcon}</span>`;
+    if (groupTitle.includes("Cocktail")) return `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h18l-8 9v6h5v2H6v-2h5v-6L3 4Z"/></svg>`;
+    if (groupTitle.includes("Coffee")) return `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h14v8a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4V8Zm14 2h2a2 2 0 0 1 0 4h-2M8 4c-1 1 1 2 0 3m5-3c-1 1 1 2 0 3"/></svg>`;
+    return `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 4v16M7 4v6m3-6v6M7 10v10M15 4c-2 3-2 6 0 8v8m0-8h4V4"/></svg>`;
   }
 
-  function openGallery(card) {
-    const groups = [card, ...card.querySelectorAll("[data-gallery-group]")];
+  function renderTabs() {
+    tabs.innerHTML = "";
 
-    photos = [];
+    groups.forEach((group, index) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "gallery-tab";
+      button.classList.toggle("active", index === currentGroup);
+      button.setAttribute("aria-pressed", String(index === currentGroup));
 
-    groups.forEach(group => {
-      const files = (group.dataset.gallery || "")
-        .split("|")
-        .map(photo => photo.trim())
-        .filter(Boolean);
+      const icon = document.createElement("span");
+      icon.className = "gallery-tab-icon";
+      icon.innerHTML = getGroupIcon(group.title);
 
-      const groupTitle = group.dataset.galleryTitle || "Photo Gallery";
+      const label = document.createElement("span");
+      label.className = "gallery-tab-label";
+      label.textContent = group.shortTitle;
 
-      files.forEach((src, index) => {
-        photos.push({
-          src,
-          title: groupTitle,
-          photoIndex: index,
-          groupLength: files.length
-        });
-      });
+      button.append(icon, label);
+      button.addEventListener("click", () => selectGroup(index));
+      tabs.appendChild(button);
     });
+  }
 
-    if (!photos.length) return;
-
-    lastFocused = document.activeElement;
+  function renderThumbnails() {
     thumbnails.innerHTML = "";
 
-    photos.forEach((photo, index) => {
+    groups[currentGroup].photos.forEach((src, index) => {
       const button = document.createElement("button");
-      button.className = "gallery-thumb";
       button.type = "button";
-      button.setAttribute(
-        "aria-label",
-        photo.title + " photo " + (photo.photoIndex + 1)
-      );
+      button.className = "gallery-thumb";
+      button.classList.toggle("active", index === currentPhoto);
+      button.setAttribute("aria-label", "Photo " + (index + 1));
 
       const image = document.createElement("img");
-      image.src = photo.src;
+      image.src = src;
       image.alt = "";
 
       button.appendChild(image);
       button.addEventListener("click", () => showPhoto(index));
       thumbnails.appendChild(button);
     });
+  }
 
+  function showPhoto(index) {
+    const photos = groups[currentGroup].photos;
+    if (!photos.length) return;
+
+    currentPhoto = Math.max(0, Math.min(index, photos.length - 1));
+
+    mainImage.src = photos[currentPhoto];
+    mainImage.alt = groups[currentGroup].title + " photo " + (currentPhoto + 1);
+    title.textContent = groups[currentGroup].title;
+    counter.textContent = (currentPhoto + 1) + " / " + photos.length;
+
+    thumbnails.querySelectorAll(".gallery-thumb").forEach((button, i) => {
+      button.classList.toggle("active", i === currentPhoto);
+    });
+
+    prev.style.display = "flex";
+    next.style.display = "flex";
+    renderTabs();
+  }
+
+  function selectGroup(index) {
+    if (index < 0 || index >= groups.length) return;
+    currentGroup = index;
+    currentPhoto = 0;
+    renderThumbnails();
     showPhoto(0);
+  }
+
+  function movePhoto(direction) {
+    const photos = groups[currentGroup].photos;
+
+    if (direction > 0 && currentPhoto < photos.length - 1) {
+      showPhoto(currentPhoto + 1);
+      return;
+    }
+
+    if (direction < 0 && currentPhoto > 0) {
+      showPhoto(currentPhoto - 1);
+      return;
+    }
+
+    const nextGroup = currentGroup + direction;
+
+    if (nextGroup >= 0 && nextGroup < groups.length) {
+      selectGroup(nextGroup);
+    }
+  }
+
+  function openGallery(card) {
+    const elements = [card, ...card.querySelectorAll("[data-gallery-group]")];
+
+    groups = elements.map(group => {
+      const photos = (group.dataset.gallery || "")
+        .split("|")
+        .map(photo => photo.trim())
+        .filter(Boolean);
+
+      const groupTitle = group.dataset.galleryTitle || "Photo Gallery";
+
+      let shortTitle = groupTitle
+        .replace(" Room", "")
+        .toUpperCase();
+
+      return { title: groupTitle, shortTitle, photos };
+    }).filter(group => group.photos.length);
+
+    if (!groups.length) return;
+
+    lastFocused = document.activeElement;
+    currentGroup = 0;
+    currentPhoto = 0;
 
     gallery.classList.add("is-open");
     gallery.setAttribute("aria-hidden", "false");
     document.body.classList.add("gallery-open");
 
+    renderThumbnails();
+    showPhoto(0);
     gallery.querySelector(".gallery-close").focus();
   }
 
@@ -366,7 +430,8 @@ setupLocalWeather();
 
     mainImage.src = "";
     thumbnails.innerHTML = "";
-    photos = [];
+    tabs.innerHTML = "";
+    groups = [];
 
     if (lastFocused) lastFocused.focus();
   }
@@ -387,8 +452,8 @@ setupLocalWeather();
     });
   });
 
-  prev.addEventListener("click", () => showPhoto(currentIndex - 1));
-  next.addEventListener("click", () => showPhoto(currentIndex + 1));
+  prev.addEventListener("click", () => movePhoto(-1));
+  next.addEventListener("click", () => movePhoto(1));
 
   gallery.querySelectorAll("[data-gallery-close]").forEach(button => {
     button.addEventListener("click", closeGallery);
@@ -398,8 +463,8 @@ setupLocalWeather();
     if (!gallery.classList.contains("is-open")) return;
 
     if (event.key === "Escape") closeGallery();
-    if (event.key === "ArrowLeft") showPhoto(currentIndex - 1);
-    if (event.key === "ArrowRight") showPhoto(currentIndex + 1);
+    if (event.key === "ArrowLeft") movePhoto(-1);
+    if (event.key === "ArrowRight") movePhoto(1);
   });
 
   mainImage.addEventListener("touchstart", event => {
@@ -407,12 +472,8 @@ setupLocalWeather();
   }, { passive: true });
 
   mainImage.addEventListener("touchend", event => {
-    const touchEndX = event.changedTouches[0].screenX;
-    const difference = touchEndX - touchStartX;
-
-    if (Math.abs(difference) > 50) {
-      showPhoto(currentIndex + (difference < 0 ? 1 : -1));
-    }
+    const difference = event.changedTouches[0].screenX - touchStartX;
+    if (Math.abs(difference) > 50) movePhoto(difference < 0 ? 1 : -1);
   }, { passive: true });
 })();
 
