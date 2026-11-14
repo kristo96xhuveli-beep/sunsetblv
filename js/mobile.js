@@ -268,6 +268,7 @@ setupLocalWeather();
   
  
 
+
 /* PHOTO GALLERY */
 (() => {
   const gallery = document.getElementById("photoGallery");
@@ -287,8 +288,8 @@ setupLocalWeather();
   let lastFocused = null;
   let touchStartX = 0;
 
-  const doubleBedIcon = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 19V9m18 10V9M3 14h18M5 14V8a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v6M3 19v2m18-2v2M7 10h10"/></svg>`;
-  const singleBedIcon = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19V8m16 11V8M4 14h16M6 14V9h12v5M4 19v2m16-2v2"/></svg>`;
+  const doubleBedIcon = `<svg viewBox="0 0 32 32" aria-hidden="true"><path d="M4 26V8h2v9h20V8h2v18h-2v-5H6v5H4Z"/><path d="M8 17v-5a3 3 0 0 1 3-3h10a3 3 0 0 1 3 3v5M8 17h16"/></svg>`;
+  const singleBedIcon = `<svg viewBox="0 0 32 32" aria-hidden="true"><path d="M6 26V8h2v9h16V8h2v18h-2v-5H8v5H6Z"/><path d="M10 17v-5a3 3 0 0 1 3-3h6a3 3 0 0 1 3 3v5M10 17h12"/></svg>`;
 
   function getGroupIcon(groupTitle) {
     if (groupTitle.includes("Deluxe")) return doubleBedIcon;
@@ -316,7 +317,7 @@ setupLocalWeather();
       label.className = "gallery-tab-label";
       label.textContent = group.shortTitle;
 
-      button.append(icon, label);
+      button.append(label, icon);
       button.addEventListener("click", () => selectGroup(index));
       tabs.appendChild(button);
     });
