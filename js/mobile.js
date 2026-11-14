@@ -22,7 +22,8 @@
       });
     });
   });
-  
+
+  /* WEATHER FORCAST */
 function setupLocalWeather() {
   const timeEl=document.getElementById('qeparoTime'), dateEl=document.getElementById('qeparoDate'), tempEl=document.getElementById('weatherTemp'), descEl=document.getElementById('weatherDescription'), iconEl=document.getElementById('weatherIcon');
   if (!timeEl || !dateEl || !tempEl || !descEl || !iconEl) return;
@@ -76,6 +77,7 @@ function setupLocalWeather() {
 
 setupLocalWeather();
 
+  /* RADIO PLAYER */
 
   function setupRadio() {
   const audio = document.getElementById('radioPlayer');
@@ -264,11 +266,10 @@ setupLocalWeather();
 }
   setupRadio();
   
-  /* PHOTO GALLERY */
-
+ 
+/* PHOTO GALLERY */
 (() => {
   const gallery = document.getElementById("photoGallery");
-
   if (!gallery) return;
 
   const title = document.getElementById("galleryTitle");
@@ -287,12 +288,13 @@ setupLocalWeather();
     if (!photos.length) return;
 
     currentIndex = (index + photos.length) % photos.length;
+    const photo = photos[currentIndex];
 
-    mainImage.src = photos[currentIndex];
-    mainImage.alt = title.textContent + " photo " + (currentIndex + 1);
+    title.textContent = photo.title;
+    mainImage.src = photo.src;
+    mainImage.alt = photo.title + " photo " + (photo.photoIndex + 1);
 
-    counter.textContent =
-      (currentIndex + 1) + " / " + photos.length;
+    counter.textContent = (photo.photoIndex + 1) + " / " + photo.groupLength;
 
     thumbnails.querySelectorAll(".gallery-thumb").forEach((button, i) => {
       button.classList.toggle("active", i === currentIndex);
@@ -303,33 +305,48 @@ setupLocalWeather();
   }
 
   function openGallery(card) {
-    photos = card.dataset.gallery
-      .split("|")
-      .map(photo => photo.trim())
-      .filter(Boolean);
+    const groups = [card, ...card.querySelectorAll("[data-gallery-group]")];
+
+    photos = [];
+
+    groups.forEach(group => {
+      const files = (group.dataset.gallery || "")
+        .split("|")
+        .map(photo => photo.trim())
+        .filter(Boolean);
+
+      const groupTitle = group.dataset.galleryTitle || "Photo Gallery";
+
+      files.forEach((src, index) => {
+        photos.push({
+          src,
+          title: groupTitle,
+          photoIndex: index,
+          groupLength: files.length
+        });
+      });
+    });
 
     if (!photos.length) return;
 
     lastFocused = document.activeElement;
-
-    title.textContent = card.dataset.galleryTitle || "Photo Gallery";
-
     thumbnails.innerHTML = "";
 
     photos.forEach((photo, index) => {
       const button = document.createElement("button");
       button.className = "gallery-thumb";
       button.type = "button";
-      button.setAttribute("aria-label", "Show photo " + (index + 1));
+      button.setAttribute(
+        "aria-label",
+        photo.title + " photo " + (photo.photoIndex + 1)
+      );
 
       const image = document.createElement("img");
-      image.src = photo;
+      image.src = photo.src;
       image.alt = "";
 
       button.appendChild(image);
-
       button.addEventListener("click", () => showPhoto(index));
-
       thumbnails.appendChild(button);
     });
 
@@ -349,11 +366,14 @@ setupLocalWeather();
 
     mainImage.src = "";
     thumbnails.innerHTML = "";
+    photos = [];
 
     if (lastFocused) lastFocused.focus();
   }
 
-  document.querySelectorAll("[data-gallery]").forEach(card => {
+  document.querySelectorAll(
+    ".room-card[data-gallery-group], .simple-grid article[data-gallery-group]"
+  ).forEach(card => {
     card.addEventListener("click", event => {
       if (event.target.closest("a, button")) return;
       openGallery(card);
@@ -394,6 +414,6 @@ setupLocalWeather();
       showPhoto(currentIndex + (difference < 0 ? 1 : -1));
     }
   }, { passive: true });
-
 })();
+
   })();
