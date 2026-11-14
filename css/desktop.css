@@ -132,20 +132,17 @@ html { scroll-behavior:smooth; }
 }
 
 /* 14. RADIO PLAYER */
-.radio-player-bar { position:fixed; right:28px; bottom:25px; z-index:1000; width:310px; background:rgba(11,31,58,.88); color:#fff; border-radius:20px; padding:14px 17px 10px; box-shadow:0 6px 24px #0003; backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); }
+.music-button { background:var(--navy); color:#fff; border:0; border-radius:20px; padding:9px 13px; font-size:12px; cursor:pointer; }
+.radio-player-bar { position:fixed; left:50%; top:50%; transform:translate(-50%,-50%); z-index:1000; width:310px; box-sizing:border-box; background:rgba(11,31,58,.78); color:#fff; border-radius:20px; padding:5px 14px; box-shadow:0 6px 24px rgba(0,0,0,.18); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); }
 .radio-player-bar[hidden],.radio-volume-panel[hidden] { display:none; }
-.radio-player-heading { display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:10px; }
-.radio-player-heading strong { display:block; font:600 13px Arial,sans-serif; letter-spacing:.3px; }
-.radio-player-heading span { display:block; margin-top:3px; font:11px Arial,sans-serif; opacity:.75; }
-.radio-player-close { background:none; border:0; color:#fff; font-size:25px; line-height:1; padding:3px 5px; cursor:pointer; }
 .radio-player-controls { display:flex; align-items:center; justify-content:space-around; gap:18px; position:relative; }
 .radio-control { width:44px; height:40px; display:flex; align-items:center; justify-content:center; border:0; border-radius:50%; background:transparent; color:#fff; cursor:pointer; }
 .radio-control svg { width:22px; height:22px; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round; stroke-linejoin:round; }
 .radio-play-button { width:48px; height:48px; background:rgba(255,255,255,.16); }
 .radio-play-button svg { width:25px; height:25px; }
 .radio-volume-wrap { position:relative; }
-.radio-volume-panel { position:absolute; left:-10px; bottom:calc(100% + 14px); width:150px; padding:13px; border-radius:12px; background:#fff; box-shadow:0 4px 18px #0003; }
-.radio-volume-panel input { display:block; width:100%; accent-color:#0b1f3a; }
+.radio-volume-panel { position:absolute; left:-10px; bottom:calc(100% + 14px); width:150px; padding:13px; border-radius:12px; background:#fff; box-shadow:0 4px 18px rgba(0,0,0,.2); }
+.radio-volume-panel input { display:block; width:100%; accent-color:var(--navy); }
 
 /* 15. MOBILE FEATURE SECTIONS */
 @media (max-width:767px) {
