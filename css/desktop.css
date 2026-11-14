@@ -74,6 +74,8 @@ body.dark .desktop-info-strip .local-time { border-color:#344453; }
 .pill { display:inline-block; background:#eaf2f7; color:#315d7a; border-radius:30px; padding:5px 9px; font:10px Arial,sans-serif; }
 .room-card,.simple-grid article { cursor:pointer; }
 .room-card a,.simple-grid article a { cursor:pointer; }
+/* REDUCE SPACE BELOW EXPERIENCE STRIP */
+#rooms.content-section { padding-top: 48px; }
 
 
 /* 8. TINTED SECTIONS */
