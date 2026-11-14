@@ -207,7 +207,7 @@
     });
   }
 
-  /* 5. INLINE FEATURE GALLERIES */
+    /* 5. INLINE FEATURE GALLERIES WITH AUTOMATIC PHOTO COLOURS */
   (() => {
     const galleries = document.querySelectorAll('[data-feature-gallery]');
     if (!galleries.length) return;
@@ -228,6 +228,109 @@
       .split(/[|,]/)
       .map(photo => photo.trim())
       .filter(Boolean);
+
+    const colourCache = new Map();
+
+    function getPhotoColour(image) {
+      if (!image.complete || !image.naturalWidth) return null;
+
+      try {
+        const canvas = document.createElement('canvas');
+        const context = canvas.getContext('2d', { willReadFrequently: true });
+
+        canvas.width = 40;
+        canvas.height = 40;
+
+        context.drawImage(image, 0, 0, 40, 40);
+
+        const pixels = context.getImageData(0, 0, 40, 40).data;
+        const buckets = new Map();
+
+        for (let i = 0; i < pixels.length; i += 16) {
+          const r = pixels[i];
+          const g = pixels[i + 1];
+          const b = pixels[i + 2];
+          const alpha = pixels[i + 3];
+
+          if (alpha < 180) continue;
+
+          const brightness = (r + g + b) / 3;
+          const max = Math.max(r, g, b);
+          const min = Math.min(r, g, b);
+
+          // Ignore very dark and nearly white pixels.
+          if (brightness < 28 || brightness > 238) continue;
+
+          // Give colourful pixels more influence than grey pixels.
+          const saturation = max === 0 ? 0 : (max - min) / max;
+          if (saturation < 0.12) continue;
+
+          const qr = Math.round(r / 32);
+          const qg = Math.round(g / 32);
+          const qb = Math.round(b / 32);
+          const key = `${qr},${qg},${qb}`;
+
+          const existing = buckets.get(key) || {
+            count: 0,
+            r: 0,
+            g: 0,
+            b: 0
+          };
+
+          existing.count++;
+          existing.r += r;
+          existing.g += g;
+          existing.b += b;
+
+          buckets.set(key, existing);
+        }
+
+        if (!buckets.size) return null;
+
+        let dominant = null;
+
+        buckets.forEach(bucket => {
+          if (!dominant || bucket.count > dominant.count) {
+            dominant = bucket;
+          }
+        });
+
+        const r = Math.round(dominant.r / dominant.count);
+        const g = Math.round(dominant.g / dominant.count);
+        const b = Math.round(dominant.b / dominant.count);
+
+        // Blend the sampled colour with navy for an elegant, readable stripe.
+        const navy = { r: 11, g: 31, b: 58 };
+        const blend = 0.62;
+
+        const finalR = Math.round(r * blend + navy.r * (1 - blend));
+        const finalG = Math.round(g * blend + navy.g * (1 - blend));
+        const finalB = Math.round(b * blend + navy.b * (1 - blend));
+
+        return `rgb(${finalR}, ${finalG}, ${finalB})`;
+
+      } catch (error) {
+        // If the browser cannot read image pixels, keep the default navy.
+        return null;
+      }
+    }
+
+    function updateStripeColour(image, tabs) {
+      const source = image.currentSrc || image.src;
+
+      if (colourCache.has(source)) {
+        const cached = colourCache.get(source);
+        if (cached) tabs.style.setProperty('--gallery-stripe-colour', cached);
+        return;
+      }
+
+      const colour = getPhotoColour(image);
+
+      if (colour) {
+        colourCache.set(source, colour);
+        tabs.style.setProperty('--gallery-stripe-colour', colour);
+      }
+    }
 
     galleries.forEach(gallery => {
       const tabs = gallery.querySelector('.feature-category-tabs');
@@ -252,6 +355,16 @@
       let activePhotoIndex = 0;
       let touchStartX = 0;
 
+      const updatePhotoColour = () => {
+        const applyColour = () => updateStripeColour(mainImage, tabs);
+
+        if (mainImage.complete && mainImage.naturalWidth) {
+          applyColour();
+        } else {
+          mainImage.addEventListener('load', applyColour, { once: true });
+        }
+      };
+
       const updatePhoto = () => {
         const group = groups[activeGroupIndex];
         const photo = group.photos[activePhotoIndex];
@@ -264,6 +377,8 @@
         }
 
         gallery.dataset.singlePhoto = String(group.photos.length <= 1);
+
+        updatePhotoColour();
       };
 
       const renderTabs = () => {
@@ -278,16 +393,16 @@
           tab.setAttribute('role', 'tab');
           tab.setAttribute('aria-selected', String(index === activeGroupIndex));
 
+          if (index === activeGroupIndex) {
+            tab.classList.add('active');
+          }
+
           tab.addEventListener('click', () => {
             activeGroupIndex = index;
             activePhotoIndex = 0;
             renderTabs();
             updatePhoto();
           });
-
-          if (index === activeGroupIndex) {
-            tab.classList.add('active');
-          }
 
           tabs.appendChild(tab);
         });
