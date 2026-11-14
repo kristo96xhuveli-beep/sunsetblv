@@ -156,7 +156,7 @@ html { scroll-behavior:smooth; }
   .feature-gallery { width:100%; max-width:none; }
   .feature-image-wrap { aspect-ratio:1.1 / 1; border-radius:15px; }
   .feature-category-tab { min-height:36px; padding:7px 4px; font-size:9px; letter-spacing:0; }
-  .feature-arrow { width:34px; height:34px; font-size:22px; border-radius:8px; }
+  .feature-arrow { width:30px; height:30px; font-size:20px; border-radius:7px; }
   .feature-prev { left:9px; }
   .feature-next { right:9px; }
   .feature-counter { right:11px; bottom:11px; padding:8px 11px; font-size:11px; }
