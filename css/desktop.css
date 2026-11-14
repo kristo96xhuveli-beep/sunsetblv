@@ -49,12 +49,10 @@ body.dark .desktop-info-strip .weather-label,body.dark .desktop-info-strip .loca
 body.dark .desktop-info-strip .local-time { border-color:#344453; }
 
 /* 6. GENERAL CONTENT SECTIONS */
-.content-section { padding:76px 6vw; scroll-margin-top:85px; }
+.content-section { padding:38px 6vw 76px; scroll-margin-top:85px; }
 .content-section h2,footer h2 { font-size:38px; font-weight:500; text-align:center; margin:7px 0 12px; }
 .content-section > .eyebrow,footer > .eyebrow { text-align:center; }
 .content-section > p { text-align:center; color:var(--muted); font-size:14px; }
-
-
 
 /* 7. ROOMS & CONTENT CARD GRIDS */
 .room-grid,.simple-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:22px; max-width:1240px; margin:30px auto 0; }
@@ -74,9 +72,9 @@ body.dark .desktop-info-strip .local-time { border-color:#344453; }
 .pill { display:inline-block; background:#eaf2f7; color:#315d7a; border-radius:30px; padding:5px 9px; font:10px Arial,sans-serif; }
 .room-card,.simple-grid article { cursor:pointer; }
 .room-card a,.simple-grid article a { cursor:pointer; }
-/* REDUCE SPACE BELOW EXPERIENCE STRIP */
-#rooms.content-section { padding-top: 48px; }
 
+/* REDUCE SPACE BELOW EXPERIENCE STRIP */
+#rooms.content-section { padding-top:38px; }
 
 /* 8. TINTED SECTIONS */
 .tinted { background:var(--soft); }
@@ -179,9 +177,3 @@ body.gallery-open { overflow:hidden; }
 .gallery-bottom { width: 100%; flex: 0 0 auto; margin: 10px 0 0; box-sizing: border-box; }
 .gallery-thumbnails { width: 100%; min-width: 0; max-width: 100%; box-sizing: border-box; }
 .gallery-close { position: fixed !important; top: 20px !important; right: 20px !important; z-index: 10001; }
-
-
-
-
-
-
