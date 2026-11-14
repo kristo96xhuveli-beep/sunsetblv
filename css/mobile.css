@@ -75,6 +75,7 @@ footer h2 { font-size: 28px; font-weight: 500; text-align: center; margin: 5px 0
 footer > .eyebrow { text-align: center; }
 .content-section > p { text-align: center; }
 
+
 /* 10. ROOMS — FULL-WIDTH PHOTOGRAPHS + GALLERY INDICATOR */
 .room-grid { display: grid; gap: 45px; width: calc(100% + 32px); margin: 30px -16px 0; }
 .room-card { background: transparent; border: none; border-radius: 0; overflow: visible; box-shadow: none; text-align: center; cursor: pointer; }
@@ -94,9 +95,21 @@ footer > .eyebrow { text-align: center; }
 .room-card p { max-width: 300px; margin: 0 auto 23px; font-size: 14px; line-height: 1.75; color: var(--muted); }
 .pill { display: inline-block; background: #edf3f6; color: #607d8b; border-radius: 30px; padding: 6px 13px; font: 10px Arial, sans-serif; letter-spacing: .3px; }
 .primary-link { display: inline-block; background: var(--navy); color: #fff; text-decoration: none; border-radius: 7px; padding: 11px 22px; font: 13px Arial, sans-serif; letter-spacing: .2px; }
+
+/* HIDE OLD GALLERY TITLE */
 #galleryTitle { display: none !important; }
 
-/* 11. FOOD & DRINKS / ACTIVITIES  */
+/* GALLERY CATEGORY SELECTORS */
+.gallery-tabs { display: flex; flex-wrap: nowrap; width: 100%; align-items: stretch; justify-content: space-between; background: #293b5d; border: 1px solid #405273; border-radius: 50px; padding: 7px; gap: 3px; }
+.gallery-tab { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 7px; padding: 10px 4px; border: 0; border-radius: 40px; background: transparent; color: #e8edf5; cursor: pointer; }
+.gallery-tab.active { background: #fff; color: #102b4e; }
+.gallery-tab-label { order: 1; display: block; white-space: nowrap; font-size: 11px; font-weight: 600; text-align: center; }
+.gallery-tab-icon { order: 2; display: flex; align-items: center; justify-content: center; gap: 3px; height: 34px; }
+.gallery-tab-icon svg { width: 27px; height: 27px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.gallery-bed-icons { display: flex; align-items: center; justify-content: center; gap: 3px; }
+.gallery-bed-icons svg { width: 25px; height: 27px; }
+
+/* 11. FOOD & DRINKS / ACTIVITIES */
 .simple-grid { display: grid; gap: 35px; margin: 25px -16px 0; }
 .simple-grid article { background: transparent; border: none; border-radius: 0; box-shadow: none; overflow: visible; padding: 0 0 20px; text-align: center; }
 .simple-grid img { display: block; width: 100%; height: auto; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 0; }
@@ -107,7 +120,8 @@ footer > .eyebrow { text-align: center; }
 /* BACKGROUND */
 #food { background-color: #F3F7F7; }
 #activities { background-color: #FFFFFF; }
-/* ROUNDED CORNERS — MAIN GALLERY PHOTOS */
+
+/* ROUNDED CORNERS PHOTOS */
 /* Room photos */
 .room-card > img,
 .room-card .gallery-image-wrap { border-radius: 14px; overflow: hidden; }
