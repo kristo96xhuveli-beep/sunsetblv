@@ -144,68 +144,195 @@
     });
   }
 
-  /* 4. HOTEL RADIO */
+  
+/* 4. HOTEL RADIO – DESKTOP PLAYER */
+(() => {
   const audio = document.getElementById('radioPlayer');
-  const button = document.getElementById('musicToggle');
+  const musicButton = document.getElementById('musicToggle');
+  const playerBar = document.getElementById('radioPlayerBar');
+  const closeButton = document.getElementById('radioPlayerClose');
+  const playPauseButton = document.getElementById('musicPlayPause');
+  const playPauseIcon = document.getElementById('playPauseIcon');
+  const nextButton = document.getElementById('musicNext');
+  const volumeToggle = document.getElementById('volumeToggle');
+  const volumePanel = document.getElementById('radioVolumePanel');
+  const volumeSlider = document.getElementById('volumeSlider');
+  const status = document.getElementById('radioStatus');
 
-  if (audio && button) {
-    let playlist = [];
-    let started = false;
-    let muted = false;
-    let previous = -1;
+  if (!audio || !musicButton || !playerBar) return;
 
-    fetch('audio.json')
-      .then(r => {
-        if (!r.ok) throw new Error('audio.json not found');
-        return r.json();
-      })
-      .then(data => {
-        const h = new Date().getHours();
+  let playlist = [];
+  let previousTrack = -1;
+  let playlistReady = false;
 
-        playlist =
-          h >= 6 && h < 12 ? data.morning || [] :
-          h >= 12 && h < 20 ? data.day || [] :
-          data.night || [];
-      })
-      .catch(() => {
-        button.title = 'Add audio.json to enable the hotel radio';
-      });
+  audio.volume = 0.7;
 
-    function nextTrack() {
-      if (!playlist.length) return;
+  function openPlayer() {
+    playerBar.hidden = false;
+    musicButton.setAttribute('aria-expanded', 'true');
+  }
 
-      let i = Math.floor(Math.random() * playlist.length);
+  function closePlayer() {
+    playerBar.hidden = true;
+    musicButton.setAttribute('aria-expanded', 'false');
+    if (volumePanel) volumePanel.hidden = true;
+    if (volumeToggle) volumeToggle.setAttribute('aria-expanded', 'false');
+  }
 
-      if (playlist.length > 1 && i === previous) {
-        i = (i + 1) % playlist.length;
-      }
+  function updatePlayButton(playing) {
+    if (!playPauseButton || !playPauseIcon) return;
 
-      previous = i;
-      audio.src = playlist[i];
-      audio.play().catch(() => {});
+    if (playing) {
+      playPauseButton.setAttribute('aria-label', 'Pause music');
+      playPauseIcon.innerHTML = '<path d="M8 5h3v14H8z"></path><path d="M15 5h3v14h-3z"></path>';
+    } else {
+      playPauseButton.setAttribute('aria-label', 'Play music');
+      playPauseIcon.innerHTML = '<path d="M8 5v14l11-7Z"></path>';
+    }
+  }
+
+  function setStatus(message) {
+    if (status) status.textContent = message;
+  }
+
+  function choosePlaylist(data) {
+    const hour = Number(
+      new Intl.DateTimeFormat('en-GB', {
+        timeZone: 'Europe/Tirane',
+        hour: '2-digit',
+        hourCycle: 'h23'
+      }).format(new Date())
+    );
+
+    if (hour >= 6 && hour < 12) return data.morning || [];
+    if (hour >= 12 && hour < 20) return data.day || [];
+    return data.night || [];
+  }
+
+  async function playNextTrack() {
+    if (!playlistReady) {
+      setStatus('Loading music...');
+      return;
     }
 
-    audio.addEventListener('ended', nextTrack);
+    if (!playlist.length) {
+      setStatus('No music available');
+      updatePlayButton(false);
+      return;
+    }
 
-    button.addEventListener('click', async () => {
-      if (!started) {
-        if (!audio.src) nextTrack();
+    let nextIndex = Math.floor(Math.random() * playlist.length);
 
-        try {
-          await audio.play();
-          started = true;
-          muted = false;
-          button.textContent = '🔇 Mute';
-        } catch {
-          button.textContent = 'Tap to play';
-        }
-      } else {
-        muted = !muted;
-        audio.muted = muted;
-        button.textContent = muted ? '🔊 Unmute' : '🔇 Mute';
-      }
-    });
+    if (playlist.length > 1 && nextIndex === previousTrack) {
+      nextIndex = (nextIndex + 1) % playlist.length;
+    }
+
+    previousTrack = nextIndex;
+    audio.src = playlist[nextIndex];
+
+    setStatus('Loading track...');
+
+    try {
+      await audio.play();
+      updatePlayButton(true);
+      setStatus('Now playing');
+    } catch (error) {
+      updatePlayButton(false);
+      setStatus('Tap play to start music');
+    }
   }
+
+  async function togglePlayback() {
+    if (!playlistReady) {
+      setStatus('Loading music...');
+      return;
+    }
+
+    if (audio.paused) {
+      if (!audio.src) {
+        await playNextTrack();
+        return;
+      }
+
+      try {
+        await audio.play();
+        updatePlayButton(true);
+        setStatus('Now playing');
+      } catch (error) {
+        updatePlayButton(false);
+        setStatus('Unable to play music');
+      }
+    } else {
+      audio.pause();
+      updatePlayButton(false);
+      setStatus('Music paused');
+    }
+  }
+
+  // Load playlists according to Qeparo local time.
+  fetch('audio.json')
+    .then(response => {
+      if (!response.ok) throw new Error('Playlist not found');
+      return response.json();
+    })
+    .then(data => {
+      playlist = choosePlaylist(data);
+      playlistReady = true;
+
+      if (playlist.length) {
+        setStatus('Ready to play');
+      } else {
+        setStatus('No tracks in this playlist');
+      }
+    })
+    .catch(error => {
+      console.error('Radio playlist error:', error);
+      playlistReady = true;
+      setStatus('Music unavailable');
+    });
+
+  // Header Music button opens and closes the player.
+  musicButton.addEventListener('click', () => {
+    if (playerBar.hidden) {
+      openPlayer();
+    } else {
+      closePlayer();
+    }
+  });
+
+  // Close player without stopping the music.
+  closeButton?.addEventListener('click', closePlayer);
+
+  // Play / pause.
+  playPauseButton?.addEventListener('click', togglePlayback);
+
+  // Next random track.
+  nextButton?.addEventListener('click', playNextTrack);
+
+  // Volume panel.
+  volumeToggle?.addEventListener('click', () => {
+    if (!volumePanel) return;
+
+    volumePanel.hidden = !volumePanel.hidden;
+    volumeToggle.setAttribute(
+      'aria-expanded',
+      String(!volumePanel.hidden)
+    );
+  });
+
+  // Volume slider.
+  volumeSlider?.addEventListener('input', () => {
+    audio.volume = Number(volumeSlider.value);
+    audio.muted = false;
+  });
+
+  // Automatically play the next track when one ends.
+  audio.addEventListener('ended', playNextTrack);
+
+  audio.addEventListener('play', () => updatePlayButton(true));
+  audio.addEventListener('pause', () => updatePlayButton(false));
+
+})();
 
     /* 5. INLINE FEATURE GALLERIES WITH AUTOMATIC PHOTO COLOURS */
   (() => {
