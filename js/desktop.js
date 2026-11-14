@@ -26,80 +26,177 @@
       muted = !muted; audio.muted = muted; button.textContent = muted ? '🔊 Unmute' : '🔇 Mute';
     }
   });
-  /* PHOTO GALLERY */
+  
+/* PHOTO GALLERY */
 
 (() => {
   const gallery = document.getElementById("photoGallery");
-
   if (!gallery) return;
 
+  const heading = document.getElementById("galleryHeading");
   const title = document.getElementById("galleryTitle");
   const mainImage = document.getElementById("galleryMainImage");
   const thumbnails = document.getElementById("galleryThumbnails");
   const counter = document.getElementById("galleryCounter");
+  const tabs = document.getElementById("galleryTabs");
   const prev = gallery.querySelector(".gallery-prev");
   const next = gallery.querySelector(".gallery-next");
 
-  let photos = [];
-  let currentIndex = 0;
+  const roomCards = [...document.querySelectorAll("#rooms .room-card[data-gallery]")];
+
+  let groups = [];
+  let currentGroup = 0;
+  let currentPhoto = 0;
   let lastFocused = null;
   let touchStartX = 0;
 
-  function showPhoto(index) {
-    if (!photos.length) return;
+  const doubleBedIcon = `<svg viewBox="0 0 40 32" aria-hidden="true"><path d="M5 25V8M35 25V8M5 20H35M8 20V13Q8 10 11 10H29Q32 10 32 13V20M5 25V28M35 25V28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="10" y="12" width="9" height="5" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="21" y="12" width="9" height="5" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>`;
 
-    currentIndex = (index + photos.length) % photos.length;
+  const singleBedIcon = `<svg viewBox="0 0 40 32" aria-hidden="true"><path d="M5 25V8M35 25V8M5 20H35M8 20V13Q8 10 11 10H29Q32 10 32 13V20M5 25V28M35 25V28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="14" y="12" width="12" height="5" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>`;
 
-    mainImage.src = photos[currentIndex];
-    mainImage.alt = title.textContent + " photo " + (currentIndex + 1);
+  function getGroupIcon(title) {
+    if (title.includes("Deluxe")) return doubleBedIcon;
 
-    counter.textContent =
-      (currentIndex + 1) + " / " + photos.length;
+    if (title.includes("Triple")) {
+      return `<span class="gallery-bed-icons">${doubleBedIcon}${singleBedIcon}</span>`;
+    }
 
-    thumbnails.querySelectorAll(".gallery-thumb").forEach((button, i) => {
-      button.classList.toggle("active", i === currentIndex);
-    });
-
-    prev.style.display = photos.length > 1 ? "" : "none";
-    next.style.display = photos.length > 1 ? "" : "none";
+    return doubleBedIcon;
   }
 
-  function openGallery(card) {
-    photos = card.dataset.gallery
-      .split("|")
-      .map(photo => photo.trim())
-      .filter(Boolean);
+  function renderTabs() {
+    tabs.innerHTML = "";
 
-    if (!photos.length) return;
+    groups.forEach((group, index) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "gallery-tab";
+      button.classList.toggle("active", index === currentGroup);
+      button.setAttribute("role", "tab");
+      button.setAttribute("aria-selected", String(index === currentGroup));
 
-    lastFocused = document.activeElement;
+      const label = document.createElement("span");
+      label.className = "gallery-tab-label";
+      label.textContent = group.shortTitle;
 
-    title.textContent = card.dataset.galleryTitle || "Photo Gallery";
+      const icon = document.createElement("span");
+      icon.className = "gallery-tab-icon";
+      icon.innerHTML = getGroupIcon(group.title);
 
+      button.append(label, icon);
+      button.addEventListener("click", () => selectGroup(index));
+      tabs.appendChild(button);
+    });
+  }
+
+  function renderThumbnails() {
     thumbnails.innerHTML = "";
 
-    photos.forEach((photo, index) => {
+    const photos = groups[currentGroup].photos;
+
+    photos.forEach((src, index) => {
       const button = document.createElement("button");
-      button.className = "gallery-thumb";
       button.type = "button";
+      button.className = "gallery-thumb";
+      button.classList.toggle("active", index === currentPhoto);
       button.setAttribute("aria-label", "Show photo " + (index + 1));
 
       const image = document.createElement("img");
-      image.src = photo;
+      image.src = src;
       image.alt = "";
 
       button.appendChild(image);
-
       button.addEventListener("click", () => showPhoto(index));
-
       thumbnails.appendChild(button);
     });
+  }
 
+  function showPhoto(index) {
+    const photos = groups[currentGroup].photos;
+    if (!photos.length) return;
+
+    currentPhoto = Math.max(0, Math.min(index, photos.length - 1));
+
+    mainImage.src = photos[currentPhoto];
+    mainImage.alt = groups[currentGroup].title + " photo " + (currentPhoto + 1);
+
+    title.textContent = groups[currentGroup].title;
+    counter.textContent = (currentPhoto + 1) + " / " + photos.length;
+
+    thumbnails.querySelectorAll(".gallery-thumb").forEach((button, i) => {
+      button.classList.toggle("active", i === currentPhoto);
+    });
+
+    prev.style.display = "flex";
+    next.style.display = "flex";
+
+    renderTabs();
+  }
+
+  function selectGroup(index) {
+    if (index < 0 || index >= groups.length) return;
+
+    currentGroup = index;
+    currentPhoto = 0;
+
+    renderThumbnails();
     showPhoto(0);
+  }
+
+  function movePhoto(direction) {
+    const photos = groups[currentGroup].photos;
+
+    if (direction > 0 && currentPhoto < photos.length - 1) {
+      showPhoto(currentPhoto + 1);
+      return;
+    }
+
+    if (direction < 0 && currentPhoto > 0) {
+      showPhoto(currentPhoto - 1);
+      return;
+    }
+
+    const nextGroup = currentGroup + direction;
+
+    if (nextGroup >= 0 && nextGroup < groups.length) {
+      selectGroup(nextGroup);
+    }
+  }
+
+  function openGallery(card) {
+    groups = roomCards.map(room => {
+      const groupTitle = room.dataset.galleryTitle || "Photo Gallery";
+
+      const photos = (room.dataset.gallery || "")
+        .split("|")
+        .map(photo => photo.trim())
+        .filter(Boolean);
+
+      return {
+        title: groupTitle,
+        shortTitle: groupTitle.replace(" Room", "").toUpperCase(),
+        photos
+      };
+    }).filter(group => group.photos.length);
+
+    if (!groups.length) return;
+
+    lastFocused = document.activeElement;
+
+    const clickedTitle = card.dataset.galleryTitle;
+    const selectedIndex = groups.findIndex(group => group.title === clickedTitle);
+
+    currentGroup = selectedIndex >= 0 ? selectedIndex : 0;
+    currentPhoto = 0;
+
+    heading.textContent = "Accommodation";
 
     gallery.classList.add("is-open");
     gallery.setAttribute("aria-hidden", "false");
     document.body.classList.add("gallery-open");
+
+    renderThumbnails();
+    showPhoto(0);
 
     gallery.querySelector(".gallery-close").focus();
   }
@@ -111,11 +208,16 @@
 
     mainImage.src = "";
     thumbnails.innerHTML = "";
+    tabs.innerHTML = "";
+    title.textContent = "";
+    counter.textContent = "";
+
+    groups = [];
 
     if (lastFocused) lastFocused.focus();
   }
 
-  document.querySelectorAll("[data-gallery]").forEach(card => {
+  roomCards.forEach(card => {
     card.addEventListener("click", event => {
       if (event.target.closest("a, button")) return;
       openGallery(card);
@@ -129,8 +231,8 @@
     });
   });
 
-  prev.addEventListener("click", () => showPhoto(currentIndex - 1));
-  next.addEventListener("click", () => showPhoto(currentIndex + 1));
+  prev.addEventListener("click", () => movePhoto(-1));
+  next.addEventListener("click", () => movePhoto(1));
 
   gallery.querySelectorAll("[data-gallery-close]").forEach(button => {
     button.addEventListener("click", closeGallery);
@@ -140,8 +242,8 @@
     if (!gallery.classList.contains("is-open")) return;
 
     if (event.key === "Escape") closeGallery();
-    if (event.key === "ArrowLeft") showPhoto(currentIndex - 1);
-    if (event.key === "ArrowRight") showPhoto(currentIndex + 1);
+    if (event.key === "ArrowLeft") movePhoto(-1);
+    if (event.key === "ArrowRight") movePhoto(1);
   });
 
   mainImage.addEventListener("touchstart", event => {
@@ -149,13 +251,13 @@
   }, { passive: true });
 
   mainImage.addEventListener("touchend", event => {
-    const touchEndX = event.changedTouches[0].screenX;
-    const difference = touchEndX - touchStartX;
+    const difference = event.changedTouches[0].screenX - touchStartX;
 
     if (Math.abs(difference) > 50) {
-      showPhoto(currentIndex + (difference < 0 ? 1 : -1));
+      movePhoto(difference < 0 ? 1 : -1);
     }
   }, { passive: true });
 
 })();
+
   })();
