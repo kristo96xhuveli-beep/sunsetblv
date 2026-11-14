@@ -158,20 +158,18 @@ body.gallery-open { overflow:hidden; }
 }
 
 
-/* 17. GALLERY — FIT ENTIRE GALLERY ON SCREEN */
-.photo-gallery { position: fixed; inset: 0; display: none; align-items: center; justify-content: center; padding: 16px; box-sizing: border-box; overflow: hidden; }
+
+/* 17. GALLERY — FIXED POSITION FOR ALL CATEGORIES */
+.photo-gallery { position: fixed; inset: 0; display: none; align-items: flex-start; justify-content: flex-start; padding: 0; overflow: hidden; }
 .photo-gallery.is-open { display: flex; }
-.photo-gallery-dialog { width: auto; height: auto; max-width: calc(100vw - 32px); max-height: calc(100vh - 32px); padding: 16px; box-sizing: border-box; display: flex; flex-direction: column; align-items: center; gap: 0; overflow: hidden; background: rgba(42, 55, 72, .94); }
-.gallery-tabs { width: min(100%, 58vh); height: 58px; min-height: 58px; flex: 0 0 58px; box-sizing: border-box; margin: 0 auto 12px; padding: 3px; display: flex; align-items: stretch; overflow: hidden; }
+.photo-gallery-dialog { position: fixed; top: 38px; left: clamp(24px, 7vw, 80px); width: min(504px, calc(100vw - 48px)); max-width: none; height: auto; max-height: calc(100vh - 70px); padding: 0; margin: 0; box-sizing: border-box; display: flex; flex-direction: column; align-items: stretch; gap: 0; overflow: visible; background: transparent !important; border: none !important; box-shadow: none !important; }
+.gallery-tabs { width: 100%; height: 62px; min-height: 62px; flex: 0 0 62px; box-sizing: border-box; margin: 0 0 14px; padding: 3px; display: flex; align-items: stretch; overflow: hidden; }
 .gallery-tab { flex: 1 1 0; min-width: 0; height: 100%; min-height: 0; margin: 0; padding: 4px 6px; box-sizing: border-box; display: flex; align-items: center; justify-content: center; border-radius: 40px; }
-.gallery-stage { width: min(58vh, calc(100vw - 64px)); max-width: 100%; aspect-ratio: 1 / 1; height: auto; min-height: 0; flex: 0 1 auto; margin: 0 auto; overflow: hidden; }
+.gallery-stage { width: 100%; aspect-ratio: 1 / 1; height: auto; min-height: 0; flex: none; margin: 0; overflow: hidden; }
 .gallery-stage img { display: block; width: 100%; height: 100%; object-fit: contain; object-position: center; }
-.gallery-bottom { width: min(100%, 58vh); flex: 0 0 auto; margin: 10px auto 0; box-sizing: border-box; }
+.gallery-bottom { width: 100%; flex: 0 0 auto; margin: 12px 0 0; box-sizing: border-box; }
 .gallery-thumbnails { width: 100%; min-width: 0; max-width: 100%; box-sizing: border-box; overflow-x: auto; overflow-y: hidden; }
-.gallery-counter { flex: 0 0 auto; }
-.gallery-close { position: absolute; top: 12px; right: 12px; z-index: 10; }
-/* TEMPORARY — REMOVE GALLERY BLUE BACKGROUND */
-.photo-gallery-dialog { background: transparent !important; box-shadow: none !important; border: none !important; }
+.gallery-close { position: fixed !important; top: 32px !important; right: 6vw !important; z-index: 10001; }
 
 
 
