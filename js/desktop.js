@@ -145,54 +145,50 @@
   }
 
   
+
 /* 4. HOTEL RADIO – DESKTOP PLAYER */
 (() => {
   const audio = document.getElementById('radioPlayer');
-  const musicButton = document.getElementById('musicToggle');
+  const headerButton = document.getElementById('musicToggle');
   const playerBar = document.getElementById('radioPlayerBar');
-  const closeButton = document.getElementById('radioPlayerClose');
-  const playPauseButton = document.getElementById('musicPlayPause');
-  const playPauseIcon = document.getElementById('playPauseIcon');
+  const playButton = document.getElementById('musicPlayPause');
+  const playIcon = document.getElementById('playPauseIcon');
   const nextButton = document.getElementById('musicNext');
-  const volumeToggle = document.getElementById('volumeToggle');
+  const volumeButton = document.getElementById('volumeToggle');
   const volumePanel = document.getElementById('radioVolumePanel');
   const volumeSlider = document.getElementById('volumeSlider');
   const status = document.getElementById('radioStatus');
 
-  if (!audio || !musicButton || !playerBar) return;
+  if (
+    !audio || !headerButton || !playerBar ||
+    !playButton || !playIcon || !nextButton ||
+    !volumeButton || !volumePanel || !volumeSlider
+  ) return;
 
   let playlist = [];
   let previousTrack = -1;
   let playlistReady = false;
 
-  audio.volume = 0.7;
+  audio.volume = Number(volumeSlider.value);
 
-  function openPlayer() {
-    playerBar.hidden = false;
-    musicButton.setAttribute('aria-expanded', 'true');
-  }
-
-  function closePlayer() {
-    playerBar.hidden = true;
-    musicButton.setAttribute('aria-expanded', 'false');
-    if (volumePanel) volumePanel.hidden = true;
-    if (volumeToggle) volumeToggle.setAttribute('aria-expanded', 'false');
-  }
-
-  function updatePlayButton(playing) {
-    if (!playPauseButton || !playPauseIcon) return;
-
-    if (playing) {
-      playPauseButton.setAttribute('aria-label', 'Pause music');
-      playPauseIcon.innerHTML = '<path d="M8 5h3v14H8z"></path><path d="M15 5h3v14h-3z"></path>';
+  function updatePlayButton() {
+    if (audio.paused) {
+      playIcon.innerHTML = '<path d="M8 5v14l11-7Z"></path>';
+      playButton.setAttribute('aria-label', 'Play music');
     } else {
-      playPauseButton.setAttribute('aria-label', 'Play music');
-      playPauseIcon.innerHTML = '<path d="M8 5v14l11-7Z"></path>';
+      playIcon.innerHTML =
+        '<path d="M8 5v14"></path><path d="M16 5v14"></path>';
+      playButton.setAttribute('aria-label', 'Pause music');
     }
   }
 
-  function setStatus(message) {
-    if (status) status.textContent = message;
+  function updatePlayerVisibility(show) {
+    playerBar.hidden = !show;
+    headerButton.setAttribute('aria-expanded', String(show));
+    headerButton.setAttribute(
+      'aria-label',
+      show ? 'Hide music player' : 'Open music player'
+    );
   }
 
   function choosePlaylist(data) {
@@ -209,44 +205,36 @@
     return data.night || [];
   }
 
+  function chooseNextTrack() {
+    if (!playlist.length) return null;
+
+    let index = Math.floor(Math.random() * playlist.length);
+
+    if (playlist.length > 1 && index === previousTrack) {
+      index = (index + 1) % playlist.length;
+    }
+
+    previousTrack = index;
+    return playlist[index];
+  }
+
   async function playNextTrack() {
-    if (!playlistReady) {
-      setStatus('Loading music...');
-      return;
-    }
+    if (!playlistReady) return;
 
-    if (!playlist.length) {
-      setStatus('No music available');
-      updatePlayButton(false);
-      return;
-    }
+    const track = chooseNextTrack();
+    if (!track) return;
 
-    let nextIndex = Math.floor(Math.random() * playlist.length);
-
-    if (playlist.length > 1 && nextIndex === previousTrack) {
-      nextIndex = (nextIndex + 1) % playlist.length;
-    }
-
-    previousTrack = nextIndex;
-    audio.src = playlist[nextIndex];
-
-    setStatus('Loading track...');
+    audio.src = track;
 
     try {
       await audio.play();
-      updatePlayButton(true);
-      setStatus('Now playing');
     } catch (error) {
-      updatePlayButton(false);
-      setStatus('Tap play to start music');
+      updatePlayButton();
     }
   }
 
   async function togglePlayback() {
-    if (!playlistReady) {
-      setStatus('Loading music...');
-      return;
-    }
+    if (!playlistReady) return;
 
     if (audio.paused) {
       if (!audio.src) {
@@ -256,20 +244,17 @@
 
       try {
         await audio.play();
-        updatePlayButton(true);
-        setStatus('Now playing');
       } catch (error) {
-        updatePlayButton(false);
-        setStatus('Unable to play music');
+        updatePlayButton();
       }
     } else {
       audio.pause();
-      updatePlayButton(false);
-      setStatus('Music paused');
     }
+
+    updatePlayButton();
   }
 
-  // Load playlists according to Qeparo local time.
+  // Load playlists using Qeparo local time.
   fetch('audio.json')
     .then(response => {
       if (!response.ok) throw new Error('Playlist not found');
@@ -278,61 +263,46 @@
     .then(data => {
       playlist = choosePlaylist(data);
       playlistReady = true;
-
-      if (playlist.length) {
-        setStatus('Ready to play');
-      } else {
-        setStatus('No tracks in this playlist');
-      }
     })
     .catch(error => {
       console.error('Radio playlist error:', error);
       playlistReady = true;
-      setStatus('Music unavailable');
     });
 
-  // Header Music button opens and closes the player.
-  musicButton.addEventListener('click', () => {
-    if (playerBar.hidden) {
-      openPlayer();
-    } else {
-      closePlayer();
-    }
+  // Top-right Music button opens and closes the player.
+  headerButton.addEventListener('click', () => {
+    updatePlayerVisibility(playerBar.hidden);
   });
 
-  // Close player without stopping the music.
-  closeButton?.addEventListener('click', closePlayer);
-
   // Play / pause.
-  playPauseButton?.addEventListener('click', togglePlayback);
+  playButton.addEventListener('click', togglePlayback);
 
   // Next random track.
-  nextButton?.addEventListener('click', playNextTrack);
+  nextButton.addEventListener('click', playNextTrack);
 
   // Volume panel.
-  volumeToggle?.addEventListener('click', () => {
-    if (!volumePanel) return;
-
+  volumeButton.addEventListener('click', () => {
     volumePanel.hidden = !volumePanel.hidden;
-    volumeToggle.setAttribute(
+    volumeButton.setAttribute(
       'aria-expanded',
       String(!volumePanel.hidden)
     );
   });
 
   // Volume slider.
-  volumeSlider?.addEventListener('input', () => {
+  volumeSlider.addEventListener('input', () => {
     audio.volume = Number(volumeSlider.value);
     audio.muted = false;
   });
 
-  // Automatically play the next track when one ends.
+  // Automatically play another track when one ends.
   audio.addEventListener('ended', playNextTrack);
 
-  audio.addEventListener('play', () => updatePlayButton(true));
-  audio.addEventListener('pause', () => updatePlayButton(false));
+  audio.addEventListener('play', updatePlayButton);
+  audio.addEventListener('pause', updatePlayButton);
 
 })();
+
 
     /* 5. INLINE FEATURE GALLERIES WITH AUTOMATIC PHOTO COLOURS */
   (() => {
