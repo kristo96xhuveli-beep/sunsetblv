@@ -170,6 +170,8 @@ body.gallery-open { overflow:hidden; }
 .gallery-thumbnails { width: 100%; min-width: 0; max-width: 100%; box-sizing: border-box; overflow-x: auto; overflow-y: hidden; }
 .gallery-counter { flex: 0 0 auto; }
 .gallery-close { position: absolute; top: 12px; right: 12px; z-index: 10; }
+/* TEMPORARY — REMOVE GALLERY BLUE BACKGROUND */
+.photo-gallery-dialog { background: transparent !important; box-shadow: none !important; border: none !important; }
 
 
 
