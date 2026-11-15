@@ -13,8 +13,8 @@ a { color:inherit; }
 .desktop-nav { display:flex; align-items:center; justify-content:center; gap:clamp(16px,2.4vw,38px); }
 .desktop-nav a { text-decoration:none; font:13px Arial,sans-serif; color:var(--ink); }
 .desktop-nav a:hover { color:#5282a1; }
-.desktop-nav .nav-menu-link { background:var(--navy); color:#fff; padding:9px 15px; border-radius:6px; transition:background .2s ease; }
-.desktop-nav .nav-menu-link:hover { background:#315879; color:#fff; }
+.desktop-nav .nav-menu-link { background:none; color:var(--ink); padding:0; border-radius:0; }
+.desktop-nav .nav-menu-link:hover { color:#5282a1; }
 .header-actions { display:flex; gap:12px; align-items:center; }
 .icon-button,.music-button { border:0; cursor:pointer; }
 .icon-button { background:none; color:var(--ink); font-size:21px; }
