@@ -131,9 +131,10 @@ html { scroll-behavior:smooth; }
   * { scroll-behavior:auto !important; transition:none !important; }
 }
 
+
 /* 14. RADIO PLAYER */
 .music-button { background:var(--navy); color:#fff; border:0; border-radius:20px; padding:9px 13px; font-size:12px; cursor:pointer; }
-.radio-player-bar { position:fixed; left:50%; top:50%; transform:translate(-50%,-50%); z-index:1000; width:310px; box-sizing:border-box; background:rgba(11,31,58,.78); color:#fff; border-radius:20px; padding:5px 14px; box-shadow:0 6px 24px rgba(0,0,0,.18); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); }
+.radio-player-bar { position:fixed; left:50%; bottom:28px; transform:translateX(-50%); z-index:1000; width:340px; max-width:calc(100% - 40px); box-sizing:border-box; background:rgba(11,31,58,.78); color:#fff; border-radius:24px; padding:8px 18px; box-shadow:0 6px 24px rgba(0,0,0,.18); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px); }
 .radio-player-bar[hidden],.radio-volume-panel[hidden] { display:none; }
 .radio-player-controls { display:flex; align-items:center; justify-content:space-around; gap:18px; position:relative; }
 .radio-control { width:44px; height:40px; display:flex; align-items:center; justify-content:center; border:0; border-radius:50%; background:transparent; color:#fff; cursor:pointer; }
@@ -143,6 +144,7 @@ html { scroll-behavior:smooth; }
 .radio-volume-wrap { position:relative; }
 .radio-volume-panel { position:absolute; left:-10px; bottom:calc(100% + 14px); width:150px; padding:13px; border-radius:12px; background:#fff; box-shadow:0 4px 18px rgba(0,0,0,.2); }
 .radio-volume-panel input { display:block; width:100%; accent-color:var(--navy); }
+
 
 /* 15. MOBILE FEATURE SECTIONS */
 @media (max-width:767px) {
