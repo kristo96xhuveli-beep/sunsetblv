@@ -176,7 +176,7 @@ html { scroll-behavior:smooth; }
 .guest-rating { flex:1 1 0; max-width:305px; min-height:82px; display:flex; align-items:center; justify-content:center; gap:17px; padding:13px 20px; border:1px solid rgba(16,43,78,.04); border-radius:28px; background:#fff; box-shadow:0 8px 18px rgba(16,43,78,.10); }
 .review-logo { width:48px; height:48px; flex:0 0 48px; display:flex; align-items:center; justify-content:center; color:#102b4e; }
 .booking-logo { border-radius:9px; background:#102b4e; color:#fff; font:700 30px Arial,sans-serif; letter-spacing:-2px; }
-.tripadvisor-logo svg { display:block; width:46px; height:46px; fill:none; stroke:#102b4e; stroke-width:2.8; stroke-linecap:round; stroke-linejoin:round; }
+.tripadvisor-logo svg { display:block; width:46px; height:38px; fill:none; stroke:#102b4e; stroke-width:2.8; stroke-linecap:round; stroke-linejoin:round; }
 .tripadvisor-logo svg .owl-pupil { fill:#102b4e; stroke:none; }
 .google-logo { font:700 49px Arial,sans-serif; letter-spacing:-4px; }
 .review-score { display:flex; align-items:center; gap:9px; color:#102b4e; white-space:nowrap; }
