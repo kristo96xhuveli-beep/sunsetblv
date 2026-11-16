@@ -176,8 +176,7 @@ html { scroll-behavior:smooth; }
 .guest-rating { flex:1 1 0; max-width:305px; min-height:82px; display:flex; align-items:center; justify-content:center; gap:17px; padding:13px 20px; border:1px solid rgba(16,43,78,.04); border-radius:28px; background:#fff; box-shadow:0 8px 18px rgba(16,43,78,.10); }
 .review-logo { width:48px; height:48px; flex:0 0 48px; display:flex; align-items:center; justify-content:center; color:#102b4e; }
 .booking-logo { border-radius:9px; background:#102b4e; color:#fff; font:700 30px Arial,sans-serif; letter-spacing:-2px; }
-.tripadvisor-logo svg { display:block; width:46px; height:38px; fill:none; stroke:#102b4e; stroke-width:2.8; stroke-linecap:round; stroke-linejoin:round; }
-.tripadvisor-logo svg .owl-pupil { fill:#102b4e; stroke:none; }
+.tripadvisor-logo img { display:block; width:46px; height:46px; object-fit:contain; filter:brightness(0) saturate(100%) invert(13%) sepia(25%) saturate(1750%) hue-rotate(176deg) brightness(91%) contrast(95%); }
 .google-logo { font:700 49px Arial,sans-serif; letter-spacing:-4px; }
 .review-score { display:flex; align-items:center; gap:9px; color:#102b4e; white-space:nowrap; }
 .review-star { color:#102b4e; font:34px/1 Arial,sans-serif; }
@@ -190,13 +189,13 @@ body.dark .guest-reviews-section::after { background:rgba(16,24,32,.2); }
 body.dark .guest-rating { background:#203244; border-color:#34495b; }
 body.dark .review-logo,body.dark .review-score,body.dark .review-star { color:#f1f5f9; }
 body.dark .booking-logo { background:#f1f5f9; color:#102b4e; }
-body.dark .tripadvisor-logo svg { stroke:#f1f5f9; }
-body.dark .tripadvisor-logo svg .owl-pupil { fill:#f1f5f9; stroke:none; }
+body.dark .tripadvisor-logo img { filter:brightness(0) invert(1); }
 
 @media (max-width:900px) {
   .guest-reviews-list { gap:12px; }
   .guest-rating { gap:10px; padding:12px 10px; }
   .review-logo { width:40px; height:40px; flex-basis:40px; }
+  .tripadvisor-logo img { width:40px; height:40px; }
   .review-score { gap:6px; }
   .review-value { font-size:23px; }
   .review-star { font-size:29px; }
