@@ -147,6 +147,19 @@ html { scroll-behavior:smooth; }
 .radio-volume-panel { position:absolute; left:-10px; bottom:calc(100% + 14px); width:150px; padding:13px; border-radius:12px; background:#fff; box-shadow:0 4px 18px rgba(0,0,0,.2); }
 .radio-volume-panel input { display:block; width:100%; accent-color:var(--navy); }
 
+/* RADIO PLAYER INSIDE DESKTOP HEADER */
+.header-actions { display:flex; align-items:center; justify-content:flex-end; gap:10px; }
+.header-actions .radio-player-bar { position:relative; left:auto; bottom:auto; transform:none; z-index:21; width:auto; max-width:none; margin:0; padding:3px 7px; border-radius:20px; background:rgba(11,31,58,.88); box-shadow:0 3px 12px rgba(0,0,0,.12); }
+.header-actions .radio-player-controls { gap:4px; justify-content:center; }
+.header-actions .radio-control { width:34px; height:34px; }
+.header-actions .radio-control svg { width:19px; height:19px; }
+.header-actions .radio-play-button { width:38px; height:38px; }
+.header-actions .radio-play-button svg { width:21px; height:21px; }
+.header-actions .radio-volume-panel { bottom:calc(100% + 12px); left:-8px; }
+.header-actions .icon-button { order:3; }
+.header-actions .music-button { order:2; white-space:nowrap; }
+.header-actions .radio-player-bar { order:1; }
+
 
 /* 15. MOBILE FEATURE SECTIONS */
 @media (max-width:767px) {
