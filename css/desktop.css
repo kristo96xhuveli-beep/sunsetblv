@@ -164,3 +164,38 @@ html { scroll-behavior:smooth; }
   .feature-copy > p:not(.eyebrow) { font-size:14px; line-height:1.8; margin-bottom:20px; }
   #food .feature-copy,#food .feature-gallery { order:initial; }
 }
+
+/* 16. GUEST REVIEWS */
+.guest-reviews-section { position:relative; overflow:hidden; isolation:isolate; padding:52px 5vw 48px; text-align:center; background:linear-gradient(180deg,#f8fbfd 0%,#eaf4fa 55%,#f4f9fc 100%); }
+.guest-reviews-section::before,.guest-reviews-section::after { content:""; position:absolute; z-index:-1; left:-5%; width:110%; height:100px; border-radius:50%; background:rgba(207,231,245,.48); }
+.guest-reviews-section::before { top:-57px; transform:rotate(-2deg); }
+.guest-reviews-section::after { bottom:-72px; transform:rotate(2deg); background:rgba(255,255,255,.48); }
+.guest-reviews-section h2 { position:relative; margin:0 0 27px; color:var(--ink); font-size:clamp(32px,3vw,43px); font-weight:500; line-height:1.2; }
+.guest-reviews-list { position:relative; display:flex; justify-content:center; align-items:center; gap:24px; max-width:1000px; margin:0 auto; }
+.guest-rating { flex:1 1 0; max-width:305px; min-height:82px; display:flex; align-items:center; justify-content:center; gap:17px; padding:13px 20px; border:1px solid rgba(16,43,78,.04); border-radius:28px; background:#fff; box-shadow:0 8px 18px rgba(16,43,78,.10); }
+.review-logo { width:48px; height:48px; flex:0 0 48px; display:flex; align-items:center; justify-content:center; color:#102b4e; }
+.booking-logo { border-radius:9px; background:#102b4e; color:#fff; font:700 30px Arial,sans-serif; letter-spacing:-2px; }
+.tripadvisor-logo svg { display:block; width:46px; height:46px; fill:none; stroke:#102b4e; stroke-width:2.8; stroke-linecap:round; stroke-linejoin:round; }
+.tripadvisor-logo svg circle:nth-of-type(2),.tripadvisor-logo svg circle:nth-of-type(4) { fill:#102b4e; }
+.google-logo { font:700 49px Arial,sans-serif; letter-spacing:-4px; }
+.review-score { display:flex; align-items:center; gap:9px; color:#102b4e; white-space:nowrap; }
+.review-star { color:#102b4e; font:34px/1 Arial,sans-serif; }
+.review-value { font:500 27px 'Playfair Display',Georgia,serif; }
+.review-value small { font-size:17px; }
+body.dark .guest-reviews-section { background:linear-gradient(180deg,#152330 0%,#1b3041 55%,#152330 100%); }
+body.dark .guest-reviews-section::before { background:rgba(65,104,130,.18); }
+body.dark .guest-reviews-section::after { background:rgba(16,24,32,.2); }
+body.dark .guest-rating { background:#203244; border-color:#34495b; }
+body.dark .review-logo,body.dark .review-score,body.dark .review-star { color:#f1f5f9; }
+body.dark .booking-logo { background:#f1f5f9; color:#102b4e; }
+body.dark .tripadvisor-logo svg { stroke:#f1f5f9; }
+body.dark .tripadvisor-logo svg circle:nth-of-type(2),body.dark .tripadvisor-logo svg circle:nth-of-type(4) { fill:#f1f5f9; }
+
+@media (max-width:900px) {
+  .guest-reviews-list { gap:12px; }
+  .guest-rating { gap:10px; padding:12px 10px; }
+  .review-logo { width:40px; height:40px; flex-basis:40px; }
+  .review-score { gap:6px; }
+  .review-value { font-size:23px; }
+  .review-star { font-size:29px; }
+}
