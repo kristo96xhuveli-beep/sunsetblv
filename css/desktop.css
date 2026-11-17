@@ -118,7 +118,7 @@ footer a { color:#fff; }
 .social-links a:hover { color:#9bb8cb; transform:translateY(-2px); }
 footer small { font:10px Arial,sans-serif; color:#b8c6d2; }
 /* CLEARER CONTACT DETAILS */
-footer p a { font-family:Arial,sans-serif; font-size:14px; font-weight:600; letter-spacing:.2px; color:#fff; text-decoration:underline; text-decoration-thickness:1px; text-underline-offset:3px; }
+footer p a { font:inherit; font-weight:400; letter-spacing:normal; color:#fff; text-decoration:none; }
 footer p a:hover { color:#9bb8cb; }
 
 /* 11. GENERAL PAGE BEHAVIOUR */
