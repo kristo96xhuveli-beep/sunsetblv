@@ -1,4 +1,3 @@
-```html
 <!doctype html>
 <html lang="en">
 <head>
@@ -23,19 +22,30 @@
     <button class="close-button" id="menuClose" aria-label="Close menu">×</button>
     <p class="menu-kicker" data-en="Language" data-al="Gjuha">Language</p>
     <div class="language-buttons">
-      <button data-lang="en" class="active">🇬🇧 English</button>
-      <button data-lang="al">🇦🇱 Albanian</button>
+      <button type="button" data-lang="en" class="active">EN</button>
+      <button type="button" data-lang="al">AL</button>
     </div>
-    <label class="dark-row">
+    <div class="dark-row">
       <span data-en="Dark mode" data-al="Modaliteti i errët">Dark mode</span>
-      <span class="theme-symbol" id="themeSymbol" aria-hidden="true">☾</span>
-      <input type="checkbox" id="darkMode" aria-label="Dark mode">
-    </label>
+      <button id="darkMode" class="icon-button theme-button" type="button"
+              aria-label="Switch to dark mode" aria-pressed="false">
+        <svg class="theme-icon theme-icon-moon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M20.2 15.5A8.5 8.5 0 0 1 8.5 3.8 8.5 8.5 0 1 0 20.2 15.5Z"/>
+        </svg>
+        <svg class="theme-icon theme-icon-sun" viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="12" r="4"/>
+          <path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/>
+        </svg>
+      </button>
+    </div>
     <p class="menu-kicker">Explore</p>
     <a href="#home" data-en="Home" data-al="Kryefaqja">Home</a>
     <a href="#rooms" data-en="Accommodation" data-al="Akomodim">Accommodation</a>
     <a href="#food" data-en="Food & Drinks" data-al="Ushqim & Pije">Food & Drinks</a>
-    <a href="https://sunsetboulevardmenu.my.canva.site/" target="_blank" rel="noopener noreferrer" data-en="View Menu" data-al="Shiko Menunë">View Menu</a>
+    <a href="https://sunsetboulevardmenu.my.canva.site/"
+       target="_blank"
+       rel="noopener noreferrer"
+       data-en="View Menu" data-al="Shiko Menunë">View Menu</a>
     <a href="#activities" data-en="Activities" data-al="Aktivitete">Activities</a>
     <a href="#story" data-en="Our Story" data-al="Historia Jonë">Our Story</a>
     <a href="#info" data-en="Contact & Info" data-al="Kontakt & Informacion">Contact & Info</a>
@@ -96,9 +106,11 @@
     </section>
 
     <section class="content-section" id="rooms">
-      <h2 data-en="Your Summer Escape By The Sea" data-al="Arratisja Juaj Buzë Detit">Your Summer Escape By The Sea</h2>
-      <p data-en="Looking for where to stay in Qeparo? Stay with us. At Sunset Boulevard Beach Hotel we offer comfortable beachfront accommodation, right by the sea. Every room includes a pair of sun loungers and a beach umbrella, so you can enjoy an even more relaxing seaside stay with beautiful sea views."
-         data-al="Po kërkoni ku të qëndroni në Qeparo? Ejani të qëndroni tek ne Në Sunset Boulevard Beach Hotel ne ofrojmë akomodim të rehatshëm buzë detit, pikërisht pranë ujit. Çdo dhomë përfshin dy shezlona dhe një çadër plazhi, që të shijoni një qëndrim edhe më relaksues me pamje të bukura nga deti.">
+      <h2 data-en="Your Summer Escape By The Sea"
+          data-al="Arratisja Juaj Buzë Detit">Your Summer Escape By The Sea</h2>
+      <p
+        data-en="Looking for where to stay in Qeparo? Stay with us. At Sunset Boulevard Beach Hotel we offer comfortable beachfront accommodation, right by the sea. Every room includes a pair of sun loungers and a beach umbrella, so you can enjoy an even more relaxing seaside stay with beautiful sea views."
+        data-al="Po kërkoni ku të qëndroni në Qeparo? Ejani të qëndroni tek ne Në Sunset Boulevard Beach Hotel ne ofrojmë akomodim të rehatshëm buzë detit, pikërisht pranë ujit. Çdo dhomë përfshin dy shezlona dhe një çadër plazhi, që të shijoni një qëndrim edhe më relaksues me pamje të bukura nga deti.">
         Looking for where to stay in Qeparo? Stay with us. At Sunset Boulevard Beach Hotel we offer comfortable beachfront accommodation, right by the sea. Every room includes a pair of sun loungers and a beach umbrella, so you can enjoy an even more relaxing seaside stay with beautiful sea views.
       </p>
 
@@ -126,21 +138,27 @@
             <a class="primary-link" href="https://www.booking.com/hotel/al/sunset-boulevard-rooms.en-gb.html" target="_blank" rel="noopener">Check Availability</a>
           </div>
 
-          <span hidden data-gallery-group data-gallery-title="Standard Triple Room" data-gallery="Pictures/room3a.jpg|Pictures/room3b.jpg|Pictures/room3c.jpg|Pictures/room3d.jpg"></span>
-          <span hidden data-gallery-group data-gallery-title="Simple Triple Room" data-gallery="Pictures/room2a.jpg|Pictures/room2b.jpg|Pictures/room2c.jpg|Pictures/room2d.jpg|Pictures/room2e.jpg"></span>
+          <span hidden data-gallery-group
+            data-gallery-title="Standard Triple Room"
+            data-gallery="Pictures/room3a.jpg|Pictures/room3b.jpg|Pictures/room3c.jpg|Pictures/room3d.jpg"></span>
+
+          <span hidden data-gallery-group
+            data-gallery-title="Simple Triple Room"
+            data-gallery="Pictures/room2a.jpg|Pictures/room2b.jpg|Pictures/room2c.jpg|Pictures/room2d.jpg|Pictures/room2e.jpg"></span>
         </article>
       </div>
     </section>
 
     <section class="content-section tinted" id="food">
       <h2 data-en="At The Bar" data-al="Në Bar">At The Bar</h2>
-      <p data-en="Where to eat in Qeparo? Enjoy our breakfast, lunch and dinner right by the sea. From freshly prepared seafood to burgers, pasta, risotto and more, there's something for everyone to enjoy throughout the day. Complete your meal with a refreshing cocktail, a cold drink or a coffee while taking in the beautiful seaside views."
-         data-al="Ku të hani në Qeparo? Shijoni mëngjesin, drekën dhe darkën buzë detit. Nga gatimet e freskëta të detit te burgerat, pastat, rizotot e shumë të tjera, ka diçka për të gjitha shijet gjatë gjithë ditës. Plotësoni vaktin tuaj me një koktej freskues, një pije të ftohtë ose një kafe, ndërsa shijoni pamjet e mrekullueshme të detit.">
+      <p
+        data-en="Where to eat in Qeparo? Enjoy our breakfast, lunch and dinner right by the sea. From freshly prepared seafood to burgers, pasta, risotto and more, there's something for everyone to enjoy throughout the day. Complete your meal with a refreshing cocktail, a cold drink or a coffee while taking in the beautiful seaside views."
+        data-al="Ku të hani në Qeparo? Shijoni mëngjesin, drekën dhe darkën buzë detit. Nga gatimet e freskëta të detit te burgerat, pastat, rizotot e shumë të tjera, ka diçka për të gjitha shijet gjatë gjithë ditës. Plotësoni vaktin tuaj me një koktej freskues, një pije të ftohtë ose një kafe, ndërsa shijoni pamjet e mrekullueshme të detit.">
         Where to eat in Qeparo? Enjoy our breakfast, lunch and dinner right by the sea. From freshly prepared seafood to burgers, pasta, risotto and more, there's something for everyone to enjoy throughout the day. Complete your meal with a refreshing cocktail, a cold drink or a coffee while taking in the beautiful seaside views.
       </p>
-
       <div class="simple-grid">
-        <article data-gallery-group
+        <article
+          data-gallery-group
           data-gallery-title="To Eat"
           data-gallery="Pictures/burgerspycy.jpg|Pictures/food1.jpg|Pictures/shrimprisoto.JPG"
           tabindex="0"
@@ -158,22 +176,33 @@
           </div>
 
           <p>From fresh food to signature cocktails, coffees and refreshing drinks all prepared with care.</p>
-          <span hidden data-gallery-group data-gallery-title="Cocktails" data-gallery="Pictures/cocktails1.jpg|Pictures/cocktails2.jpg"></span>
-          <span hidden data-gallery-group data-gallery-title="Coffees & Drinks" data-gallery="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800|Pictures/activities2.jpg"></span>
+
+          <span hidden data-gallery-group
+            data-gallery-title="Cocktails"
+            data-gallery="Pictures/cocktails1.jpg|Pictures/cocktails2.jpg"></span>
+
+          <span hidden data-gallery-group
+            data-gallery-title="Coffees & Drinks"
+            data-gallery="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800|Pictures/activities2.jpg"></span>
         </article>
       </div>
 
       <div class="menu-button-wrapper">
-        <a href="https://sunsetboulevardmenu.my.canva.site/" target="_blank" rel="noopener noreferrer" class="primary-link">View Menu</a>
+        <a href="https://sunsetboulevardmenu.my.canva.site/"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="primary-link">
+          View Menu
+        </a>
       </div>
     </section>
 
     <section class="content-section" id="activities">
       <p class="eyebrow" data-en="Discover the coast" data-al="Zbuloni Bregdetin">Discover the coast</p>
       <h2 data-en="Explore Qeparo" data-al="Eksploroni Qeparoin">Explore Qeparo</h2>
-
       <div class="simple-grid">
-        <article data-gallery-group
+        <article
+          data-gallery-group
           data-gallery-title="Beach & Swimming"
           data-gallery="Pictures/beach1.jpg|Pictures/beach2.jpg"
           tabindex="0"
@@ -263,7 +292,7 @@
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 8h3V4h-3a5 5 0 0 0-5 5v3H6v4h3v4h4v-4h3l1-4h-4V9a1 1 0 0 1 1-1Z"/></svg><span>Facebook</span>
       </a>
       <a href="https://www.tripadvisor.com/Restaurant_Review-g318869-d28548684-Reviews-Sunset_Boulevard_Cocktail_Food-Qeparo_Vlore_County.html" target="_blank" rel="noopener noreferrer" aria-label="Tripadvisor">
-        <img src="Pictures/icons/tripadvisor-svgrepo-com.svg" alt=""><span>Tripadvisor</span>
+        <img class="social-tripadvisor-icon" src="Pictures/icons/tripadvisor-svgrepo-com.svg" alt=""><span>Tripadvisor</span>
       </a>
     </div>
     <small>© Sunset Boulevard Beach Hotel</small>
