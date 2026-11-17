@@ -159,7 +159,11 @@ html { scroll-behavior:smooth; }
 .header-actions .icon-button { order:3; }
 .header-actions .music-button { order:2; white-space:nowrap; }
 .header-actions .radio-player-bar { order:1; }
-
+/* KEEP HEADER NAVIGATION IN A FIXED POSITION */
+.header-actions { min-width: 270px; flex-shrink: 0; }
+/* MAKE RADIO PLAYER SLIGHTLY LONGER */
+.header-actions .radio-player-bar { padding: 3px 12px; }
+.header-actions .radio-player-controls { gap: 6px; }
 
 /* 15. MOBILE FEATURE SECTIONS */
 @media (max-width:767px) {
