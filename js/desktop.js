@@ -1,8 +1,7 @@
-
 (() => {
   const body = document.body;
   let currentLanguage = 'en';
-
+  
   /* 1. MOBILE MENU */
   const menuOpen = document.getElementById('menuOpen');
   const menuClose = document.getElementById('menuClose');
@@ -135,47 +134,69 @@
 
     setInterval(updateLocalTime, 1000);
     setInterval(updateWeather, 30 * 60 * 1000);
+    document.addEventListener('site-language-change', updateWeather);
   })();
 
+  
   /* 3. LANGUAGE & LIGHT / DARK MODE */
+
   const languageButton = document.getElementById('languageToggle');
   const dark = document.getElementById('darkMode');
 
   function setLanguage(language) {
     currentLanguage = language === 'al' ? 'al' : 'en';
-    document.documentElement.lang = currentLanguage;
 
+    // Set the correct document language.
+    document.documentElement.lang =
+      currentLanguage === 'al' ? 'sq' : 'en';
+
+    // Translate all HTML elements with both language attributes.
     document.querySelectorAll('[data-en][data-al]').forEach(element => {
       element.textContent = element.dataset[currentLanguage];
     });
 
+    // Notify other scripts, including the gallery tabs.
     document.dispatchEvent(new CustomEvent('site-language-change', {
       detail: { language: currentLanguage }
     }));
 
+    // Update the language button appearance and accessibility labels.
     if (languageButton) {
-      languageButton.setAttribute('aria-pressed', String(currentLanguage === 'al'));
+      languageButton.setAttribute(
+        'aria-pressed',
+        String(currentLanguage === 'al')
+      );
+
       languageButton.setAttribute(
         'aria-label',
-        currentLanguage === 'en' ? 'Switch language to Albanian' : 'Switch language to English'
+        currentLanguage === 'en'
+          ? 'Switch language to Albanian'
+          : 'Switch language to English'
       );
 
       languageButton.querySelectorAll('[data-language]').forEach(option => {
-        option.classList.toggle('active', option.dataset.language === currentLanguage);
+        option.classList.toggle(
+          'active',
+          option.dataset.language === currentLanguage
+        );
       });
     }
   }
 
+  // Language button.
   if (languageButton) {
     languageButton.addEventListener('click', () => {
       setLanguage(currentLanguage === 'en' ? 'al' : 'en');
     });
   }
 
+  // Dark mode button.
   if (dark) {
     dark.addEventListener('click', () => {
       const isDark = body.classList.toggle('dark');
+
       dark.setAttribute('aria-pressed', String(isDark));
+
       dark.setAttribute(
         'aria-label',
         isDark ? 'Switch to light mode' : 'Switch to dark mode'
@@ -183,7 +204,9 @@
     });
   }
 
+  // Set English as the default language on page load.
   setLanguage('en');
+
 
   /* 4. HOTEL RADIO – DESKTOP PLAYER */
   (() => {
