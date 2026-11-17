@@ -1,5 +1,7 @@
+
 (() => {
   const body = document.body;
+  let currentLanguage = 'en';
 
   /* 1. MOBILE MENU */
   const menuOpen = document.getElementById('menuOpen');
@@ -42,7 +44,7 @@
       }
 
       if (dateElement) {
-        dateElement.textContent = new Intl.DateTimeFormat('en-GB', {
+        dateElement.textContent = new Intl.DateTimeFormat(currentLanguage === 'al' ? 'sq-AL' : 'en-GB', {
           timeZone: timezone,
           weekday: 'short',
           day: 'numeric',
@@ -53,18 +55,18 @@
     }
 
     function getWeather(code) {
-      if (code === 0) return { text: 'Clear sky', icon: 'sun' };
-      if (code === 1) return { text: 'Mainly clear', icon: 'sun-cloud' };
-      if (code === 2) return { text: 'Partly cloudy', icon: 'sun-cloud' };
-      if (code === 3) return { text: 'Overcast', icon: 'cloud' };
-      if ([45, 48].includes(code)) return { text: 'Foggy', icon: 'fog' };
-      if ([51, 53, 55, 56, 57].includes(code)) return { text: 'Drizzle', icon: 'rain' };
-      if ([61, 63, 65, 66, 67].includes(code)) return { text: 'Rain', icon: 'rain' };
-      if ([71, 73, 75, 77, 85, 86].includes(code)) return { text: 'Snow', icon: 'snow' };
-      if ([80, 81, 82].includes(code)) return { text: 'Rain showers', icon: 'rain' };
-      if ([95, 96, 99].includes(code)) return { text: 'Thunderstorm', icon: 'storm' };
+      if (code === 0) return { text: 'Clear sky', textAl: 'Qiell i kthjellët', icon: 'sun' };
+      if (code === 1) return { text: 'Mainly clear', textAl: 'Kryesisht kthjellët', icon: 'sun-cloud' };
+      if (code === 2) return { text: 'Partly cloudy', textAl: 'Pjesërisht me re', icon: 'sun-cloud' };
+      if (code === 3) return { text: 'Overcast', textAl: 'Vranët', icon: 'cloud' };
+      if ([45, 48].includes(code)) return { text: 'Foggy', textAl: 'Mjegull', icon: 'fog' };
+      if ([51, 53, 55, 56, 57].includes(code)) return { text: 'Drizzle', textAl: 'Shi i imët', icon: 'rain' };
+      if ([61, 63, 65, 66, 67].includes(code)) return { text: 'Rain', textAl: 'Shi', icon: 'rain' };
+      if ([71, 73, 75, 77, 85, 86].includes(code)) return { text: 'Snow', textAl: 'Borë', icon: 'snow' };
+      if ([80, 81, 82].includes(code)) return { text: 'Rain showers', textAl: 'Reshje shiu', icon: 'rain' };
+      if ([95, 96, 99].includes(code)) return { text: 'Thunderstorm', textAl: 'Stuhi me vetëtima', icon: 'storm' };
 
-      return { text: 'Weather unavailable', icon: 'cloud' };
+      return { text: 'Weather unavailable', textAl: 'Moti nuk është i disponueshëm', icon: 'cloud' };
     }
 
     function iconSvg(type) {
@@ -108,7 +110,7 @@
         }
 
         if (descriptionElement) {
-          descriptionElement.textContent = weather.text;
+          descriptionElement.textContent = currentLanguage === 'al' ? weather.textAl : weather.text;
         }
 
         if (iconElement) {
@@ -119,7 +121,7 @@
         console.error('Qeparo weather error:', error);
 
         if (descriptionElement) {
-          descriptionElement.textContent = 'Weather unavailable';
+          descriptionElement.textContent = currentLanguage === 'al' ? 'Moti nuk është i disponueshëm' : 'Weather unavailable';
         }
 
         if (iconElement) {
@@ -135,190 +137,225 @@
     setInterval(updateWeather, 30 * 60 * 1000);
   })();
 
-  /* 3. DARK MODE */
+  /* 3. LANGUAGE & LIGHT / DARK MODE */
+  const languageButton = document.getElementById('languageToggle');
   const dark = document.getElementById('darkMode');
 
-  if (dark) {
-    dark.addEventListener('click', () => {
-      body.classList.toggle('dark');
+  function setLanguage(language) {
+    currentLanguage = language === 'al' ? 'al' : 'en';
+    document.documentElement.lang = currentLanguage;
+
+    document.querySelectorAll('[data-en][data-al]').forEach(element => {
+      element.textContent = element.dataset[currentLanguage];
+    });
+
+    document.dispatchEvent(new CustomEvent('site-language-change', {
+      detail: { language: currentLanguage }
+    }));
+
+    if (languageButton) {
+      languageButton.setAttribute('aria-pressed', String(currentLanguage === 'al'));
+      languageButton.setAttribute(
+        'aria-label',
+        currentLanguage === 'en' ? 'Switch language to Albanian' : 'Switch language to English'
+      );
+
+      languageButton.querySelectorAll('[data-language]').forEach(option => {
+        option.classList.toggle('active', option.dataset.language === currentLanguage);
+      });
+    }
+  }
+
+  if (languageButton) {
+    languageButton.addEventListener('click', () => {
+      setLanguage(currentLanguage === 'en' ? 'al' : 'en');
     });
   }
 
-  
-
-/* 4. HOTEL RADIO – DESKTOP PLAYER */
-(() => {
-  const audio = document.getElementById('radioPlayer');
-  const headerButton = document.getElementById('musicToggle');
-  const playerBar = document.getElementById('radioPlayerBar');
-  const playButton = document.getElementById('musicPlayPause');
-  const playIcon = document.getElementById('playPauseIcon');
-  const nextButton = document.getElementById('musicNext');
-  const volumeButton = document.getElementById('volumeToggle');
-  const volumePanel = document.getElementById('radioVolumePanel');
-  const volumeSlider = document.getElementById('volumeSlider');
-  const status = document.getElementById('radioStatus');
-
-  if (
-    !audio || !headerButton || !playerBar ||
-    !playButton || !playIcon || !nextButton ||
-    !volumeButton || !volumePanel || !volumeSlider
-  ) return;
-
-  let playlist = [];
-  let previousTrack = -1;
-  let playlistReady = false;
-
-  audio.volume = Number(volumeSlider.value);
-
-  function updatePlayButton() {
-    if (audio.paused) {
-      playIcon.innerHTML = '<path d="M8 5v14l11-7Z"></path>';
-      playButton.setAttribute('aria-label', 'Play music');
-    } else {
-      playIcon.innerHTML =
-        '<path d="M8 5v14"></path><path d="M16 5v14"></path>';
-      playButton.setAttribute('aria-label', 'Pause music');
-    }
+  if (dark) {
+    dark.addEventListener('click', () => {
+      const isDark = body.classList.toggle('dark');
+      dark.setAttribute('aria-pressed', String(isDark));
+      dark.setAttribute(
+        'aria-label',
+        isDark ? 'Switch to light mode' : 'Switch to dark mode'
+      );
+    });
   }
 
-  function updatePlayerVisibility(show) {
-    playerBar.hidden = !show;
-    headerButton.setAttribute('aria-expanded', String(show));
-    headerButton.setAttribute(
-      'aria-label',
-      show ? 'Hide music player' : 'Open music player'
-    );
-  }
+  setLanguage('en');
 
-  function choosePlaylist(data) {
-    const hour = Number(
-      new Intl.DateTimeFormat('en-GB', {
-        timeZone: 'Europe/Tirane',
-        hour: '2-digit',
-        hourCycle: 'h23'
-      }).format(new Date())
-    );
+  /* 4. HOTEL RADIO – DESKTOP PLAYER */
+  (() => {
+    const audio = document.getElementById('radioPlayer');
+    const headerButton = document.getElementById('musicToggle');
+    const playerBar = document.getElementById('radioPlayerBar');
+    const playButton = document.getElementById('musicPlayPause');
+    const playIcon = document.getElementById('playPauseIcon');
+    const nextButton = document.getElementById('musicNext');
+    const volumeButton = document.getElementById('volumeToggle');
+    const volumePanel = document.getElementById('radioVolumePanel');
+    const volumeSlider = document.getElementById('volumeSlider');
+    const status = document.getElementById('radioStatus');
 
-    if (hour >= 6 && hour < 12) return data.morning || [];
-    if (hour >= 12 && hour < 20) return data.day || [];
-    return data.night || [];
-  }
+    if (
+      !audio || !headerButton || !playerBar ||
+      !playButton || !playIcon || !nextButton ||
+      !volumeButton || !volumePanel || !volumeSlider
+    ) return;
 
-  function chooseNextTrack() {
-    if (!playlist.length) return null;
+    let playlist = [];
+    let previousTrack = -1;
+    let playlistReady = false;
 
-    let index = Math.floor(Math.random() * playlist.length);
+    audio.volume = Number(volumeSlider.value);
 
-    if (playlist.length > 1 && index === previousTrack) {
-      index = (index + 1) % playlist.length;
-    }
-
-    previousTrack = index;
-    return playlist[index];
-  }
-
-  async function playNextTrack() {
-    if (!playlistReady) return;
-
-    const track = chooseNextTrack();
-    if (!track) return;
-
-    audio.src = track;
-
-    try {
-      await audio.play();
-    } catch (error) {
-      updatePlayButton();
-    }
-  }
-
-  async function togglePlayback() {
-    if (!playlistReady) return;
-
-    if (audio.paused) {
-      if (!audio.src) {
-        await playNextTrack();
-        return;
+    function updatePlayButton() {
+      if (audio.paused) {
+        playIcon.innerHTML = '<path d="M8 5v14l11-7Z"></path>';
+        playButton.setAttribute('aria-label', 'Play music');
+      } else {
+        playIcon.innerHTML =
+          '<path d="M8 5v14"></path><path d="M16 5v14"></path>';
+        playButton.setAttribute('aria-label', 'Pause music');
       }
+    }
+
+    function updatePlayerVisibility(show) {
+      playerBar.hidden = !show;
+      headerButton.setAttribute('aria-expanded', String(show));
+      headerButton.setAttribute(
+        'aria-label',
+        show ? 'Hide music player' : 'Open music player'
+      );
+    }
+
+    function choosePlaylist(data) {
+      const hour = Number(
+        new Intl.DateTimeFormat('en-GB', {
+          timeZone: 'Europe/Tirane',
+          hour: '2-digit',
+          hourCycle: 'h23'
+        }).format(new Date())
+      );
+
+      if (hour >= 6 && hour < 12) return data.morning || [];
+      if (hour >= 12 && hour < 20) return data.day || [];
+      return data.night || [];
+    }
+
+    function chooseNextTrack() {
+      if (!playlist.length) return null;
+
+      let index = Math.floor(Math.random() * playlist.length);
+
+      if (playlist.length > 1 && index === previousTrack) {
+        index = (index + 1) % playlist.length;
+      }
+
+      previousTrack = index;
+      return playlist[index];
+    }
+
+    async function playNextTrack() {
+      if (!playlistReady) return;
+
+      const track = chooseNextTrack();
+      if (!track) return;
+
+      audio.src = track;
 
       try {
         await audio.play();
       } catch (error) {
         updatePlayButton();
       }
-    } else {
-      audio.pause();
     }
 
-    updatePlayButton();
-  }
+    async function togglePlayback() {
+      if (!playlistReady) return;
 
-  // Load playlists using Qeparo local time.
-  fetch('audio.json')
-    .then(response => {
-      if (!response.ok) throw new Error('Playlist not found');
-      return response.json();
-    })
-    .then(data => {
-      playlist = choosePlaylist(data);
-      playlistReady = true;
-    })
-    .catch(error => {
-      console.error('Radio playlist error:', error);
-      playlistReady = true;
+      if (audio.paused) {
+        if (!audio.src) {
+          await playNextTrack();
+          return;
+        }
+
+        try {
+          await audio.play();
+        } catch (error) {
+          updatePlayButton();
+        }
+      } else {
+        audio.pause();
+      }
+
+      updatePlayButton();
+    }
+
+    // Load playlists using Qeparo local time.
+    fetch('audio.json')
+      .then(response => {
+        if (!response.ok) throw new Error('Playlist not found');
+        return response.json();
+      })
+      .then(data => {
+        playlist = choosePlaylist(data);
+        playlistReady = true;
+      })
+      .catch(error => {
+        console.error('Radio playlist error:', error);
+        playlistReady = true;
+      });
+
+    // Top-right Music button opens and closes the player.
+    headerButton.addEventListener('click', () => {
+      updatePlayerVisibility(playerBar.hidden);
     });
 
-  // Top-right Music button opens and closes the player.
-  headerButton.addEventListener('click', () => {
-    updatePlayerVisibility(playerBar.hidden);
-  });
+    // Play / pause.
+    playButton.addEventListener('click', togglePlayback);
 
-  // Play / pause.
-  playButton.addEventListener('click', togglePlayback);
+    // Next random track.
+    nextButton.addEventListener('click', playNextTrack);
 
-  // Next random track.
-  nextButton.addEventListener('click', playNextTrack);
+    // Volume panel.
+    volumeButton.addEventListener('click', () => {
+      volumePanel.hidden = !volumePanel.hidden;
+      volumeButton.setAttribute(
+        'aria-expanded',
+        String(!volumePanel.hidden)
+      );
+    });
 
-  // Volume panel.
-  volumeButton.addEventListener('click', () => {
-    volumePanel.hidden = !volumePanel.hidden;
-    volumeButton.setAttribute(
-      'aria-expanded',
-      String(!volumePanel.hidden)
-    );
-  });
+    // Volume slider.
+    volumeSlider.addEventListener('input', () => {
+      audio.volume = Number(volumeSlider.value);
+      audio.muted = false;
+    });
 
-  // Volume slider.
-  volumeSlider.addEventListener('input', () => {
-    audio.volume = Number(volumeSlider.value);
-    audio.muted = false;
-  });
+    // Automatically play another track when one ends.
+    audio.addEventListener('ended', playNextTrack);
 
-  // Automatically play another track when one ends.
-  audio.addEventListener('ended', playNextTrack);
+    audio.addEventListener('play', updatePlayButton);
+    audio.addEventListener('pause', updatePlayButton);
+  })();
 
-  audio.addEventListener('play', updatePlayButton);
-  audio.addEventListener('pause', updatePlayButton);
-
-})();
-
-
-    /* 5. INLINE FEATURE GALLERIES WITH AUTOMATIC PHOTO COLOURS */
+  /* 5. INLINE FEATURE GALLERIES WITH AUTOMATIC PHOTO COLOURS */
   (() => {
     const galleries = document.querySelectorAll('[data-feature-gallery]');
     if (!galleries.length) return;
 
     const shortTitles = {
-      'Deluxe Double': 'DELUXE DOUBLE',
-      'Standard Triple': 'STANDARD TRIPLE',
-      'Simple Triple': 'SIMPLE TRIPLE',
-      'Grills & Mains': 'GRILLS & MAINS',
-      'Signature & Classic Cocktails': 'COCKTAILS',
-      'Coffees & Drinks': 'COFFEES & DRINKS',
-      'Beach & Swimming': 'BEACH',
-      'Boat Trips & Canoeing': 'BOAT TRIPS',
-      'Village Hiking': 'HIKING'
+      'Deluxe Double': { en: 'DELUXE DOUBLE', al: 'DYSHE DELUXE' },
+      'Standard Triple': { en: 'STANDARD TRIPLE', al: 'TRIPLE STANDARDE' },
+      'Simple Triple': { en: 'SIMPLE TRIPLE', al: 'TRIPLE E THJESHTË' },
+      'Grills & Mains': { en: 'GRILLS & MAINS', al: 'ZGARA & PJATA' },
+      'Signature & Classic Cocktails': { en: 'COCKTAILS', al: 'KOKTEJE' },
+      'Coffees & Drinks': { en: 'COFFEES & DRINKS', al: 'KAFE & PIJE' },
+      'Beach & Swimming': { en: 'BEACH', al: 'PLAZHI' },
+      'Boat Trips & Canoeing': { en: 'BOAT TRIPS', al: 'SHËTITJE ME VARKË' },
+      'Village Hiking': { en: 'HIKING', al: 'ECJE NË FSHAT' }
     };
 
     const getPhotos = item => (item.dataset.gallery || '')
@@ -486,7 +523,7 @@
 
           tab.type = 'button';
           tab.className = 'feature-category-tab';
-          tab.textContent = shortTitles[group.title] || group.title.toUpperCase();
+          tab.textContent = shortTitles[group.title]?.[currentLanguage] || group.title.toUpperCase();
           tab.setAttribute('role', 'tab');
           tab.setAttribute('aria-selected', String(index === activeGroupIndex));
 
@@ -504,6 +541,8 @@
           tabs.appendChild(tab);
         });
       };
+
+      document.addEventListener('site-language-change', renderTabs);
 
       const movePhoto = direction => {
         const photos = groups[activeGroupIndex].photos;
