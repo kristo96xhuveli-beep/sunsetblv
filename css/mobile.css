@@ -1,3 +1,4 @@
+```css
 /* SUNSET BOULEVARD — MOBILE STYLESHEET */
 
 /* 1. GLOBAL SETTINGS & COLOURS */
@@ -74,7 +75,6 @@ footer h2 { font-size: 28px; font-weight: 500; text-align: center; margin: 5px 0
 .content-section > .eyebrow,
 footer > .eyebrow { text-align: center; }
 .content-section > p { text-align: center; }
-
 
 /* 10. ROOMS — FULL-WIDTH PHOTOGRAPHS + GALLERY INDICATOR */
 .room-grid { display: grid; gap: 45px; width: calc(100% + 32px); margin: 30px -16px 0; }
@@ -176,7 +176,6 @@ html { scroll-behavior: smooth; }
   * { scroll-behavior: auto !important; transition: none !important; }
 }
 
-
 /* 18. PHOTO GALLERY */
 .photo-gallery { display: none; position: fixed; inset: 0; z-index: 1000; align-items: center; justify-content: center; }
 .photo-gallery.is-open { display: flex; }
@@ -233,3 +232,33 @@ body.dark .local-weather-strip { background:#172330; }
 body.dark .local-time strong,body.dark .weather-main strong { color:#e0e7ec; }
 body.dark .weather-label,body.dark .local-time small { color:#aebbc5; }
 body.dark .local-time { border-color:#344453; }
+
+/* 20. THEME SYMBOL IN MOBILE MENU */
+.dark-row { gap: 10px; }
+.theme-symbol { margin-left: auto; color: var(--ink); font: 25px/1 Arial, sans-serif; }
+.dark-row input { margin-left: 4px; }
+
+/* 21. GUEST REVIEWS */
+.guest-reviews-section { padding: 34px 14px 38px; background: #edf5fa; text-align: center; }
+.guest-reviews-section h2 { margin: 0 0 22px; color: #102b4e; font-size: 27px; font-weight: 500; }
+.guest-reviews-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; max-width: 620px; margin: 0 auto; }
+.guest-rating { min-width: 0; min-height: 116px; padding: 12px 5px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 7px; background: #fff; color: #102b4e; border-radius: 12px; box-shadow: 0 3px 14px #102b4e12; }
+.review-logo { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; font: bold 21px Arial,sans-serif; }
+.booking-logo { border-radius: 7px; background: #003b95; color: #fff; font-size: 19px; }
+.google-logo { font-size: 28px; font-weight: 700; }
+.tripadvisor-logo img { width: 32px; height: 32px; object-fit: contain; }
+.review-brand-name { font: 10px Arial,sans-serif; font-weight: 600; }
+.review-score { display: flex; align-items: center; gap: 4px; white-space: nowrap; }
+.review-star { color: #b08a45; font-size: 19px; line-height: 1; }
+.review-value { font: 600 16px Arial,sans-serif; }
+.review-value small { font-size: 10px; font-weight: 400; color: #68798a; }
+body.dark .guest-reviews-section { background: #172330; }
+body.dark .guest-reviews-section h2 { color: #f1f5f9; }
+body.dark .guest-rating { background: #223244; color: #f1f5f9; }
+body.dark .review-value small { color: #b5c0cc; }
+
+/* 22. SOCIAL LINKS WITH ICONS */
+.social-links { align-items: center; flex-wrap: wrap; gap: 18px; }
+.social-links a { display: inline-flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; min-width: 48px; }
+.social-links svg, .social-links img { width: 23px; height: 23px; object-fit: contain; }
+.social-links svg { fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
