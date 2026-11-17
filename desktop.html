@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -13,72 +14,79 @@
 <body class="desktop-site">
   <header class="site-header">
     <a class="brand" href="#home">Sunset Boulevard<span>Beach Hotel</span></a>
-    
-<nav class="desktop-nav">
-  <a href="#rooms">Accommodation</a>
-  <a href="#food">Food & Drinks</a>
-  <a href="https://sunsetboulevardmenu.my.canva.site/" target="_blank" rel="noopener noreferrer" class="nav-menu-link">View Menu</a>
-  <a href="#activities">Explore</a>
-  <a href="#story">Our Story</a>
-  <a href="#info">Info</a>
-</nav>
 
-    
-<div class="header-actions">
+    <nav class="desktop-nav">
+      <a href="#rooms" data-en="Accommodation" data-al="Akomodimi">Accommodation</a>
+      <a href="#food" data-en="Food & Drinks" data-al="Ushqim & Pije">Food & Drinks</a>
+      <a href="https://sunsetboulevardmenu.my.canva.site/" target="_blank" rel="noopener noreferrer" class="nav-menu-link" data-en="View Menu" data-al="Shiko Menunë">View Menu</a>
+      <a href="#activities" data-en="Explore" data-al="Eksploro">Explore</a>
+      <a href="#story" data-en="Our Story" data-al="Historia Jonë">Our Story</a>
+      <a href="#info" data-en="Info" data-al="Informacion">Info</a>
+    </nav>
 
-  <!-- RADIO PLAYER CONTROLS -->
-  <div class="radio-player-bar" id="radioPlayerBar" hidden>
-    <span id="radioStatus" hidden></span>
-    <button id="radioPlayerClose" type="button" hidden aria-label="Close music player">×</button>
+    <div class="header-actions">
 
-    <div class="radio-player-controls">
-      <div class="radio-volume-wrap">
-        <button class="radio-control" id="volumeToggle" type="button" aria-label="Volume" aria-expanded="false">
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M11 5 6 9H3v6h3l5 4V5Z"></path>
-            <path d="M15.5 8.5a5 5 0 0 1 0 7"></path>
-            <path d="M18.5 5.5a9 9 0 0 1 0 13"></path>
-          </svg>
-        </button>
+      <!-- RADIO PLAYER CONTROLS -->
+      <div class="radio-player-bar" id="radioPlayerBar" hidden>
+        <span id="radioStatus" hidden></span>
+        <button id="radioPlayerClose" type="button" hidden aria-label="Close music player">×</button>
 
-        <div class="radio-volume-panel" id="radioVolumePanel" hidden>
-          <input id="volumeSlider" type="range" min="0" max="1" step="0.05" value="0.7" aria-label="Music volume">
+        <div class="radio-player-controls">
+          <div class="radio-volume-wrap">
+            <button class="radio-control" id="volumeToggle" type="button" aria-label="Volume" aria-expanded="false">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M11 5 6 9H3v6h3l5 4V5Z"></path>
+                <path d="M15.5 8.5a5 5 0 0 1 0 7"></path>
+                <path d="M18.5 5.5a9 9 0 0 1 0 13"></path>
+              </svg>
+            </button>
+
+            <div class="radio-volume-panel" id="radioVolumePanel" hidden>
+              <input id="volumeSlider" type="range" min="0" max="1" step="0.05" value="0.7" aria-label="Music volume">
+            </div>
+          </div>
+
+          <button class="radio-control radio-play-button" id="musicPlayPause" type="button" aria-label="Play music">
+            <svg id="playPauseIcon" viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M8 5v14l11-7Z"></path>
+            </svg>
+          </button>
+
+          <button class="radio-control" id="musicNext" type="button" aria-label="Next track">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M5 5v14l11-7Z"></path>
+              <path d="M19 5v14"></path>
+            </svg>
+          </button>
         </div>
       </div>
 
-      <button class="radio-control radio-play-button" id="musicPlayPause" type="button" aria-label="Play music">
-        <svg id="playPauseIcon" viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M8 5v14l11-7Z"></path>
-        </svg>
-      </button>
+      <!-- MUSIC BUTTON -->
+      <button id="musicToggle" class="music-button" data-en="Music" data-al="Muzikë">Music</button>
 
-      <button class="radio-control" id="musicNext" type="button" aria-label="Next track">
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <path d="M5 5v14l11-7Z"></path>
-          <path d="M19 5v14"></path>
-        </svg>
-      </button>
+      <!-- DARK MODE ON THE RIGHT -->
+      <button id="darkMode" class="icon-button">◐</button>
+
     </div>
-  </div>
-
-  <!-- MUSIC BUTTON -->
-  <button id="musicToggle" class="music-button">Music</button>
-
-  <!-- DARK MODE ON THE RIGHT -->
-  <button id="darkMode" class="icon-button">◐</button>
-
-</div>
-
   </header>
 
   <main id="home">
+
+    <!-- HERO -->
     <section class="desktop-hero">
       <div class="hero-copy">
-        <p class="eyebrow">Qeparo Beach · Albanian Riviera</p>
-        <h1>A Seaside Experience Since 2000</h1>
-        <p>Warm hospitality, comfortable rooms, delicious food, signature cocktails, good music and unforgettable summer moments by the sea.</p>
-        <a class="primary-link" href="#rooms">Discover our rooms</a>
+        <p class="eyebrow" data-en="Qeparo Beach · Albanian Riviera" data-al="Plazhi i Qeparoit · Riviera Shqiptare">Qeparo Beach · Albanian Riviera</p>
+
+        <h1 data-en="A Seaside Experience Since 2000" data-al="Një Përvojë Buzë Detit Që nga Viti 2000">A Seaside Experience Since 2000</h1>
+
+        <p data-en="Warm hospitality, comfortable rooms, delicious food, signature cocktails, good music and unforgettable summer moments by the sea."
+           data-al="Mikpritje e ngrohtë, dhoma të rehatshme, ushqim i shijshëm, kokteje të veçanta, muzikë e mirë dhe momente të paharrueshme verore buzë detit.">
+          Warm hospitality, comfortable rooms, delicious food, signature cocktails, good music and unforgettable summer moments by the sea.
+        </p>
+
+        <a class="primary-link" href="#rooms" data-en="Discover our rooms" data-al="Zbuloni Dhomat Tona">Discover our rooms</a>
       </div>
+
       <div class="desktop-video">
         <video autoplay muted loop playsinline poster="Pictures/room1.jpg">
           <source src="video.mp4" type="video/mp4">
@@ -86,240 +94,262 @@
       </div>
     </section>
 
+    <!-- LOCAL INFORMATION STRIP -->
     <section class="desktop-info-strip">
       <div class="local-time">
-        <span class="weather-label">LOCAL TIME</span>
+        <span class="weather-label" data-en="LOCAL TIME" data-al="ORA LOKALE">LOCAL TIME</span>
         <strong id="qeparoTime">--:--</strong>
         <small id="qeparoDate">Loading date...</small>
       </div>
+
       <div class="local-weather">
         <div class="weather-main">
           <span id="weatherIcon"></span>
           <strong id="weatherTemp">--°C</strong>
         </div>
-        <span id="weatherDescription" class="weather-label">Loading weather...</span>
+        <span id="weatherDescription" class="weather-label" data-en="Loading weather..." data-al="Duke ngarkuar motin...">Loading weather...</span>
       </div>
+
       <div class="desktop-experience-item">
         <img src="Pictures/icons/calendar-small-svgrepo-com.svg" alt="">
-        <b>May – October</b>
+        <b data-en="May – October" data-al="Maj – Tetor">May – October</b>
       </div>
+
       <div class="desktop-experience-item">
         <img src="Pictures/icons/person-lying-on-a-beach-under-an-umbrella-svgrepo-com.svg" alt="">
-        <b>Beachfront</b>
+        <b data-en="Beachfront" data-al="Buzë Detit">Beachfront</b>
       </div>
+
       <div class="desktop-experience-item">
         <img src="Pictures/icons/fork-and-knife-in-cross-svgrepo-com.svg" alt="">
-        <b>Food</b>
+        <b data-en="Food" data-al="Ushqim">Food</b>
       </div>
+
       <div class="desktop-experience-item">
         <img src="Pictures/icons/cocktail-svgrepo-com.svg" alt="">
-        <b>Cocktails & Music</b>
+        <b data-en="Cocktails & Music" data-al="Kokteje & Muzikë">Cocktails & Music</b>
       </div>
+
       <div class="desktop-experience-item">
         <img src="Pictures/icons/family-svgrepo-com.svg" alt="">
-        <b>Family Run</b>
+        <b data-en="Family Run" data-al="Biznes Familjar">Family Run</b>
       </div>
     </section>
 
     <!-- ACCOMMODATION -->
-<section class="content-section feature-section" id="rooms">
-  <div class="feature-layout">
+    <section class="content-section feature-section" id="rooms">
+      <div class="feature-layout">
 
-    <div class="feature-gallery" data-feature-gallery>
-      <div class="feature-image-wrap">
-        <img src="Pictures/room1a.jpg" alt="Deluxe Double Room at Sunset Boulevard Beach Hotel">
-        <button class="feature-arrow feature-prev" type="button" aria-label="Previous photo">‹</button>
-        <button class="feature-arrow feature-next" type="button" aria-label="Next photo">›</button>
-        <span class="feature-counter" aria-live="polite">1 / 12</span>
+        <div class="feature-gallery" data-feature-gallery>
+          <div class="feature-image-wrap">
+            <img src="Pictures/room1a.jpg" alt="Deluxe Double Room at Sunset Boulevard Beach Hotel">
+            <button class="feature-arrow feature-prev" type="button" aria-label="Previous photo">‹</button>
+            <button class="feature-arrow feature-next" type="button" aria-label="Next photo">›</button>
+            <span class="feature-counter" aria-live="polite">1 / 12</span>
+          </div>
+
+          <div hidden data-gallery-title="Deluxe Double" data-gallery="Pictures/room1a.jpg|Pictures/room1b.jpg|Pictures/room1c.jpg|Pictures/room1d.jpg|Pictures/room1e.jpg|Pictures/room1f.jpg|Pictures/room1g.jpg|Pictures/room1h.jpg|Pictures/room1i.jpg|Pictures/room1j.jpg|Pictures/room1k.jpg|Pictures/room1l.jpg"></div>
+          <div hidden data-gallery-title="Standard Triple" data-gallery="Pictures/room3a.jpg|Pictures/room3b.jpg|Pictures/room3c.jpg|Pictures/room3d.jpg"></div>
+          <div hidden data-gallery-title="Simple Triple" data-gallery="Pictures/room2a.jpg|Pictures/room2b.jpg|Pictures/room2c.jpg|Pictures/room2d.jpg|Pictures/room2e.jpg"></div>
+        </div>
+
+        <div class="feature-copy">
+          <p class="eyebrow" data-en="Accommodation" data-al="Akomodimi">Accommodation</p>
+
+          <h2 data-en="Your Favorite Summer Escape By The Sea"
+              data-al="Arratisja Juaj e Preferuar Verore Buzë Detit">
+            Your Favorite Summer Escape By The Sea
+          </h2>
+
+          <div class="feature-category-tabs" role="tablist" aria-label="Accommodation categories"></div>
+
+          <p
+            data-en="Looking for where to stay in Qeparo? Stay with us. At Sunset Boulevard Beach Hotel we offer comfortable beachfront accommodation, right by the sea. Every room includes a pair of sun loungers and a beach umbrella, so you can enjoy an even more relaxing seaside stay with beautiful sea views."
+            data-al="Po kërkoni ku të qëndroni në Qeparo? Qëndroni tek ne. Në Sunset Boulevard Beach Hotel ofrojmë akomodim të rehatshëm buzë detit. Çdo dhomë përfshin dy shezlongë dhe një çadër plazhi, për një qëndrim relaksues me pamje të bukur nga deti.">
+            Looking for where to stay in Qeparo? Stay with us. At Sunset Boulevard Beach Hotel we offer comfortable beachfront accommodation, right by the sea. Every room includes a pair of sun loungers and a beach umbrella, so you can enjoy an even more relaxing seaside stay with beautiful sea views.
+          </p>
+
+          <a class="primary-link" href="https://www.booking.com/hotel/al/sunset-boulevard-rooms.en-gb.html" target="_blank" rel="noopener" data-en="Check Availability" data-al="Kontrolloni Disponueshmërinë">
+            Check Availability
+          </a>
+        </div>
+
       </div>
-
-      <div hidden data-gallery-title="Deluxe Double" data-gallery="Pictures/room1a.jpg|Pictures/room1b.jpg|Pictures/room1c.jpg|Pictures/room1d.jpg|Pictures/room1e.jpg|Pictures/room1f.jpg|Pictures/room1g.jpg|Pictures/room1h.jpg|Pictures/room1i.jpg|Pictures/room1j.jpg|Pictures/room1k.jpg|Pictures/room1l.jpg"></div>
-      <div hidden data-gallery-title="Standard Triple" data-gallery="Pictures/room3a.jpg|Pictures/room3b.jpg|Pictures/room3c.jpg|Pictures/room3d.jpg"></div>
-      <div hidden data-gallery-title="Simple Triple" data-gallery="Pictures/room2a.jpg|Pictures/room2b.jpg|Pictures/room2c.jpg|Pictures/room2d.jpg|Pictures/room2e.jpg"></div>
-    </div>
-
-    <div class="feature-copy">
-      <p class="eyebrow">Accommodation</p>
-
-      <h2 data-en="Your Favorite Summer Escape By The Sea"
-          data-al="Arratisja Juaj e Preferuar Verore Buzë Detit">
-        Your Favorite Summer Escape By The Sea
-      </h2>
-
-      <div class="feature-category-tabs" role="tablist" aria-label="Accommodation categories"></div>
-
-      <p
-        data-en="Looking for where to stay in Qeparo? Stay with us. At Sunset Boulevard Beach Hotel we offer comfortable beachfront accommodation, right by the sea. Every room includes a pair of sun loungers and a beach umbrella, so you can enjoy an even more relaxing seaside stay with beautiful sea views."
-        data-al="Po kërkoni ku të qëndroni në Qeparo? Qëndroni tek ne. Në Sunset Boulevard Beach Hotel ofrojmë akomodim të rehatshëm buzë detit. Çdo dhomë përfshin dy shezlongë dhe një çadër plazhi, për një qëndrim relaksues me pamje të bukur nga deti.">
-        Looking for where to stay in Qeparo? Stay with us. At Sunset Boulevard Beach Hotel we offer comfortable beachfront accommodation, right by the sea. Every room includes a pair of sun loungers and a beach umbrella, so you can enjoy an even more relaxing seaside stay with beautiful sea views.
-      </p>
-
-      <a class="primary-link" href="https://www.booking.com/hotel/al/sunset-boulevard-rooms.en-gb.html" target="_blank" rel="noopener">
-        Check Availability
-      </a>
-    </div>
-
-  </div>
-</section>
+    </section>
 
     <!-- FOOD & DRINKS -->
-<section class="content-section tinted feature-section" id="food">
-  <div class="feature-layout">
+    <section class="content-section tinted feature-section" id="food">
+      <div class="feature-layout">
 
-    <div class="feature-copy">
-      <p class="eyebrow">Food & Drinks</p>
+        <div class="feature-copy">
+          <p class="eyebrow" data-en="Food & Drinks" data-al="Ushqim & Pije">Food & Drinks</p>
 
-      <h2>At The Bar</h2>
+          <h2 data-en="At The Bar" data-al="Në Bar">At The Bar</h2>
 
-      <div class="feature-category-tabs" role="tablist" aria-label="Food and drinks categories"></div>
+          <div class="feature-category-tabs" role="tablist" aria-label="Food and drinks categories"></div>
+
+          <p
+            data-en="Where to eat in Qeparo? Enjoy our breakfast, lunch and dinner right by the sea. From freshly prepared seafood to burgers, pasta, risotto and more, there's something for everyone to enjoy throughout the day. Complete your meal with a refreshing cocktail, a cold drink or a coffee while taking in the beautiful seaside views."
+            data-al="Ku të hani në Qeparo? Shijoni mëngjesin, drekën dhe darkën buzë detit. Nga prodhimet e freskëta të detit te burgerët, makaronat, rizoto dhe shumë të tjera, ka diçka për të gjithë. Plotësoni vaktin me një koktej freskues, një pije të ftohtë ose një kafe, ndërsa shijoni pamjen e detit.">
+            Where to eat in Qeparo? Enjoy our breakfast, lunch and dinner right by the sea. From freshly prepared seafood to burgers, pasta, risotto and more, there's something for everyone to enjoy throughout the day. Complete your meal with a refreshing cocktail, a cold drink or a coffee while taking in the beautiful seaside views.
+          </p>
+
+          <a class="primary-link" href="https://sunsetboulevardmenu.my.canva.site/" target="_blank" rel="noopener" data-en="View Menu" data-al="Shiko Menunë">
+            View Menu
+          </a>
+        </div>
+
+        <div class="feature-gallery" data-feature-gallery>
+          <div class="feature-image-wrap">
+            <img src="Pictures/burgerspycy.jpg" alt="Food at Sunset Boulevard">
+            <button class="feature-arrow feature-prev" type="button" aria-label="Previous photo">‹</button>
+            <button class="feature-arrow feature-next" type="button" aria-label="Next photo">›</button>
+            <span class="feature-counter" aria-live="polite">1 / 1</span>
+          </div>
+
+          <div hidden data-gallery-title="Grills & Mains" data-gallery="Pictures/burgerspycy.jpg|Pictures/food1.jpg|Pictures/shrimprisoto.JPG"></div>
+          <div hidden data-gallery-title="Signature & Classic Cocktails" data-gallery="Pictures/cocktails1.jpg"></div>
+          <div hidden data-gallery-title="Coffees & Drinks" data-gallery="Pictures/activities1.jpg"></div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ACTIVITIES -->
+    <section class="content-section feature-section" id="activities">
+      <div class="feature-layout">
+
+        <div class="feature-gallery" data-feature-gallery>
+          <div class="feature-image-wrap">
+            <img src="Pictures/beach1.jpg" alt="Beach and activities in Qeparo">
+            <button class="feature-arrow feature-prev" type="button" aria-label="Previous photo">‹</button>
+            <button class="feature-arrow feature-next" type="button" aria-label="Next photo">›</button>
+            <span class="feature-counter" aria-live="polite">1 / 1</span>
+          </div>
+
+          <div hidden data-gallery-title="Beach & Swimming" data-gallery="Pictures/beach1.jpg"></div>
+          <div hidden data-gallery-title="Boat Trips & Canoeing" data-gallery="Pictures/boat1.jpg"></div>
+          <div hidden data-gallery-title="Village Hiking" data-gallery="Pictures/hiking1.jpg"></div>
+        </div>
+
+        <div class="feature-copy">
+          <p class="eyebrow" data-en="Discover the coast" data-al="Zbuloni Bregdetin">Discover the coast</p>
+
+          <h2 data-en="Explore Qeparo" data-al="Eksploroni Qeparoin">Explore Qeparo</h2>
+
+          <div class="feature-category-tabs" role="tablist" aria-label="Activities categories"></div>
+
+          <p
+            data-en="Visit Qeparo and discover the beauty of the Albanian Riviera. Swim in the crystal clear waters and enjoy relaxing days at the beach, explore the coastline by boat and experience the charm of the old village of Qeparo with its traditional stone paths and beautiful views."
+            data-al="Vizitoni Qeparoin dhe zbuloni bukurinë e Rivierës Shqiptare. Notoni në ujërat e kristalta dhe shijoni ditë relaksuese në plazh, eksploroni bregdetin me varkë dhe përjetoni hijeshinë e fshatit të vjetër të Qeparoit, me rrugicat e tij tradicionale prej guri dhe pamjet e mrekullueshme.">
+            Visit Qeparo and discover the beauty of the Albanian Riviera. Swim in the crystal clear waters and enjoy relaxing days at the beach, explore the coastline by boat and experience the charm of the old village of Qeparo with its traditional stone paths and beautiful views.
+          </p>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- GUEST REVIEWS -->
+    <section class="guest-reviews-section" id="reviews">
+      <h2 data-en="Guest Reviews" data-al="Vlerësimet e Vizitorëve">Guest Reviews</h2>
+
+      <div class="guest-reviews-list">
+
+        <!-- BOOKING.COM -->
+        <div class="guest-rating" aria-label="Booking.com guest rating">
+          <span class="review-logo booking-logo">B.</span>
+          <span class="review-brand-name">Booking.com</span>
+          <span class="review-score">
+            <span class="review-star">☆</span>
+            <span class="review-value">9.1 <small>/ 10</small></span>
+          </span>
+        </div>
+
+        <!-- TRIPADVISOR -->
+        <div class="guest-rating" aria-label="Tripadvisor guest rating">
+          <span class="review-logo tripadvisor-logo">
+            <img src="Pictures/icons/tripadvisor-svgrepo-com.svg" alt="Tripadvisor">
+          </span>
+          <span class="review-brand-name">Tripadvisor</span>
+          <span class="review-score">
+            <span class="review-star">☆</span>
+            <span class="review-value">4.7 <small>/ 5</small></span>
+          </span>
+        </div>
+
+        <!-- GOOGLE -->
+        <div class="guest-rating" aria-label="Google guest rating">
+          <span class="review-logo google-logo">G</span>
+          <span class="review-brand-name">Google</span>
+          <span class="review-score">
+            <span class="review-star">☆</span>
+            <span class="review-value">4.8 <small>/ 5</small></span>
+          </span>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- OUR STORY -->
+    <section class="content-section story-section" id="story">
+      <p class="eyebrow" data-en="Since the early 1990s" data-al="Që nga fillimi i viteve 1990">Since the early 1990s</p>
+
+      <h2 data-en="Our Story" data-al="Historia Jonë">Our Story</h2>
 
       <p
-        data-en="Where to eat in Qeparo? Enjoy our breakfast, lunch and dinner right by the sea. From freshly prepared seafood to burgers, pasta, risotto and more, there's something for everyone to enjoy throughout the day. Complete your meal with a refreshing cocktail, a cold drink or a coffee while taking in the beautiful seaside views."
-        data-al="Ku të hani në Qeparo? Shijoni mëngjesin, drekën dhe darkën buzë detit. Nga prodhimet e freskëta të detit te burgerët, makaronat, rizoto dhe shumë të tjera, ka diçka për të gjithë. Plotësoni vaktin me një koktej freskues, një pije të ftohtë ose një kafe, ndërsa shijoni pamjen e detit.">
-        Where to eat in Qeparo? Enjoy our breakfast, lunch and dinner right by the sea. From freshly prepared seafood to burgers, pasta, risotto and more, there's something for everyone to enjoy throughout the day. Complete your meal with a refreshing cocktail, a cold drink or a coffee while taking in the beautiful seaside views.
+        data-en="Some stories begin with a grand plan. Ours began with an open door. Back in the early 1990s, our family welcomed travellers into a spare room. By 2000, two purpose-built guest rooms marked a new chapter. In 2004, the next generation opened the bar, bringing music, laughter and a new meeting place to the village. More rooms followed over the years. Today, we continue that family journey with accommodation, drinks and food. Welcome to our home."
+        data-al="Disa histori fillojnë me një plan të madh. Historia jonë filloi me një derë të hapur. Në fillim të viteve 1990, familja jonë nisi të mirëpriste udhëtarë në një dhomë të shtëpisë. Në vitin 2000, ndërtimi i dy dhomave të posaçme për vizitorë shënoi një kapitull të ri. Në vitin 2004, brezi i ardhshëm hapi barin, duke sjellë muzikë, të qeshura dhe një vend të ri takimi në fshat. Me kalimin e viteve u shtuan edhe dhoma të tjera. Sot, vazhdojmë këtë rrugëtim familjar me akomodim, pije dhe ushqim. Mirë se vini në shtëpinë tonë.">
+        Some stories begin with a grand plan. Ours began with an open door. Back in the early 1990s, our family welcomed travellers into a spare room. By 2000, two purpose-built guest rooms marked a new chapter. In 2004, the next generation opened the bar, bringing music, laughter and a new meeting place to the village. More rooms followed over the years. Today, we continue that family journey with accommodation, drinks and food. Welcome to our home.
       </p>
-
-      <a class="primary-link" href="https://sunsetboulevardmenu.my.canva.site/" target="_blank" rel="noopener">
-        View Menu
-      </a>
-    </div>
-
-    <div class="feature-gallery" data-feature-gallery>
-      <div class="feature-image-wrap">
-        <img src="Pictures/burgerspycy.jpg" alt="Food at Sunset Boulevard">
-        <button class="feature-arrow feature-prev" type="button" aria-label="Previous photo">‹</button>
-        <button class="feature-arrow feature-next" type="button" aria-label="Next photo">›</button>
-        <span class="feature-counter" aria-live="polite">1 / 1</span>
-      </div>
-
-      <div hidden data-gallery-title="Grills & Mains" data-gallery="Pictures/burgerspycy.jpg|Pictures/food1.jpg|Pictures/shrimprisoto.JPG"></div>
-      <div hidden data-gallery-title="Signature & Classic Cocktails" data-gallery="Pictures/cocktails1.jpg"></div>
-      <div hidden data-gallery-title="Coffees & Drinks" data-gallery="Pictures/activities1.jpg"></div>
-    </div>
-
-  </div>
-</section>
-
-   <!-- ACTIVITIES -->
-<section class="content-section feature-section" id="activities">
-  <div class="feature-layout">
-
-    <div class="feature-gallery" data-feature-gallery>
-      <div class="feature-image-wrap">
-        <img src="Pictures/beach1.jpg" alt="Beach and activities in Qeparo">
-        <button class="feature-arrow feature-prev" type="button" aria-label="Previous photo">‹</button>
-        <button class="feature-arrow feature-next" type="button" aria-label="Next photo">›</button>
-        <span class="feature-counter" aria-live="polite">1 / 1</span>
-      </div>
-
-      <div hidden data-gallery-title="Beach & Swimming" data-gallery="Pictures/beach1.jpg"></div>
-      <div hidden data-gallery-title="Boat Trips & Canoeing" data-gallery="Pictures/boat1.jpg"></div>
-      <div hidden data-gallery-title="Village Hiking" data-gallery="Pictures/hiking1.jpg"></div>
-    </div>
-
-    <div class="feature-copy">
-      <p class="eyebrow">Discover the coast</p>
-
-      <h2>Explore Qeparo</h2>
-
-      <div class="feature-category-tabs" role="tablist" aria-label="Activities categories"></div>
-
-      <p>
-        Visit Qeparo and discover the beauty of the Albanian Riviera. Swim in the crystal clear waters and enjoy relaxing days at the beach, explore the coastline by boat and experience the charm of the old village of Qeparo with its traditional stone paths and beautiful views.
-      </p>
-    </div>
-
-  </div>
-</section>
-
-    
-    <!-- GUEST REVIEWS -->
-    
-<section class="guest-reviews-section" id="reviews">
-  <h2>Guest Reviews</h2>
-
-  <div class="guest-reviews-list">
-
-    <!-- BOOKING.COM -->
-    <div class="guest-rating" aria-label="Booking.com guest rating">
-      <span class="review-logo booking-logo">B.</span>
-      <span class="review-brand-name">Booking.com</span>
-      <span class="review-score">
-        <span class="review-star">☆</span>
-        <span class="review-value">9.1 <small>/ 10</small></span>
-      </span>
-    </div>
-
-    <!-- TRIPADVISOR -->
-    <div class="guest-rating" aria-label="Tripadvisor guest rating">
-      <span class="review-logo tripadvisor-logo">
-        <img src="Pictures/icons/tripadvisor-svgrepo-com.svg" alt="Tripadvisor">
-      </span>
-      <span class="review-brand-name">Tripadvisor</span>
-      <span class="review-score">
-        <span class="review-star">☆</span>
-        <span class="review-value">4.7 <small>/ 5</small></span>
-      </span>
-    </div>
-
-    <!-- GOOGLE -->
-    <div class="guest-rating" aria-label="Google guest rating">
-      <span class="review-logo google-logo">G</span>
-      <span class="review-brand-name">Google</span>
-      <span class="review-score">
-        <span class="review-star">☆</span>
-        <span class="review-value">4.8 <small>/ 5</small></span>
-      </span>
-    </div>
-
-  </div>
-</section>
-
-    <section class="content-section story-section" id="story">
-      <p class="eyebrow">Since the early 1990s</p>
-      <h2>Our Story</h2>
-      <p>Some stories begin with a grand plan. Ours began with an open door. Back in the early 1990s, our family welcomed travellers into a spare room. By 2000, two purpose-built guest rooms marked a new chapter. In 2004, the next generation opened the bar, bringing music, laughter and a new meeting place to the village. More rooms followed over the years. Today, we continue that family journey with accommodation, drinks and food. Welcome to our home.</p>
     </section>
+
   </main>
 
+  <!-- FOOTER & CONTACT INFORMATION -->
   <footer id="info">
-    <p class="eyebrow">Find us in Qeparo</p>
-    <h2>Contact & Info</h2>
-    <p>WhatsApp: <a href="https://wa.me/355692853586">+355 69 285 3586</a> · Email: <a href="mailto:sunsetboulevardqeparo@gmail.com">sunsetboulevardqeparo@gmail.com</a></p>
-    <p>Qeparo, Vlorë, Albania</p>    
+    <p class="eyebrow" data-en="Find us in Qeparo" data-al="Na gjeni në Qeparo">Find us in Qeparo</p>
 
-<div class="social-links">
-  <a href="https://maps.app.goo.gl/nJMC9Ebtgd8oft4K8" target="_blank" rel="noopener noreferrer" aria-label="Find us on Maps">
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"/>
-      <circle cx="12" cy="10" r="2.5"/>
-    </svg>
-    <span>Maps</span>
-  </a>
-  <a href="https://www.instagram.com/sunset.boulevard.cocktailbar" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <rect x="3" y="3" width="18" height="18" rx="5"/>
-      <circle cx="12" cy="12" r="4"/>
-      <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
-    </svg>
-    <span>Instagram</span>
-  </a>
-  <a href="https://www.facebook.com/share/1G3LhkB6gP/" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
-    <svg viewBox="0 0 24 24" aria-hidden="true">
-      <path d="M14 8h3V4h-3a5 5 0 0 0-5 5v3H6v4h3v4h4v-4h3l1-4h-4V9a1 1 0 0 1 1-1Z"/>
-    </svg>
-    <span>Facebook</span>
-  </a>
-  <a href="https://www.tripadvisor.com/Restaurant_Review-g318869-d28548684-Reviews-Sunset_Boulevard_Cocktail_Food-Qeparo_Vlore_County.html" target="_blank" rel="noopener noreferrer" aria-label="Tripadvisor">
-    <img src="Pictures/icons/tripadvisor-svgrepo-com.svg" alt="">
-    <span>Tripadvisor</span>
-  </a>
-</div>
+    <h2 data-en="Contact & Info" data-al="Kontakt & Informacion">Contact & Info</h2>
+
+    <p>WhatsApp: <a href="https://wa.me/355692853586">+355 69 285 3586</a> · Email: <a href="mailto:sunsetboulevardqepar@gmail.com">sunsetboulevardqepar@gmail.com</a></p>
+
+    <p>Qeparo, Vlorë, Albania</p>
+
+    <div class="social-links">
+      <a href="https://maps.app.goo.gl/nJMC9Ebtgd8oft4K8" target="_blank" rel="noopener noreferrer" aria-label="Find us on Maps">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"/>
+          <circle cx="12" cy="10" r="2.5"/>
+        </svg>
+        <span>Maps</span>
+      </a>
+
+      <a href="https://www.instagram.com/sunset.boulevard.cocktailbar" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <rect x="3" y="3" width="18" height="18" rx="5"/>
+          <circle cx="12" cy="12" r="4"/>
+          <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+        </svg>
+        <span>Instagram</span>
+      </a>
+
+      <a href="https://www.facebook.com/share/1G3LhkB6gP/" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M14 8h3V4h-3a5 5 0 0 0-5 5v3H6v4h3v4h4v-4h3l1-4h-4V9a1 1 0 0 1 1-1Z"/>
+        </svg>
+        <span>Facebook</span>
+      </a>
+
+      <a href="https://www.tripadvisor.com/Restaurant_Review-g318869-d28548684-Reviews-Sunset_Boulevard_Cocktail_Food-Qeparo_Vlore_County.html" target="_blank" rel="noopener noreferrer" aria-label="Tripadvisor">
+        <img src="Pictures/icons/tripadvisor-svgrepo-com.svg" alt="">
+        <span>Tripadvisor</span>
+      </a>
+    </div>
 
     <small>© Sunset Boulevard Beach Hotel</small>
   </footer>
 
-<audio id="radioPlayer" preload="none"></audio>
+  <audio id="radioPlayer" preload="none"></audio>
 
   <script src="js/desktop.js" defer></script>
 </body>
