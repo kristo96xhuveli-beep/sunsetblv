@@ -1,262 +1,323 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#ffffff">
+  <title>Sunset Boulevard Beach Hotel</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/mobile.css">
+</head>
+<body class="mobile-site">
+  <header class="site-header">
+    <button class="menu-button" id="menuOpen" aria-label="Open menu">☰</button>
+    <a class="brand" href="#home">Sunset Boulevard<span>Beach Hotel</span></a>
+    <button class="music-button" id="musicToggle" type="button" aria-label="Open music player" aria-expanded="false"> Music </button>
+  </header>
 
-/* 1. GLOBAL SETTINGS & COLOURS */
-* { box-sizing: border-box; }
-:root { --bg: #fff; --ink: #102b4e; --muted: #65758a; --line: #e8edf2; --navy: #0b1f3a; --card: #fff; --soft: #f4f8fb; }
-body.dark { --bg: #101820; --ink: #f1f5f9; --muted: #b5c0cc; --line: #2b3948; --card: #172330; --soft: #131f2b; }
+  <div class="menu-shade" id="menuShade"></div>
+  <nav class="menu-drawer" id="menuDrawer" aria-label="Main menu">
+    <button class="close-button" id="menuClose" aria-label="Close menu">×</button>
+    <p class="menu-kicker" data-en="Language" data-al="Gjuha">Language</p>
+    <div class="language-buttons">
+      <button type="button" data-lang="en" class="active">EN</button>
+      <button type="button" data-lang="al">AL</button>
+    </div>
+    <div class="dark-row">
+      <span data-en="Dark mode" data-al="Modaliteti i errët">Dark mode</span>
+      <button id="darkMode" class="icon-button theme-button" type="button"
+              aria-label="Switch to dark mode" aria-pressed="false">
+        <svg class="theme-icon theme-icon-moon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M20.2 15.5A8.5 8.5 0 0 1 8.5 3.8 8.5 8.5 0 1 0 20.2 15.5Z"/>
+        </svg>
+        <svg class="theme-icon theme-icon-sun" viewBox="0 0 24 24" aria-hidden="true">
+          <circle cx="12" cy="12" r="4"/>
+          <path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"/>
+        </svg>
+      </button>
+    </div>
+    <p class="menu-kicker">Explore</p>
+    <a href="#home" data-en="Home" data-al="Kryefaqja">Home</a>
+    <a href="#rooms" data-en="Accommodation" data-al="Akomodim">Accommodation</a>
+    <a href="#food" data-en="Food & Drinks" data-al="Ushqim & Pije">Food & Drinks</a>
+    <a href="https://sunsetboulevardmenu.my.canva.site/"
+       target="_blank"
+       rel="noopener noreferrer"
+       data-en="View Menu" data-al="Shiko Menunë">View Menu</a>
+    <a href="#activities" data-en="Activities" data-al="Aktivitete">Activities</a>
+    <a href="#story" data-en="Our Story" data-al="Historia Jonë">Our Story</a>
+    <a href="#info" data-en="Contact & Info" data-al="Kontakt & Informacion">Contact & Info</a>
+  </nav>
 
-/* 2. BODY & TYPOGRAPHY */
-body { margin: 0; background: var(--bg); color: var(--ink); font-family: 'Playfair Display', Georgia, serif; }
-a { color: inherit; }
+  <main id="home">
+    <section class="hero">
+      <div class="hero-video">
+        <video autoplay muted loop playsinline poster="Pictures/room1.jpg">
+          <source src="video.mp4" type="video/mp4">
+        </video>
+      </div>
+      <div class="hero-caption">
+        <p class="eyebrow">Qeparo Beach · Albanian Riviera</p>
+        <h1 data-en="A Seaside Experience Since 2000" data-al="Një Përvojë Bregdetare Që Nga Viti 2000">A Seaside Experience Since 2000</h1>
+        <p data-en="Warm hospitality, comfortable rooms, delicious food, signature cocktails, good music and unforgettable summer momments by the sea." data-al="Mikpritje e ngrohtë, dhoma komode, ushqim i shijshëm, kokteje speciale, muzikë e mirë dhe momente të paharrueshme vere buzë detit.">Warm hospitality, comfortable rooms, delicious food, signature cocktails, good music and unforgettable summer momments by the sea.</p>
+      </div>
+    </section>
 
-/* 3. HEADER & BRAND */
-.site-header { height: 68px; position: sticky; top: 0; z-index: 20; background: var(--bg); display: flex; align-items: center; justify-content: space-between; padding: 0 12px; border-bottom: 1px solid var(--line); }
-.brand { text-align: center; text-decoration: none; font-size: 17px; line-height: 1.1; letter-spacing: .2px; }
-.brand span { display: block; font: 10px Arial, sans-serif; letter-spacing: 3px; text-transform: uppercase; margin-top: 5px; }
+    <section class="local-weather-strip">
+      <div class="local-time">
+        <span class="weather-label" data-en="LOCAL TIME" data-al="ORA LOKALE">LOCAL TIME</span>
+        <strong id="qeparoTime">--:--</strong>
+        <small id="qeparoDate" data-en="Loading date..." data-al="Duke ngarkuar datën...">Loading date...</small>
+      </div>
+      <div class="local-weather">
+        <div class="weather-main">
+          <span id="weatherIcon"></span>
+          <strong id="weatherTemp">--°C</strong>
+        </div>
+        <span id="weatherDescription" class="weather-label">
+          <span data-en="Loading weather..." data-al="Duke ngarkuar motin...">Loading weather...</span>
+        </span>
+      </div>
+    </section>
 
-/* 4. HEADER BUTTONS AND RADIO PLAYER */
-.menu-button,
-.music-button { border: 0; cursor: pointer; }
-.menu-button { background: none; color: var(--ink); font-size: 24px; padding: 8px; }
-.music-button { background: var(--navy); color: #fff; border-radius: 20px; padding: 9px 13px; font-size: 12px; cursor: pointer; }
-/* FIXED BOTTOM RADIO PLAYER */
-.radio-player-bar { position: fixed; left: 12px; right: 12px; bottom: calc(12px + env(safe-area-inset-bottom, 0px)); z-index: 1000; background: rgba(11, 31, 58, 0.78); color: #fff; border-radius: 20px; padding: 5px 14px; box-shadow: 0 6px 24px rgba(0, 0, 0, 0.18); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); }
-.radio-player-bar[hidden],
-.radio-volume-panel[hidden] { display: none; }
-.radio-player-heading { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 10px; }
-.radio-player-heading strong { display: block; font-size: 13px; font-weight: 600; letter-spacing: 0.3px; }
-.radio-player-heading span { display: block; margin-top: 3px; font-size: 11px; opacity: 0.75; }
-.radio-player-close { background: none; border: 0; color: #fff; font-size: 25px; line-height: 1; padding: 3px 5px; cursor: pointer; }
-.radio-player-controls { display: flex; align-items: center; justify-content: space-around; gap: 18px; position: relative; }
-.radio-control { width: 44px; height: 40px; display: flex; align-items: center; justify-content: center; border: 0; border-radius: 50%; background: transparent; color: #fff; cursor: pointer; }
-.radio-control svg { width: 22px; height: 22px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
-.radio-play-button { width: 48px; height: 48px; background: rgba(255, 255, 255, 0.16); }
-.radio-play-button svg { width: 25px; height: 25px; }
-.radio-volume-wrap { position: relative; }
-.radio-volume-panel { position: absolute; left: -10px; bottom: calc(100% + 14px); width: 150px; padding: 13px; border-radius: 12px; background: #fff; box-shadow: 0 4px 18px rgba(0, 0, 0, 0.2); }
-.radio-volume-panel input { display: block; width: 100%; accent-color: var(--navy); }
-body.radio-player-open { padding-bottom: 55px; }
+    <section class="experience">
+      <div>
+        <img src="Pictures/icons/calendar-small-svgrepo-com.svg" alt="">
+        <b data-en="May – October" data-al="Maj – Tetor">May – October</b>
+      </div>
+      <div>
+        <img src="Pictures/icons/person-lying-on-a-beach-under-an-umbrella-svgrepo-com.svg" alt="">
+        <b data-en="Beachfront" data-al="Buzë Detit">Beachfront</b>
+      </div>
+      <div>
+        <img src="Pictures/icons/fork-and-knife-in-cross-svgrepo-com.svg" alt="">
+        <b data-en="Food" data-al="Ushqim">Food</b>
+      </div>
+      <div>
+        <img src="Pictures/icons/cocktail-svgrepo-com.svg" alt="">
+        <b data-en="Cocktails & Music" data-al="Kokteje & Muzikë">Cocktails & Music</b>
+      </div>
+      <div>
+        <img src="Pictures/icons/family-svgrepo-com.svg" alt="">
+        <b data-en="Family Run" data-al="Biznes Familjar">Family Run</b>
+      </div>
+    </section>
 
-/* 5. HOMEPAGE HERO VIDEO */
-.hero { padding: 12px 12px 0; }
-.hero-video { height: 68vh; min-height: 420px; max-height: 720px; overflow: hidden; border-radius: 15px; background: #071321; box-shadow: 0 8px 24px #0002; }
-.hero-video video { width: 100%; height: 100%; object-fit: cover; object-position: center; }
+    <section class="content-section" id="rooms">
+      <h2 data-en="Your Summer Escape By The Sea"
+          data-al="Arratisja Juaj Buzë Detit">Your Summer Escape By The Sea</h2>
+      <p
+        data-en="Looking for where to stay in Qeparo? Stay with us. At Sunset Boulevard Beach Hotel we offer comfortable beachfront accommodation, right by the sea. Every room includes a pair of sun loungers and a beach umbrella, so you can enjoy an even more relaxing seaside stay with beautiful sea views."
+        data-al="Po kërkoni ku të qëndroni në Qeparo? Ejani të qëndroni tek ne Në Sunset Boulevard Beach Hotel ne ofrojmë akomodim të rehatshëm buzë detit, pikërisht pranë ujit. Çdo dhomë përfshin dy shezlona dhe një çadër plazhi, që të shijoni një qëndrim edhe më relaksues me pamje të bukura nga deti.">
+        Looking for where to stay in Qeparo? Stay with us. At Sunset Boulevard Beach Hotel we offer comfortable beachfront accommodation, right by the sea. Every room includes a pair of sun loungers and a beach umbrella, so you can enjoy an even more relaxing seaside stay with beautiful sea views.
+      </p>
 
-/* 6. HERO TEXT */
-.hero-caption { text-align: center; padding: 24px 10px 10px; }
-.eyebrow { font: 10px Arial, sans-serif; letter-spacing: 2px; text-transform: uppercase; color: #7392a9; }
-.hero h1 { font-size: 29px; line-height: 1.15; font-weight: 500; margin: 10px auto; max-width: 520px; }
-.hero-caption > p:last-child { font-size: 14px; line-height: 1.7; color: var(--muted); max-width: 520px; margin: 0 auto; }
+      <div class="room-grid">
+        <article class="room-card"
+          data-gallery-group
+          data-gallery-title="Deluxe Double Room"
+          data-gallery="Pictures/room1a.jpg|Pictures/room1b.jpg|Pictures/room1c.jpg|Pictures/room1d.jpg|Pictures/room1e.jpg|Pictures/room1f.jpg|Pictures/room1g.jpg|Pictures/room1h.jpg|Pictures/room1i.jpg|Pictures/room1j.jpg|Pictures/room1k.jpg|Pictures/room1l.jpg"
+          tabindex="0"
+          aria-label="Open room photos">
 
-/* 7. SEASIDE EXPERIENCE — FIVE SVG ICONS */
-.experience { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:8px 4px; padding:25px 8px 30px; text-align:center; background:#f7f6f3; }
-.experience div { min-width:0; display:flex; flex-direction:column; gap:7px; align-items:center; font:10px Arial,sans-serif; }
-.experience img { width:43px; height:43px; object-fit:contain; filter: brightness(0) saturate(100%) invert(48%) sepia(5%) saturate(500%) hue-rotate(165deg) brightness(88%) contrast(85%); }
-.experience b { font-size:9px; line-height:1.3; }
+          <div class="gallery-image-wrap">
+            <img src="Pictures/room1a.jpg" alt="Deluxe Double Room">
+            <span class="gallery-indicator" aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <path d="M4 7h3l1.5-2h7L17 7h3a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1Z"/>
+                <circle cx="12" cy="13" r="3.5"/>
+              </svg>
+              <span>View rooms</span>
+            </span>
+          </div>
 
-/* 8. HOMEPAGE FEATURE CARDS */
-.intro-cards { padding: 0 12px 24px; display: grid; gap: 16px; }
-.feature-card { display: block; text-decoration: none; background: var(--card); border-radius: 14px; overflow: hidden; box-shadow: 0 3px 14px #00000012; }
-.feature-card img { width: 100%; height: 220px; object-fit: cover; display: block; }
-.feature-card div { padding: 15px 17px 18px; text-align: center; }
-.feature-card h2 { font-size: 21px; font-weight: 500; margin: 0 0 6px; }
-.feature-card p,
-.content-section > p:not(.eyebrow),
-.room-card p,
-.simple-grid p,
-.story-section > p:last-child { font-size: 13px; line-height: 1.65; color: var(--muted); }
-.feature-card span { font: 12px Arial, sans-serif; color: #4d83a5; }
+          <div>
+            <p>Comfortable double or triple rooms with private balcony, sea views, air conditioning and Wifi.</p>
+            <a class="primary-link" href="https://www.booking.com/hotel/al/sunset-boulevard-rooms.en-gb.html" target="_blank" rel="noopener">Check Availability</a>
+          </div>
 
-/* 9. CONTENT SECTIONS */
-.content-section { padding: 30px 16px; scroll-margin-top: 72px; }
-.content-section h2,
-footer h2 { font-size: 28px; font-weight: 500; text-align: center; margin: 5px 0 10px; }
-.content-section > .eyebrow,
-footer > .eyebrow { text-align: center; }
-.content-section > p { text-align: center; }
+          <span hidden data-gallery-group
+            data-gallery-title="Standard Triple Room"
+            data-gallery="Pictures/room3a.jpg|Pictures/room3b.jpg|Pictures/room3c.jpg|Pictures/room3d.jpg"></span>
 
-/* 10. ROOMS — FULL-WIDTH PHOTOGRAPHS + GALLERY INDICATOR */
-.room-grid { display: grid; gap: 45px; width: calc(100% + 32px); margin: 30px -16px 0; }
-.room-card { background: transparent; border: none; border-radius: 0; overflow: visible; box-shadow: none; text-align: center; cursor: pointer; }
-/* Image wrapper */
-.room-card .gallery-image-wrap { position: relative; display: block; width: 100%; overflow: hidden; }
-/* Room photograph */
-.room-card .gallery-image-wrap > img { display: block; width: 100%; height: auto; aspect-ratio: 1 / 1; object-fit: cover; object-position: center; border-radius: 0; margin: 0; }
+          <span hidden data-gallery-group
+            data-gallery-title="Simple Triple Room"
+            data-gallery="Pictures/room2a.jpg|Pictures/room2b.jpg|Pictures/room2c.jpg|Pictures/room2d.jpg|Pictures/room2e.jpg"></span>
+        </article>
+      </div>
+    </section>
 
-/* GALLERY IMAGE INDICATOR — ALL SECTIONS */
-.simple-grid .gallery-image-wrap { position: relative; display: block; width: 100%; overflow: hidden; }
-.gallery-indicator { position: absolute; right: 14px; bottom: 14px; z-index: 2; display: inline-flex; align-items: center; gap: 7px; padding: 8px 12px; border: 1px solid rgba(255,255,255,0.55); border-radius: 24px; background: rgba(11,31,58,0.72); color: #fff; font: 12px Arial, sans-serif; line-height: 1; box-shadow: 0 2px 9px rgba(0,0,0,0.18); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); pointer-events: none; }
-.gallery-indicator svg { display: block; width: 17px; height: 17px; flex-shrink: 0; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+    <section class="content-section tinted" id="food">
+      <h2 data-en="At The Bar" data-al="Në Bar">At The Bar</h2>
+      <p
+        data-en="Where to eat in Qeparo? Enjoy our breakfast, lunch and dinner right by the sea. From freshly prepared seafood to burgers, pasta, risotto and more, there's something for everyone to enjoy throughout the day. Complete your meal with a refreshing cocktail, a cold drink or a coffee while taking in the beautiful seaside views."
+        data-al="Ku të hani në Qeparo? Shijoni mëngjesin, drekën dhe darkën buzë detit. Nga gatimet e freskëta të detit te burgerat, pastat, rizotot e shumë të tjera, ka diçka për të gjitha shijet gjatë gjithë ditës. Plotësoni vaktin tuaj me një koktej freskues, një pije të ftohtë ose një kafe, ndërsa shijoni pamjet e mrekullueshme të detit.">
+        Where to eat in Qeparo? Enjoy our breakfast, lunch and dinner right by the sea. From freshly prepared seafood to burgers, pasta, risotto and more, there's something for everyone to enjoy throughout the day. Complete your meal with a refreshing cocktail, a cold drink or a coffee while taking in the beautiful seaside views.
+      </p>
+      <div class="simple-grid">
+        <article
+          data-gallery-group
+          data-gallery-title="To Eat"
+          data-gallery="Pictures/burgerspycy.jpg|Pictures/food1.jpg|Pictures/shrimprisoto.JPG"
+          tabindex="0"
+          aria-label="Open Food and Drinks gallery">
 
-/* Room text area */
-.room-card > div:not(.gallery-image-wrap) { padding: 22px 20px 0; text-align: center; }
-.room-card h3 { font-size: 25px; font-weight: 500; line-height: 1.3; margin: 8px 0 13px; color: var(--ink); }
-.room-card p { max-width: 300px; margin: 0 auto 23px; font-size: 14px; line-height: 1.75; color: var(--muted); }
-.pill { display: inline-block; background: #edf3f6; color: #607d8b; border-radius: 30px; padding: 6px 13px; font: 10px Arial, sans-serif; letter-spacing: .3px; }
-.primary-link { display: inline-block; background: var(--navy); color: #fff; text-decoration: none; border-radius: 7px; padding: 11px 22px; font: 13px Arial, sans-serif; letter-spacing: .2px; }
+          <div class="gallery-image-wrap">
+            <img src="Pictures/burgerspycy.jpg" alt="Food at Sunset Boulevard">
+            <span class="gallery-indicator" aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <path d="M4 7h3l1.5-2h7L17 7h3a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1Z"/>
+                <circle cx="12" cy="13" r="3.5"/>
+              </svg>
+              <span>View categories</span>
+            </span>
+          </div>
 
-/* HIDE OLD GALLERY TITLE */
-#galleryTitle { display: none !important; }
+          <p>From fresh food to signature cocktails, coffees and refreshing drinks all prepared with care.</p>
 
-/* GALLERY CATEGORY SELECTORS */
-.gallery-tabs { display: flex; flex-wrap: nowrap; width: 100%; align-items: stretch; justify-content: space-between; background: #293b5d; border: 1px solid #405273; border-radius: 50px; padding: 7px; gap: 3px; }
-.gallery-tab { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 7px; padding: 10px 4px; border: 0; border-radius: 40px; background: transparent; color: #e8edf5; cursor: pointer; }
-.gallery-tab.active { background: #fff; color: #102b4e; }
-.gallery-tab-label { order: 1; display: block; white-space: nowrap; font-size: 11px; font-weight: 600; text-align: center; }
-.gallery-tab-icon { order: 2; display: flex; align-items: center; justify-content: center; gap: 3px; height: 34px; }
-.gallery-tab-icon svg { width: 27px; height: 27px; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
-.gallery-bed-icons { display: flex; align-items: center; justify-content: center; gap: 3px; }
-.gallery-bed-icons svg { width: 25px; height: 27px; }
+          <span hidden data-gallery-group
+            data-gallery-title="Cocktails"
+            data-gallery="Pictures/cocktails1.jpg|Pictures/cocktails2.jpg"></span>
 
-/* 11. FOOD & DRINKS / ACTIVITIES */
-.simple-grid { display: grid; gap: 35px; margin: 25px -16px 0; }
-.simple-grid article { background: transparent; border: none; border-radius: 0; box-shadow: none; overflow: visible; padding: 0 0 20px; text-align: center; }
-.simple-grid img { display: block; width: 100%; height: auto; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 0; }
-.simple-grid h3 { font-size: 21px; font-weight: 500; margin: 20px 16px 8px; }
-.simple-grid p { margin: 0 20px 8px; }
-/* CENTER VIEW OUR MENU BUTTON */
-.menu-button-wrapper { display: flex; justify-content: center; align-items: center; width: 100%; margin: 24px auto 0; text-align: center; }
-/* BACKGROUND */
-#food { background-color: #F3F7F7; }
-#activities { background-color: #FFFFFF; }
+          <span hidden data-gallery-group
+            data-gallery-title="Coffees & Drinks"
+            data-gallery="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=800|Pictures/activities2.jpg"></span>
+        </article>
+      </div>
 
-/* ROUNDED CORNERS PHOTOS */
-/* Room photos */
-.room-card > img,
-.room-card .gallery-image-wrap { border-radius: 14px; overflow: hidden; }
-/* Food & Drinks and Activities photos */
-.simple-grid article > img,
-.simple-grid .gallery-image-wrap { border-radius: 14px; overflow: hidden; }
-/* Images inside gallery wrappers */
-.gallery-image-wrap > img { border-radius: 14px; }
+      <div class="menu-button-wrapper">
+        <a href="https://sunsetboulevardmenu.my.canva.site/"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="primary-link">
+          View Menu
+        </a>
+      </div>
+    </section>
 
-/* 12. OUR STORY */
-.story-section { max-width: 760px; margin: auto; }
-.story-section > p:last-child { text-align: left; font-size: 14px; }
-/* BACKGROUND */
-#story { background-color: #F5F3EE; }
+    <section class="content-section" id="activities">
+      <p class="eyebrow" data-en="Discover the coast" data-al="Zbuloni Bregdetin">Discover the coast</p>
+      <h2 data-en="Explore Qeparo" data-al="Eksploroni Qeparoin">Explore Qeparo</h2>
+      <div class="simple-grid">
+        <article
+          data-gallery-group
+          data-gallery-title="Beach & Swimming"
+          data-gallery="Pictures/beach1.jpg|Pictures/beach2.jpg"
+          tabindex="0"
+          aria-label="Open Activities gallery">
 
-/* 13. FOOTER & CONTACT INFORMATION */
-footer { background: var(--navy); color: #fff; text-align: center; padding: 38px 18px 24px; scroll-margin-top: 68px; }
-footer .eyebrow { color: #9bb8cb; }
-footer p { font-size: 13px; line-height: 1.7; }
-footer a { color: #fff; }
-.social-links { display: flex; justify-content: center; gap: 24px; margin: 22px 0 30px; }
-.social-links a { text-decoration: none; font: 12px Arial, sans-serif; }
-footer small { font: 10px Arial, sans-serif; color: #b8c6d2; }
+          <div class="gallery-image-wrap">
+            <img src="Pictures/beach1.jpg" alt="Qeparo beach">
+            <span class="gallery-indicator" aria-hidden="true">
+              <svg viewBox="0 0 24 24">
+                <path d="M4 7h3l1.5-2h7L17 7h3a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1Z"/>
+                <circle cx="12" cy="13" r="3.5"/>
+              </svg>
+              <span>View photos</span>
+            </span>
+          </div>
 
-/* 14. MOBILE MENU DRAWER */
-.menu-shade { position: fixed; inset: 0; background: #0008; z-index: 40; opacity: 0; visibility: hidden; transition: .25s; }
-.menu-drawer { position: fixed; z-index: 41; inset: 0 auto 0 0; width: min(82vw, 330px); background: var(--card); color: var(--ink); padding: 70px 25px 30px; transform: translateX(-105%); transition: transform .28s; overflow: auto; border-radius: 0 22px 22px 0; box-shadow: 5px 0 25px #0002; }
-.menu-open .menu-shade { opacity: 1; visibility: visible; }
-.menu-open .menu-drawer { transform: translateX(0); }
-.menu-drawer .close-button { position: absolute; right: 18px; top: 12px; border: 0; background: none; color: var(--ink); font-size: 30px; }
-.menu-kicker { font: 10px Arial, sans-serif; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin: 22px 0 10px; }
-.language-buttons { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-.language-buttons button { padding: 10px 4px; border: 1px solid var(--line); border-radius: 7px; background: var(--soft); color: var(--ink); }
-.language-buttons button.active { background: #e3edf5; border-color: #a8bdce; color: #102b4e; }
-.dark-row { display: flex; justify-content: space-between; align-items: center; padding: 20px 0; border-bottom: 1px solid var(--line); font-size: 14px; color: var(--ink); }
-.menu-drawer > a { display: block; color: var(--ink); text-decoration: none; padding: 14px 0; border-bottom: 1px solid var(--line); font-size: 19px; }
+          <h3>Beach & Swimming</h3>
+          <p>Relax and swim in the clear waters of Qeparo.</p>
+        </article>
+      </div>
+    </section>
 
-/* 15. GENERAL PAGE BEHAVIOUR */
-html { scroll-behavior: smooth; }
+    <!-- PHOTO GALLERY -->
+    <div class="photo-gallery" id="photoGallery" aria-hidden="true">
+      <div class="photo-gallery-backdrop" data-gallery-close></div>
+      <div class="photo-gallery-dialog" role="dialog" aria-modal="true" aria-label="Photo gallery">
+        <button class="gallery-close" data-gallery-close aria-label="Close gallery">×</button>
+        <div class="gallery-tabs" id="galleryTabs" aria-label="Gallery categories"></div>
+        <h2 id="galleryTitle"></h2>
+        <div class="gallery-stage">
+          <button class="gallery-arrow gallery-prev" aria-label="Previous photo">‹</button>
+          <img id="galleryMainImage" src="" alt="">
+          <button class="gallery-arrow gallery-next" aria-label="Next photo">›</button>
+        </div>
+        <div class="gallery-bottom">
+          <div class="gallery-thumbnails" id="galleryThumbnails"></div>
+          <p id="galleryCounter"></p>
+        </div>
+      </div>
+    </div>
 
-/* 16. TABLET-SIZED MOBILE LAYOUTS */
-@media (min-width: 600px) {
-  .hero-video { height: 72vh; }
-  .intro-cards,
-  .room-grid,
-  .simple-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .feature-card img { height: 250px; }
-}
+    <section class="guest-reviews-section" id="reviews">
+      <h2 data-en="Guest Reviews" data-al="Vlerësimet e Vizitorëve">Guest Reviews</h2>
+      <div class="guest-reviews-list">
+        <div class="guest-rating" aria-label="Booking.com guest rating">
+          <span class="review-logo booking-logo">B.</span>
+          <span class="review-brand-name">Booking.com</span>
+          <span class="review-score"><span class="review-star" aria-hidden="true">☆</span><span class="review-value">9.1 <small>/ 10</small></span></span>
+        </div>
+        <div class="guest-rating" aria-label="Tripadvisor guest rating">
+          <span class="review-logo tripadvisor-logo"><img src="Pictures/icons/tripadvisor-svgrepo-com.svg" alt="Tripadvisor"></span>
+          <span class="review-brand-name">Tripadvisor</span>
+          <span class="review-score"><span class="review-star" aria-hidden="true">☆</span><span class="review-value">4.7 <small>/ 5</small></span></span>
+        </div>
+        <div class="guest-rating" aria-label="Google guest rating">
+          <span class="review-logo google-logo">G</span>
+          <span class="review-brand-name">Google</span>
+          <span class="review-score"><span class="review-star" aria-hidden="true">☆</span><span class="review-value">4.8 <small>/ 5</small></span></span>
+        </div>
+      </div>
+    </section>
 
-/* 17. ACCESSIBILITY — REDUCED MOTION */
-@media (prefers-reduced-motion: reduce) {
-  * { scroll-behavior: auto !important; transition: none !important; }
-}
+    <section class="content-section story-section" id="story">
+      <p class="eyebrow" data-en="Since the early 1990s" data-al="Që nga fillimi i viteve 1990">Since the early 1990s</p>
+      <h2 data-en="Our Story" data-al="Historia Jonë">Our Story</h2>
+      <p data-en="Some stories begin with a grand plan. Ours began with an open door. Back in the early 1990s, our family welcomed travellers into a spare room. By 2000, two purpose-built guest rooms marked a new chapter. In 2004, the next generation opened the bar, bringing music, laughter and a new meeting place to the village. More rooms followed over the years. Today, we continue that family journey with accommodation, drinks and food. Welcome to our home."
+         data-al="Disa histori fillojnë me një plan të madh. Historia jonë filloi me një derë të hapur. Në fillim të viteve 1990, familja jonë nisi të mirëpriste udhëtarë në një dhomë të shtëpisë. Në vitin 2000, ndërtimi i dy dhomave të posaçme për vizitorë shënoi një kapitull të ri. Në vitin 2004, brezi i ardhshëm hapi barin, duke sjellë muzikë, të qeshura dhe një vend të ri takimi në fshat. Me kalimin e viteve u shtuan edhe dhoma të tjera. Sot, vazhdojmë këtë rrugëtim familjar me akomodim, pije dhe ushqim. Mirë se vini në shtëpinë tonë.">
+        Some stories begin with a grand plan. Ours began with an open door. Back in the early 1990s, our family welcomed travellers into a spare room. By 2000, two purpose-built guest rooms marked a new chapter. In 2004, the next generation opened the bar, bringing music, laughter and a new meeting place to the village. More rooms followed over the years. Today, we continue that family journey with accommodation, drinks and food. Welcome to our home.
+      </p>
+    </section>
+  </main>
 
-/* 18. PHOTO GALLERY */
-.photo-gallery { display: none; position: fixed; inset: 0; z-index: 1000; align-items: center; justify-content: center; }
-.photo-gallery.is-open { display: flex; }
-.photo-gallery-backdrop { position: absolute; inset: 0; background: rgba(8,19,36,.25); backdrop-filter: blur(28px); -webkit-backdrop-filter: blur(28px); }
-.photo-gallery-dialog { position: relative; z-index: 1; width: min(94vw, 850px); max-height: 92vh; overflow-y: auto; background: rgba(16,33,62,.08); color: #fff; border: 1px solid rgba(255,255,255,.18); border-radius: 26px; padding: 28px; display: flex; flex-direction: column; gap: 16px; box-shadow: 0 15px 55px #0002; backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); }
-.gallery-close { position: absolute; top: 12px; right: 14px; width: 42px; height: 42px; display: flex; align-items: center; justify-content: center; border: 1px solid #ffffff35; border-radius: 50%; background: #ffffff18; color: #fff; font-size: 28px; line-height: 1; cursor: pointer; z-index: 3; }
-.gallery-tabs { display: flex; flex-wrap: nowrap; align-items: stretch; justify-content: space-between; gap: 5px; width: 100%; padding: 5px; background: #293957; border: 1px solid #ffffff16; border-radius: 40px; }
-.gallery-tab { flex: 1 1 0; min-width: 0; min-height: 76px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; padding: 8px 3px; border: 0; border-radius: 32px; background: transparent; color: #e6edf6; cursor: pointer; font: 600 10px Arial,sans-serif; letter-spacing: .25px; line-height: 1.2; text-align: center; transition: background .2s,color .2s; }
-.gallery-tab.active { background: #fff; color: #102b4e; box-shadow: 0 2px 8px #0002; }
-.gallery-tab svg { width: 23px; height: 23px; display: block; fill: none; stroke: currentColor; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
-#galleryTitle { font-size: 21px; font-weight: 500; margin: 0; text-align: center; color: #fff; }
-.gallery-stage { position: relative; width: 100%; aspect-ratio: 1 / 1; display: flex; align-items: center; justify-content: center; background: #0b192e; border-radius: 16px; overflow: hidden; }
-#galleryMainImage { width: 100%; height: 100%; object-fit: cover; display: block; }
-.gallery-arrow { position: absolute; top: 50%; transform: translateY(-50%); width: 42px; height: 52px; border: 0; border-radius: 30px; background: #0008; color: #fff; font-size: 32px; cursor: pointer; z-index: 2; }
-.gallery-prev { left: 12px; }
-.gallery-next { right: 12px; }
-.gallery-bottom { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-.gallery-thumbnails { display: flex; gap: 8px; overflow-x: auto; padding: 3px; min-width: 0; }
-.gallery-thumb { flex: 0 0 65px; width: 65px; height: 55px; padding: 0; border: 2px solid transparent; border-radius: 9px; overflow: hidden; background: #eee; cursor: pointer; }
-.gallery-thumb img { width: 100%; height: 100%; object-fit: cover; }
-.gallery-thumb.active { border-color: #8fc5ed; }
-#galleryCounter { white-space: nowrap; font: 12px Arial,sans-serif; color: #fff; }
-body.gallery-open { overflow: hidden; }
-.room-card,.simple-grid article { cursor: pointer; }
-.room-card a,.simple-grid article a { cursor: pointer; }
+  <footer id="info">
+    <p class="eyebrow" data-en="Find us in Qeparo" data-al="Na gjeni në Qeparo">Find us in Qeparo</p>
+    <h2 data-en="Contact & Info" data-al="Kontakt & Informacion">Contact & Info</h2>
+    <p>WhatsApp: <a href="https://wa.me/355692853586">+355 69 285 3586</a></p>
+    <p>Email: <a href="mailto:sunsetboulevardqepar@gmail.com">sunsetboulevardqepar@gmail.com</a></p>
+    <p>Qeparo, Vlorë, Albania</p>
+    <div class="social-links">
+      <a href="https://maps.app.goo.gl/nJMC9Ebtgd8oft4K8" target="_blank" rel="noopener noreferrer" aria-label="Find us on Maps">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></svg><span>Maps</span>
+      </a>
+      <a href="https://www.instagram.com/sunset.boulevard.cocktailbar" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg><span>Instagram</span>
+      </a>
+      <a href="https://www.facebook.com/share/1G3LhkB6gP/" target="_blank" rel="noopener noreferrer" aria-label="Facebook">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 8h3V4h-3a5 5 0 0 0-5 5v3H6v4h3v4h4v-4h3l1-4h-4V9a1 1 0 0 1 1-1Z"/></svg><span>Facebook</span>
+      </a>
+      <a href="https://www.tripadvisor.com/Restaurant_Review-g318869-d28548684-Reviews-Sunset_Boulevard_Cocktail_Food-Qeparo_Vlore_County.html" target="_blank" rel="noopener noreferrer" aria-label="Tripadvisor">
+        <img class="social-tripadvisor-icon" src="Pictures/icons/tripadvisor-svgrepo-com.svg" alt=""><span>Tripadvisor</span>
+      </a>
+    </div>
+    <small>© Sunset Boulevard Beach Hotel</small>
+  </footer>
 
-/* 19. MOBILE GALLERY */
-@media (max-width: 767px) {
-  .photo-gallery-dialog { width: 100%; height: 100%; max-height: 100%; overflow-y: auto; border-radius: 0; padding: calc(max(70px,env(safe-area-inset-top)) + 38px) 12px max(18px,env(safe-area-inset-bottom)); justify-content: flex-start; gap: 14px; }
-  .gallery-close { top: calc(max(12px,env(safe-area-inset-top)) + 38px); right: 14px; width: 36px; height: 36px; font-size: 24px; }
-  .gallery-tabs { gap: 3px; padding: 3px; border-radius: 40px; }
-  .gallery-tab { min-height: 55px; padding: 5px 2px; gap: 3px; font-size: 9px; letter-spacing: 0; }
-  .gallery-tab svg { width: 20px; height: 20px; }
-  #galleryTitle { width: 100%; font-size: 20px; padding: 0 8px; }
-  .gallery-stage { width: 100%; aspect-ratio: 1 / 1; height: auto; min-height: 0; flex: 0 0 auto; border-radius: 14px; }
-  .gallery-arrow { width: 36px; height: 46px; }
-  .gallery-thumbnails { gap: 9px; padding: 4px 3px 9px; }
-  .gallery-thumb { flex: 0 0 65px; width: 65px; height: 56px; border-radius: 8px; }
-  #galleryCounter { color: #fff; font-size: 12px; }
-}
-
-/* 20. QEPARO LOCAL TIME & WEATHER */
-.local-weather-strip { display:grid; grid-template-columns:1fr 1fr; align-items:center; background:#f7f6f3; padding:12px 10px; color:#77746f; }
-.local-time,.local-weather { min-width:0; min-height:75px; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; }
-.local-time { border-right:1px solid #dedbd5; }
-.weather-label { font:9px Arial,sans-serif; letter-spacing:1.8px; color:#969a98; }
-.local-time strong,.weather-main strong { font-size:34px; font-weight:400; line-height:1.2; color:#77746f; }
-.local-time small { margin-top:4px; font:11px Arial,sans-serif; color:#969a98; }
-.weather-main { display:flex; align-items:center; justify-content:center; gap:7px; }
-.weather-main strong { font-size:34px; }
-#weatherIcon svg { width:40px; height:40px; stroke:#7395a7; fill:none; stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round; }
-#weatherDescription { margin-top:3px; }
-body.dark .local-weather-strip { background:#172330; }
-body.dark .local-time strong,body.dark .weather-main strong { color:#e0e7ec; }
-body.dark .weather-label,body.dark .local-time small { color:#aebbc5; }
-body.dark .local-time { border-color:#344453; }
-
-/* 20. THEME SYMBOL IN MOBILE MENU */
-.dark-row { gap: 10px; }
-.theme-symbol { margin-left: auto; color: var(--ink); font: 25px/1 Arial, sans-serif; }
-.dark-row input { margin-left: 4px; }
-
-/* 21. GUEST REVIEWS */
-.guest-reviews-section { padding: 34px 14px 38px; background: #edf5fa; text-align: center; }
-.guest-reviews-section h2 { margin: 0 0 22px; color: #102b4e; font-size: 27px; font-weight: 500; }
-.guest-reviews-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; max-width: 620px; margin: 0 auto; }
-.guest-rating { min-width: 0; min-height: 116px; padding: 12px 5px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 7px; background: #fff; color: #102b4e; border-radius: 12px; box-shadow: 0 3px 14px #102b4e12; }
-.review-logo { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; font: bold 21px Arial,sans-serif; }
-.booking-logo { border-radius: 7px; background: #003b95; color: #fff; font-size: 19px; }
-.google-logo { font-size: 28px; font-weight: 700; }
-.tripadvisor-logo img { width: 32px; height: 32px; object-fit: contain; }
-.review-brand-name { font: 10px Arial,sans-serif; font-weight: 600; }
-.review-score { display: flex; align-items: center; gap: 4px; white-space: nowrap; }
-.review-star { color: #b08a45; font-size: 19px; line-height: 1; }
-.review-value { font: 600 16px Arial,sans-serif; }
-.review-value small { font-size: 10px; font-weight: 400; color: #68798a; }
-body.dark .guest-reviews-section { background: #172330; }
-body.dark .guest-reviews-section h2 { color: #f1f5f9; }
-body.dark .guest-rating { background: #223244; color: #f1f5f9; }
-body.dark .review-value small { color: #b5c0cc; }
-
-/* 22. SOCIAL LINKS WITH ICONS */
-.social-links { align-items: center; flex-wrap: wrap; gap: 18px; }
-.social-links a { display: inline-flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; min-width: 48px; }
-.social-links svg, .social-links img { width: 23px; height: 23px; object-fit: contain; }
-.social-links svg { fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+  <div class="radio-player-bar" id="radioPlayerBar" hidden>
+    <span id="radioStatus" hidden></span>
+    <div class="radio-player-controls">
+      <div class="radio-volume-wrap">
+        <button class="radio-control" id="volumeToggle" type="button" aria-label="Volume" aria-expanded="false">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M11 5 6 9H3v6h3l5 4V5Z"></path><path d="M15.5 8.5a5 5 0 0 1 0 7"></path><path d="M18.5 5.5a9 9 0 0 1 0 13"></path></svg>
+        </button>
+        <div class="radio-volume-panel" id="radioVolumePanel" hidden>
+          <input id="volumeSlider" type="range" min="0" max="1" step="0.05" value="0.7" aria-label="Music volume">
+        </div>
+      </div>
+      <button class="radio-control radio-play-button" id="musicPlayPause" type="button" aria-label="Play music">
+        <svg id="playPauseIcon" viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5v14l11-7Z"></path></svg>
+      </button>
+      <button class="radio-control" id="musicNext" type="button" aria-label="Next track">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5v14l11-7Z"></path><path d="M19 5v14"></path></svg>
+      </button>
+    </div>
+  </div>
+  <audio id="radioPlayer" preload="none"></audio>
+  <script src="js/mobile.js" defer></script>
+</body>
+</html>
