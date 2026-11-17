@@ -1,4 +1,4 @@
-```javascript
+
 (() => {
   const body = document.body;
   const drawer = document.getElementById('menuDrawer');
