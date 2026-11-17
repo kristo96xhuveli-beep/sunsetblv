@@ -103,14 +103,21 @@ body.dark .feature-category-tab.active { background:#fff; color:#102b4e; }
 .story-section { max-width:900px; margin:auto; }
 .story-section > p:last-child { text-align:left; font-size:15px; line-height:1.9; color:var(--muted); }
 
+
 /* 10. FOOTER & CONTACT INFORMATION */
 footer { background:var(--navy); color:#fff; text-align:center; padding:55px 20px 28px; scroll-margin-top:78px; }
 footer .eyebrow { color:#9bb8cb; }
 footer p { font-size:13px; line-height:1.8; }
 footer a { color:#fff; }
-.social-links { display:flex; justify-content:center; gap:28px; margin:22px 0 30px; }
-.social-links a { text-decoration:none; font:12px Arial,sans-serif; }
+/* SOCIAL LINKS */
+.social-links { display:flex; justify-content:center; align-items:center; flex-wrap:wrap; gap:25px; margin:22px 0; }
+.social-links a { display:inline-flex; align-items:center; gap:7px; color:#fff; text-decoration:none; font-size:14px; font-weight:500; transition:color .2s ease, transform .2s ease; }
+.social-links a svg { width:17px; height:17px; fill:none; stroke:currentColor; stroke-width:1.7; stroke-linecap:round; stroke-linejoin:round; }
+.social-links a:nth-child(3) svg { fill:currentColor; stroke:none; }
+.social-links a img { width:18px; height:18px; object-fit:contain; filter:brightness(0) invert(1); }
+.social-links a:hover { color:#9bb8cb; transform:translateY(-2px); }
 footer small { font:10px Arial,sans-serif; color:#b8c6d2; }
+
 
 /* 11. GENERAL PAGE BEHAVIOUR */
 html { scroll-behavior:smooth; }
