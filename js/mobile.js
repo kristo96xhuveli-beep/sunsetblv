@@ -1,4 +1,4 @@
-
+```javascript
 (() => {
   const body = document.body;
   const drawer = document.getElementById('menuDrawer');
@@ -11,34 +11,29 @@
   drawer.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
 
   const dark = document.getElementById('darkMode');
-  const themeSymbol = document.getElementById('themeSymbol');
-
-  function updateThemeSymbol() {
-    if (themeSymbol) themeSymbol.textContent = dark.checked ? '☀' : '☾';
+  if (dark) {
+    dark.addEventListener('click', () => {
+      const isDark = body.classList.toggle('dark');
+      dark.setAttribute('aria-pressed', String(isDark));
+      dark.setAttribute(
+        'aria-label',
+        isDark ? 'Switch to light mode' : 'Switch to dark mode'
+      );
+    });
   }
-
-  dark.addEventListener('change', () => {
-    body.classList.toggle('dark', dark.checked);
-    updateThemeSymbol();
-  });
-  updateThemeSymbol();
 
   document.querySelectorAll('[data-lang]').forEach(button => {
     button.addEventListener('click', () => {
       const lang = button.dataset.lang;
       document.documentElement.lang = lang;
-
-      document.querySelectorAll('[data-lang]').forEach(b => {
-        b.classList.toggle('active', b === button);
-      });
-
+      document.querySelectorAll('[data-lang]').forEach(b => b.classList.toggle('active', b === button));
       document.querySelectorAll('[data-en][data-al]').forEach(el => {
         el.textContent = el.dataset[lang];
       });
     });
   });
 
-  /* WEATHER FORECAST */
+  /* WEATHER FORCAST */
   function setupLocalWeather() {
     const timeEl = document.getElementById('qeparoTime');
     const dateEl = document.getElementById('qeparoDate');
@@ -52,7 +47,6 @@
 
     function updateClock() {
       const now = new Date();
-
       timeEl.textContent = new Intl.DateTimeFormat('en-GB', {
         timeZone: timezone,
         hour: '2-digit',
@@ -89,7 +83,6 @@
       if (type === 'sun') return `<svg viewBox="0 0 34 34">${sun}</svg>`;
       if (type === 'partly') return `<svg viewBox="0 0 34 34"><g stroke="#c3ad83">${sun}</g>${cloud}</svg>`;
       if (type === 'rain') return `<svg viewBox="0 0 34 34">${cloud}<path d="m12 27-2 4 M20 27l-2 4 M27 27l-2 4"/></svg>`;
-
       return `<svg viewBox="0 0 34 34">${cloud}</svg>`;
     }
 
@@ -108,7 +101,6 @@
         tempEl.textContent = `${Math.round(current.temperature_2m)}°C`;
         descEl.textContent = info[0].toUpperCase();
         iconEl.innerHTML = iconSvg(info[1]);
-
       } catch (error) {
         tempEl.textContent = '--°C';
         descEl.textContent = 'WEATHER UNAVAILABLE';
@@ -605,5 +597,4 @@
       }
     }, { passive: true });
   })();
-
 })();
