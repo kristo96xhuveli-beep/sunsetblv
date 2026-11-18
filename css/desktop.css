@@ -1,4 +1,3 @@
-
 /* 1. GLOBAL SETTINGS & COLOURS */
 * { box-sizing:border-box; }
 :root { --bg:#fff; --ink:#102b4e; --muted:#65758a; --line:#e8edf2; --navy:#0b1f3a; --card:#fff; --soft:#f4f8fb; }
@@ -257,3 +256,11 @@ body.dark .tripadvisor-logo img { filter:brightness(0) invert(1); }
 body.dark .theme-icon-moon { display:none; }
 body.dark .theme-icon-sun { display:block; }
 .header-actions { min-width:310px; }
+
+/* DESKTOP FULL PHOTO IN GALLERY */
+@media (min-width:768px) {
+  .feature-image-wrap > img {
+    object-fit:contain;
+    object-position:center;
+  }
+}
