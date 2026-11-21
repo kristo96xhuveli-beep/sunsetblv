@@ -348,12 +348,7 @@
         return `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h14v8a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4V8Zm14 2h2a2 2 0 0 1 0 4h-2M8 4c-1 1 1 2 0 3m5-3c-1 1 1 2 0 3"/></svg>`;
       }
 
-      return `<svg viewBox="0 0 32 32" aria-hidden="true">
-        <g fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M5 3V11M10 3V11M15 3V11M5 11V12C5 16 9 18 10 18H10V29M15 11V12C15 16 12 18 10 18"/>
-          <path d="M27 3C22 5 20 10 20 15V18C20 20 22 21 25 21H27V29M27 3V21"/>
-        </g>
-      </svg>`;
+      return '';
     }
 
     function renderTabs() {
