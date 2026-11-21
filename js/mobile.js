@@ -70,9 +70,9 @@
       if (code === 3) return ['Overcast', 'cloud'];
       if (code <= 48) return ['Foggy', 'cloud'];
       if (code <= 67) return ['Rain', 'rain'];
-      if (code <= 77) return ['Snow', 'rain'];
+      if (code <= 77) return ['Snow', 'snow'];
       if (code <= 82) return ['Rain showers', 'rain'];
-      if (code <= 86) return ['Snow showers', 'rain'];
+      if (code <= 86) return ['Snow showers', 'snow'];
       return ['Thunderstorm', 'rain'];
     }
 
@@ -328,6 +328,8 @@
     let galleryHistoryOpen = false;
     let savedScrollY = 0;
     let bodyStyleBeforeGallery = null;
+    let originalScrollRestoration = 'auto';
+    let originalScrollBehavior = '';
 
     const doubleBedIcon = `<svg viewBox="0 0 40 32" aria-hidden="true"><path d="M5 25V8M35 25V8M5 20H35M8 20V13Q8 10 11 10H29Q32 10 32 13V20M5 25V28M35 25V28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="10" y="12" width="9" height="5" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.6"/><rect x="21" y="12" width="9" height="5" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>`;
 
@@ -468,7 +470,11 @@
       currentPhoto = 0;
 
       /* SAVE PAGE POSITION */
-      savedScrollY = window.scrollY;
+      savedScrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
+
+      /* KEEP THE BROWSER FROM RESTORING A DIFFERENT SCROLL POSITION */
+      originalScrollRestoration = history.scrollRestoration;
+      history.scrollRestoration = 'manual';
 
       /* ADD GALLERY TO BROWSER HISTORY */
       history.pushState(
@@ -536,10 +542,28 @@
         bodyStyleBeforeGallery = null;
       }
 
-      /* RESTORE EXACT PAGE POSITION */
-      window.scrollTo(0, savedScrollY);
+      /* RESTORE FOCUS WITHOUT ALLOWING IT TO MOVE THE PAGE */
+      if (lastFocused && typeof lastFocused.focus === 'function') {
+        lastFocused.focus({ preventScroll: true });
+      }
 
-      if (lastFocused) lastFocused.focus();
+      /*
+       * RESTORE THE PAGE AFTER THE MOBILE BROWSER HAS FINISHED
+       * REMOVING THE FIXED-BODY LOCK AND RE-LAYOUT.
+       */
+      const root = document.documentElement;
+      originalScrollBehavior = root.style.scrollBehavior;
+      root.style.scrollBehavior = 'auto';
+
+      requestAnimationFrame(() => {
+        window.scrollTo(0, savedScrollY);
+
+        requestAnimationFrame(() => {
+          window.scrollTo(0, savedScrollY);
+          root.style.scrollBehavior = originalScrollBehavior;
+          history.scrollRestoration = originalScrollRestoration;
+        });
+      });
     }
 
     /* ANDROID AND BROWSER BACK BUTTON */
