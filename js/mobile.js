@@ -336,22 +336,26 @@
     const singleBedIcon = `<svg viewBox="0 0 40 32" aria-hidden="true"><path d="M5 25V8M35 25V8M5 20H35M8 20V13Q8 10 11 10H29Q32 10 32 13V20M5 25V28M35 25V28" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><rect x="14" y="12" width="12" height="5" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>`;
 
     function getGroupIcon(groupTitle) {
-      if (groupTitle.includes("Deluxe")) return doubleBedIcon;
+  if (groupTitle.includes("Deluxe")) return doubleBedIcon;
 
-      if (groupTitle.includes("Triple")) {
-        return `<span class="gallery-bed-icons">${doubleBedIcon}${singleBedIcon}</span>`;
-      }
+  if (groupTitle.includes("Triple")) {
+    return `<span class="gallery-bed-icons">${doubleBedIcon}${singleBedIcon}</span>`;
+  }
 
-      if (groupTitle.includes("Cocktail")) {
-        return `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h18l-8 9v6h5v2H6v-2h5v-6L3 4Z"/></svg>`;
-      }
+  if (groupTitle.includes("To Eat")) {
+    return `<svg viewBox="0 0 32 32" aria-hidden="true"><g fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"> <path d="M5 3V11M10 3V11M15 3V11M5 11V12C5 16 9 18 10 18H10V29M15 11V12C15 16 12 18 10 18"/> <path d="M27 3C22 5 20 10 20 15V18C20 20 22 21 25 21H27V29M27 3V21"/> </g> </svg>`;
+  }
+      
+  if (groupTitle.includes("Cocktail")) {
+    return `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 4h18l-8 9v6h5v2H6v-2h5v-6L3 4Z"/></svg>`;
+  }
 
-      if (groupTitle.includes("Coffee")) {
-        return `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h14v8a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4V8Zm14 2h2a2 2 0 0 1 0 4h-2M8 4c-1 1 1 2 0 3m5-3c-1 1 1 2 0 3"/></svg>`;
-      }
+  if (groupTitle.includes("Coffee")) {
+    return `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 8h14v8a4 4 0 0 1-4 4H8a4 4 0 0 1-4-4V8Zm14 2h2a2 2 0 0 1 0 4h-2M8 4c-1 1 1 2 0 3m5-3c-1 1 1 2 0 3"/></svg>`;
+  }
 
-      return '';
-    }
+  return '';
+}
 
     function renderTabs() {
       tabs.innerHTML = "";
