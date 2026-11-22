@@ -47,11 +47,25 @@ body.radio-player-open { padding-bottom: 55px; }
 .hero h1 { font-size: 29px; line-height: 1.15; font-weight: 500; margin: 10px auto; max-width: 520px; }
 .hero-caption > p:last-child { font-size: 14px; line-height: 1.7; color: var(--muted); max-width: 520px; margin: 0 auto; }
 
-/* 7. SEASIDE EXPERIENCE — FIVE SVG ICONS */
-.experience { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:8px 4px; padding:25px 8px 30px; text-align:center; background:#f7f6f3; }
-.experience div { min-width:0; display:flex; flex-direction:column; gap:7px; align-items:center; font:10px Arial,sans-serif; }
-.experience img { width:43px; height:43px; object-fit:contain; filter: brightness(0) saturate(100%) invert(48%) sepia(5%) saturate(500%) hue-rotate(165deg) brightness(88%) contrast(85%); }
-.experience b { font-size:9px; line-height:1.3; }
+/* 7. LOCAL WEATHER & SEASIDE EXPERIENCE ICONS */
+.local-weather-strip { display: grid; grid-template-columns: 1fr 1fr; align-items: center; background: #f7f6f3; padding: 6px 10px; color: #77746f; }
+.local-time, .local-weather { min-width: 0; min-height: 62px; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+.local-time { border-right: 1px solid #dedbd5; }
+.weather-label { font: 9px Arial, sans-serif; letter-spacing: 1.8px; color: #969a98; }
+.local-time strong, .weather-main strong { font-size: 30px; font-weight: 400; line-height: 1.2; color: #77746f; }
+.local-time small { margin-top: 4px; font: 11px Arial, sans-serif; color: #969a98; }
+.weather-main { display: flex; align-items: center; justify-content: center; gap: 7px; }
+.weather-main strong { font-size: 30px; }
+#weatherIcon svg { width: 34px; height: 34px; stroke: #7395a7; fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+#weatherDescription { margin-top: 3px; }
+body.dark .local-weather-strip { background: #172330; }
+body.dark .local-time strong, body.dark .weather-main strong { color: #e0e7ec; }
+body.dark .weather-label, body.dark .local-time small { color: #aebbc5; }
+body.dark .local-time { border-color: #344453; }
+.experience { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 6px 4px; padding: 16px 8px 18px; text-align: center; background: #f7f6f3; }
+.experience div { min-width: 0; display: flex; flex-direction: column; gap: 5px; align-items: center; font: 10px Arial, sans-serif; }
+.experience img { width: 36px; height: 36px; object-fit: contain; filter: brightness(0) saturate(100%) invert(48%) sepia(5%) saturate(500%) hue-rotate(165deg) brightness(88%) contrast(85%); }
+.experience b { font-size: 9px; line-height: 1.3; }
 
 /* 8. HOMEPAGE FEATURE CARDS */
 .intro-cards { padding: 0 12px 24px; display: grid; gap: 16px; }
@@ -215,22 +229,6 @@ body.gallery-open { overflow: hidden; }
   .gallery-tabs.single-gallery-tab .gallery-tab-icon { order: 0; display: flex; align-items: center; justify-content: center; height: auto; }
   .gallery-tabs.single-gallery-tab .gallery-tab-icon svg { width: 29px; height: 29px; stroke-width: 1.8; }
 }
-
-/* 20. QEPARO LOCAL TIME & WEATHER */
-.local-weather-strip { display:grid; grid-template-columns:1fr 1fr; align-items:center; background:#f7f6f3; padding:12px 10px; color:#77746f; }
-.local-time,.local-weather { min-width:0; min-height:75px; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; }
-.local-time { border-right:1px solid #dedbd5; }
-.weather-label { font:9px Arial,sans-serif; letter-spacing:1.8px; color:#969a98; }
-.local-time strong,.weather-main strong { font-size:34px; font-weight:400; line-height:1.2; color:#77746f; }
-.local-time small { margin-top:4px; font:11px Arial,sans-serif; color:#969a98; }
-.weather-main { display:flex; align-items:center; justify-content:center; gap:7px; }
-.weather-main strong { font-size:34px; }
-#weatherIcon svg { width:40px; height:40px; stroke:#7395a7; fill:none; stroke-width:1.5; stroke-linecap:round; stroke-linejoin:round; }
-#weatherDescription { margin-top:3px; }
-body.dark .local-weather-strip { background:#172330; }
-body.dark .local-time strong,body.dark .weather-main strong { color:#e0e7ec; }
-body.dark .weather-label,body.dark .local-time small { color:#aebbc5; }
-body.dark .local-time { border-color:#344453; }
 
 /* 20. THEME SYMBOL IN MOBILE MENU */
 .dark-row { gap: 10px; }
