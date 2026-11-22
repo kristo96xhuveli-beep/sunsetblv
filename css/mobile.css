@@ -238,13 +238,12 @@ body.dark .local-time { border-color:#344453; }
 .dark-row input { margin-left: 4px; }
 
 /* 21. GUEST REVIEWS — NO CARDS, TRANSPARENT BACKGROUND */
-.guest-reviews-section { margin-top: -75px; padding: 10px 14px 28px; background: transparent; text-align: center; }
+.guest-reviews-section { margin-top: -75px; padding: 10px 14px 12px; background: transparent; text-align: center; }
 .guest-reviews-section h2 { margin: 0 0 22px; color: #102b4e; font-size: 27px; font-weight: 500; }
 .guest-reviews-list { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; max-width: 620px; margin: 0 auto; }
-.guest-rating { min-width: 0; min-height: 116px; padding: 20px 5px 12px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 7px; background: transparent; color: #102b4e; border: none; border-radius: 0; box-shadow: none; }
+.guest-rating { min-width: 0; min-height: 116px; padding: 0 5px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 7px; background: transparent; color: #102b4e; border: none; border-radius: 0; box-shadow: none; }
 .review-logo { width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; font: bold 21px Arial, sans-serif; }
-.booking-logo { border-radius: 0; background: transparent; color: #102b4e; font-size: 19px; }
-.booking-logo { background: #102b4e !important; color: #fff !important; border-radius: 7px !important; }
+.booking-logo { border-radius: 7px; background: #102b4e; color: #fff; font-size: 19px; }
 .google-logo { font-size: 28px; font-weight: 700; }
 .tripadvisor-logo img { width: 32px; height: 32px; object-fit: contain; }
 .review-brand-name { font: 10px Arial, sans-serif; font-weight: 600; }
@@ -256,7 +255,6 @@ body.dark .guest-reviews-section { background: transparent; }
 body.dark .guest-reviews-section h2 { color: #f1f5f9; }
 body.dark .guest-rating { background: transparent; color: #f1f5f9; }
 body.dark .review-value small { color: #b5c0cc; }
-.guest-rating > * { transform: translateY(8px); }
 
 /* 22. SOCIAL LINKS WITH ICONS */
 .social-links { align-items: center; flex-wrap: wrap; gap: 18px; }
